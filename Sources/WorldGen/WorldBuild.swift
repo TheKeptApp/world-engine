@@ -61,10 +61,20 @@ public struct WorldBuild: Sendable {
         var gen = try generator(features: features, profile: profile, season: season, focus: focus)
         gen.zones = zones
         gen.chunkGridAnchor = manifest.gridAnchor.map { manifest.frame.localPoint(of: $0) }
-        if LookExperiments.on(LookExperiments.commercialPoints) {
+        if LookExperiments.on(LookExperiments.commercialPoints) || LookExperiments.on(LookExperiments.sportsFields) {
             let doc = try AreaLoader.loadDocument(areaDirectory, manifest: manifest, layers: ["all"])
-            gen.businessPoints = doc.nodes.values.filter { SceneGenerator.isBusinessPoint($0.tags) }
-                .sorted { $0.id < $1.id }.map { manifest.frame.localPoint(of: $0.coordinate) }
+            if LookExperiments.on(LookExperiments.commercialPoints) {
+                gen.businessPoints = doc.nodes.values.filter { SceneGenerator.isBusinessPoint($0.tags) }
+                    .sorted { $0.id < $1.id }.map { manifest.frame.localPoint(of: $0.coordinate) }
+            }
+            if LookExperiments.on(LookExperiments.sportsFields) {
+                gen.sportsTracks = doc.ways.values.filter { $0.tags["leisure"] == "track" }.sorted { $0.id < $1.id }.compactMap { w in
+                    let line = w.nodeIDs.compactMap { doc.nodes[$0] }.map { manifest.frame.localPoint(of: $0.coordinate) }
+                    guard line.count >= 2 else { return nil }
+                    let width = w.tags["width"].flatMap(TagParsing.length) ?? 7.3
+                    return ("way/\(w.id)", line, width, (w.tags["sport"] ?? "").contains("cycling"))
+                }
+            }
         }
         gen.buildingLODs = recipe.buildingLODs
         let scene = gen.generate()

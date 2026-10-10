@@ -13,7 +13,18 @@ public enum LookExperiments {
     public static let roadClip = "roadclip"
     /// A shop or food/drink point inside a footprint of 250 m² or more is commercial evidence (mixed-use strip family).
     public static let commercialPoints = "commercialpoints"
-    public static let known: Set<String> = [lawnSmooth, wallSpread, roadClip, commercialPoints]
+    /// Batch 3: mapped sidewalks (and paths) end short of a street carriageway by their ribbon half-width (includes roadclip).
+    public static let sidewalkEndShort = "sidewalkendshort"
+    /// Batch 3: landuse=retail / commercial areas drawn as paved commercial ground (seasonal key `commercial`).
+    public static let retailGround = "retailground"
+    /// Batch 3: parking areas get a kerb edge; underground / rooftop / multi-storey parking is not drawn on the ground.
+    public static let parkingArea = "parkingarea"
+    /// Batch 3: front-range apartment and courtyard families (facade-detail-v2 denver-apartment / denver-courtyard).
+    public static let denverApartments = "denverapartments"
+    /// Batch 3: pitches by sport (courts, fields with lines, baseball infields) and leisure=track.
+    public static let sportsFields = "sportsfields"
+    public static let known: Set<String> = [lawnSmooth, wallSpread, roadClip, commercialPoints, sidewalkEndShort, retailGround,
+                                            parkingArea, denverApartments, sportsFields]
 
     @TaskLocal public static var active: Set<String> = parse(ProcessInfo.processInfo.arguments, ProcessInfo.processInfo.environment)
 

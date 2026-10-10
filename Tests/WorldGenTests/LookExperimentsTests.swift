@@ -152,4 +152,49 @@ import WorldMesh
         }
         print("commercialpoints \(area): \(changes.values.reduce(0, +)) buildings change: \(changes.sorted { $0.key < $1.key })")
     }
+
+    /// Batch 3: per-area counts for the five ground/building experiments (all default off).
+    @Test(arguments: batch2)
+    func batch3Counts(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        func zoned(_ on: Set<String>) throws -> WorldBuild {
+            try LookExperiments.$active.withValue(on) {
+                try WorldBuild.generate(areaDirectory: BuildingAreaTests.dir(area), recipe: WorldRecipe(date: ISO8601DateFormatter().date(from: "2026-10-15T20:30:00Z")!))
+            }
+        }
+        let off = try zoned([])
+        let f = off.features
+        // sidewalkendshort: curb ends whose ribbon reaches a carriageway, before (roadclip pieces) and after.
+        let clip = RoadClip(f.roads)
+        var before = 0, after = 0, dropped = 0
+        for sw in f.sidewalks where !sw.suppressesPedestrianSurfaceRendering {
+            for piece in clip.pieces(sw.centerline) {
+                before += clip.curbEnds(piece, halfWidth: 0.8)
+                if let short = clip.endShort(piece, halfWidth: 0.8) { after += clip.curbEnds(short, halfWidth: 0.8) } else { dropped += 1 }
+            }
+        }
+        // The trim is capped at 4 m so a long sidewalk is never deleted; an end needing more stays (reported).
+        #expect(after * 50 <= before, "\(area): \(after) of \(before) curb ends still reach the road")
+        let retail = f.areas.filter { $0.kind == .commercial }.count
+        let parking = f.areas.filter { $0.kind == .parking }
+        let notGround = parking.filter { ["underground", "rooftop", "multi-storey"].contains($0.tags["parking"] ?? "") }.count
+        var sports: [String: Int] = [:]
+        for a in f.areas where a.kind == .pitch {
+            let k = SportsLook.kind(a.tags)
+            let name = switch k { case .court: "court"; case .field: "field"; case .diamond: "diamond"; case .track: "track"; case .plain: "plain" }
+            sports[name, default: 0] += 1
+            if case .diamond(let side) = k, SportsLook.infield(a.polygon, side: side) != nil { sports["infield", default: 0] += 1 }
+        }
+        let apartmentsOn = try zoned([LookExperiments.denverApartments])
+        let a = Dictionary(off.scene.buildings.map { ($0.ref, $0) }, uniquingKeysWith: { x, _ in x })
+        var apartments: [String: Int] = [:], seen = Set<OSMRef>()
+        for g in apartmentsOn.scene.buildings where seen.insert(g.ref).inserted {
+            guard let o = a[g.ref], o.role != g.role || o.family != g.family else { continue }
+            apartments["\(o.family ?? "-") → \(g.family ?? "-")", default: 0] += 1
+            #expect(["denverApartment", "denverCourtyard"].contains(g.family ?? ""))
+        }
+        let tracks = try zoned([LookExperiments.sportsFields])
+        let trackRanges = tracks.scene.chunks.flatMap(\.staticFeatures).filter { $0.feature.hasPrefix("gen:track:") }.map(\.feature)
+        print("batch3 \(area): curb ends \(before) → \(after) (pieces dropped \(dropped)); retail/commercial areas \(retail); parking \(parking.count) (not at ground \(notGround)); pitches \(sports.sorted { $0.key < $1.key }); tracks \(Set(trackRanges).count); denver apartments \(apartments.values.reduce(0, +)) \(apartments.sorted { $0.key < $1.key })")
+    }
 }

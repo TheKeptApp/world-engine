@@ -131,6 +131,8 @@ public struct SceneGenerator: Sendable {
     public var lod = 0
     /// Mapped shop and food/drink points (commercialpoints experiment; WorldBuild fills it only when the experiment is on).
     public var businessPoints: [LocalPoint] = []
+    /// `leisure=track` ways (sportsfields experiment; WorldBuild fills it only when the experiment is on).
+    public var sportsTracks: [(ref: String, line: [LocalPoint], width: Double, cycling: Bool)] = []
     /// Palette to continue from (keeps slot numbers equal across detail levels).
     public var startPalette: Palette?
     /// Per-building zone profiles; nil = `profile` for every building.
@@ -329,17 +331,45 @@ public struct SceneGenerator: Sendable {
             append(m, feature: "gen:ground:\(chunks[key]!.id)", to: key)
         }
         // Areas: parks, pitches, parking, water.
+        let retailGround = LookExperiments.on(LookExperiments.retailGround)
+        let parkingArea = LookExperiments.on(LookExperiments.parkingArea)
+        let sportsFields = LookExperiments.on(LookExperiments.sportsFields)
         for area in features.areas {
+            // parkingarea experiment: a parking area that isn't at ground level isn't ground paving.
+            if parkingArea, area.kind == .parking, ["underground", "rooftop", "multi-storey"].contains(area.tags["parking"] ?? "") { continue }
             let waterProfile = ShoreBand.profile(for: area)
+            let sport = sportsFields && area.kind == .pitch ? SportsLook.kind(area.tags) : nil
             let style: (String, Double, Paint.Flags, Float)? = switch area.kind {
             case .park, .grass, .garden, .meadow, .recreation, .cemetery, .wood, .scrub: ("lawn", GroundLayer.park, .lawn, 0.97)
-            case .pitch: ("pitch", GroundLayer.pitch, .lawn, 1)
+            case .pitch: sport.map { k -> (String, Double, Paint.Flags, Float) in
+                    (SportsLook.surface(k), GroundLayer.pitch, k == .court || k == .track ? [] : .lawn, 1)
+                } ?? ("pitch", GroundLayer.pitch, .lawn, 1)
             case .playground, .sand: ("playground", GroundLayer.pitch, [], 1)
             case .parking, .pedestrianArea: ("parking", GroundLayer.pitch, .road, 1)
             case .water, .pool: ("water", GroundLayer.water, [], 1)
+            // retailground experiment: retail / commercial land is paved commercial ground, not the base lawn.
+            case .commercial where retailGround: ("commercial", GroundLayer.park, [], 1)
             default: nil
             }
             guard let (slotName, y, flags, shade) = style else { continue }
+            if parkingArea, area.kind == .parking {
+                var edge = Ribbon.build(area.polygon.outer + [area.polygon.outer[0]], width: 0.3, y: GroundLayer.pitch + 0.004)
+                edge.repaint(from: 0, Paint(slot: n("curb")))
+                distribute(edge, feature: "gen:parkingedge:\(area.ref)", water: false, into: &chunks)
+            }
+            if let sport {
+                var extra = MeshBuffers()
+                if sport == .court || sport == .field {
+                    for line in SportsLook.lines(area.polygon) { extra.append(Ribbon.build(line, width: sport == .court ? 0.08 : 0.12, y: GroundLayer.pitch + 0.004)) }
+                    extra.repaint(from: 0, Paint(slot: n("laneMarking")))
+                }
+                if case .diamond(let side) = sport, let diamond = SportsLook.infield(area.polygon, side: side),
+                   var cap = Triangulator.cap(Polygon2D(outer: diamond), y: GroundLayer.pitch + 0.003) {
+                    cap.repaint(from: 0, Paint(slot: n("playground")))
+                    extra.append(cap)
+                }
+                if !extra.isEmpty { distribute(extra, feature: "gen:sport:\(area.ref)", water: false, into: &chunks) }
+            }
             for key in chunks.keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) {
                 guard let clipped = Clipping.clip(area.polygon, to: chunks[key]!.rect), let clean = clipped.cleaned(minArea: 0.2),
                       var cap = Triangulator.cap(clean, y: y) else { continue }
@@ -381,7 +411,20 @@ public struct SceneGenerator: Sendable {
             addLines(road.centerline, width: road.width, y: service ? GroundLayer.alley : GroundLayer.road,
                      paint: paint, feature: road.ref.description, into: &chunks)
         }
-        let roadClip = LookExperiments.on(LookExperiments.roadClip) ? RoadClip(features.roads) : nil
+        let endShort = LookExperiments.on(LookExperiments.sidewalkEndShort)
+        let roadClip = LookExperiments.on(LookExperiments.roadClip) || endShort ? RoadClip(features.roads) : nil
+        /// Mapped sidewalk / path pieces to draw: carriageway crossings cut (roadclip), curb ends pulled back (sidewalkendshort).
+        func pedestrianPieces(_ line: [LocalPoint], halfWidth: Double) -> [[LocalPoint]] {
+            guard let roadClip else { return [line] }
+            let pieces = roadClip.pieces(line)
+            return endShort ? pieces.compactMap { roadClip.endShort($0, halfWidth: halfWidth) } : pieces
+        }
+        // sportsfields experiment: leisure=track ways (WorldBuild reads them from the source document) as running tracks.
+        for track in sportsTracks {
+            var m = Ribbon.build(track.line, width: track.width, y: GroundLayer.pitch + 0.002)
+            m.repaint(from: 0, Paint(slot: n(track.cycling ? "parking" : "pavingBrick")))
+            distribute(m, feature: "gen:track:\(track.ref)", water: false, into: &chunks)
+        }
         // Road paint (infrastructure-kit-v1 stage 1): lane lines and crosswalks from tags, full detail only.
         // (At reduced detail only the crossing bands' carriageway parts are dropped, so the LODs agree.)
         let roadPaint: RoadMarkings.Output? = markingValues.flatMap { v in markingTuning.map { RoadMarkings(features: features, values: v, tuning: $0).build() } }
@@ -400,7 +443,7 @@ public struct SceneGenerator: Sendable {
                 }
                 continue
             }
-            for line in path.isCrossing ? [path.centerline] : roadClip?.pieces(path.centerline) ?? [path.centerline] {
+            for line in path.isCrossing ? [path.centerline] : pedestrianPieces(path.centerline, halfWidth: w / 2) {
                 addLines(line, width: w, y: y, paint: paint, feature: path.ref.description, into: &chunks)
             }
         }
@@ -431,7 +474,7 @@ public struct SceneGenerator: Sendable {
             ]) { _, new in new }
         }
         for sw in features.sidewalks where !sw.suppressesPedestrianSurfaceRendering {
-            for line in roadClip?.pieces(sw.centerline) ?? [sw.centerline] {
+            for line in pedestrianPieces(sw.centerline, halfWidth: 0.8) {
                 addLines(line, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),
                          feature: sw.ref.description, into: &chunks)
                 if lod == 0, Rect2D(enclosing: line).intersects(focus) {

@@ -807,6 +807,72 @@
         "copingBevel": true
       }
     },
+    "denverCourtyard": {
+      "role": "block",
+      "evidence": "court",
+      "facade": {
+        "cornice": true,
+        "tallWindows": true
+      },
+      "details": {
+        "pack": "facade-detail-v2 content.families[denver-courtyard] (R approved 8 Oct 2026): trim; grammar reuses courtyardMass",
+        "trim": [
+          "#C6BEAA"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "jambs": true,
+        "stoop": {
+          "width": [
+            1.4,
+            1.8
+          ],
+          "steps": "trim"
+        }
+      }
+    },
+    "denverApartment": {
+      "role": "block",
+      "evidence": "apartments",
+      "facade": {
+        "cornice": true,
+        "stoop": true,
+        "symmetric": true,
+        "rearPorch": 0.85,
+        "tallWindows": true,
+        "windowWidth": [
+          0.95,
+          1.1
+        ],
+        "windowHeight": [
+          1.75,
+          2.0
+        ],
+        "lintels": true,
+        "mappedBays": true,
+        "sideRhythm": true,
+        "gangwayWindows": true,
+        "sideBays": true
+      },
+      "details": {
+        "pack": "facade-detail-v2 content.families[denver-apartment] (R approved 8 Oct 2026): trim; grammar reuses sixFlat",
+        "trim": [
+          "#C6BEAA"
+        ],
+        "corners": "chamfer",
+        "copingBevel": true,
+        "jambs": true,
+        "stoop": {
+          "width": [
+            1.4,
+            1.8
+          ],
+          "cheeks": true,
+          "steps": "trim",
+          "cheekColour": "wall"
+        }
+      }
+    },
     "vintageHighRise": {
       "role": "block",
       "evidence": "tall",

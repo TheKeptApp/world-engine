@@ -75,4 +75,44 @@ struct RoadClip: Sendable {
         }
         return r
     }
+
+    // MARK: - sidewalkendshort (P2 Batch 3)
+
+    /// Whether an end at `p`, heading out along `dir`, has its ribbon (half-width `halfWidth`) on a street carriageway it
+    /// approaches at more than 30° (a curb end, not a sidewalk lying along the street).
+    func endReaches(_ p: LocalPoint, _ dir: LocalPoint, halfWidth: Double) -> Bool {
+        guard let hit = index.nearest(to: p, within: 20 + halfWidth) else { return false }
+        return hit.distance < streets[hit.line].width / 2 + halfWidth && abs(simd_dot(hit.direction, dir)) < Self.crossingCos
+    }
+
+    /// The line with each such end pulled back (0.1 m steps, at most `maxTrim` m) until its ribbon stays off the carriageway.
+    /// Nil when nothing usable remains.
+    func endShort(_ line: [LocalPoint], halfWidth: Double, maxTrim: Double = 4) -> [LocalPoint]? {
+        func trimStart(_ l: [LocalPoint]) -> [LocalPoint]? {
+            guard l.count >= 2 else { return nil }
+            let cum = RoadMarkings.cumulative(l), total = cum.last!
+            var s = 0.0
+            while s <= min(maxTrim, total - 0.3) {
+                let p = RoadMarkings.subline(l, cum, from: s, to: min(total, s + 0.1))
+                guard p.count >= 2, p[0] != p[1] else { break }
+                let dir = simd_normalize(p[0] - p[1])  // outward at the start
+                if !endReaches(p[0], dir, halfWidth: halfWidth) { break }
+                s += 0.1
+            }
+            if s == 0 { return l }
+            return s >= total - 0.3 ? nil : RoadMarkings.subline(l, cum, from: s, to: total)
+        }
+        guard let a = trimStart(line), let b = trimStart(Array(a.reversed())) else { return nil }
+        return Array(b.reversed())
+    }
+
+    /// Measurement: how many of the line's two ends reach a carriageway (see `endReaches`).
+    func curbEnds(_ line: [LocalPoint], halfWidth: Double) -> Int {
+        guard line.count >= 2, line.first != line.last else { return 0 }
+        var n = 0
+        if endReaches(line[0], simd_normalize(line[0] - line[1]), halfWidth: halfWidth) { n += 1 }
+        let k = line.count - 1
+        if endReaches(line[k], simd_normalize(line[k] - line[k - 1]), halfWidth: halfWidth) { n += 1 }
+        return n
+    }
 }

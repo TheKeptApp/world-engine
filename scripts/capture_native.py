@@ -190,7 +190,7 @@ def main():
             + (['-captureexposure', 'settled'] if args.exposure == 'settled' else [])
         if args.lookexp:
             names = sorted(set(args.lookexp.split(',')))
-            if not set(names) <= {'lawnsmooth', 'wallspread', 'roadclip', 'commercialpoints'}: raise ValueError('unknown look experiment')
+            if not set(names) <= {'lawnsmooth', 'wallspread', 'roadclip', 'commercialpoints', 'sidewalkendshort', 'retailground', 'parkingarea', 'denverapartments', 'sportsfields'}: raise ValueError('unknown look experiment')
             view["args"] = view["args"] + ["-lookexp", ','.join(names)]
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
