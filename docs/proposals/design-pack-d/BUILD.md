@@ -1,0 +1,26 @@
+# Build contract — proposed assets, not engine changes
+
+## Inputs and selection
+Normalize tag lists, lifecycle/negative tags and relation memberships once. Explicit semantics precede area and region. Parking=multi-storey never selects a surface lot. Soccer, baseball, court and track never select from generic green polygons. A station node does not create a building; only associated building/platform footprints do. Layer is ordering, not deck height. Keep missing structural measurements null and diagnostic.
+
+Pick rules in README/specs are conjunctions, not raw regex strings. Region supplies a palette only; it cannot invent clay cut-outs, equipment, canopy, rail type or age. A compatible explicit surface/material overrides region. Where multiple compatible visual finishes remain, use a stable feature-ID seed, never per-block choices; commonness is a proposed prior only. If required evidence is missing, use archetypes.md B/A/L/P/S neutral fallback. No variant is currently approved for integration.
+
+## Geometry
+Use metres, local x east/y north/z up. Derive boundary and long axis from mapped geometry, preserve holes. Proposed dimensions are recipe examples, never forced replacements for footprints. Do not stretch sport markings anisotropically: fit a valid template uniformly with runoff, or retain an unmarked surface plus diagnostic. No promise of regulation compliance. Boundary clip all surface strips; deduplicate related outline/member geometry.
+
+Parking: stalls 2.7 × 5.4, aisle 7, paint 0.1, islands 3 wide (land-04-parking-large/dimensionsM); small entrance 6 and kerb 0.15 (land-05-parking-small/dimensionsM). Solve rows from mapped aisles/access first, with stalls omitted where an island or access mouth intersects. No stall capacity claim from art. Kerb must open at each mapped access. Retail poles/corrals require components or a clearly labelled inferred private Builder overlay. Worn finish never implies disuse.
+
+Sports: soccer playing 105 × 68; baseball base path 27.432 and 95 m example radius from land-02-sports/dimensionsM. This pack's tennis/basketball/track/playground dimensions and line templates are authored illustrative extensions, not certified standards. Soccer: boundary, halfway, centre circle, symmetric boxes; tennis: baseline/singles/doubles/service lines, net across width; basketball: centre/key/arcs only; baseball: bases arranged on square rotated 45°, two foul rays, mound, infield mask. Synthetic baseball uses isolated clay discs and home apron, without connecting dirt paths. Running track: construct parallel offsets of mapped centreline/oval, lane count from evidence, no numerical lettering. Playground components use separate meshes with no asserted fall-zone or accessibility certification.
+
+Bridges: deck endpoints match verified approach elevations; only build if supported. Creek recipe span18/deck9/thickness0.7 and pedestrian arch details are authored variants. Rail truss reuses bridges-02-truss span75/height9/bays9.375 but proposed8 m one-track deck is an explicit authored rail extension to the pack's12 m road version. Highway recipe copies roads-03-overpass span36/deck18/thickness1.2/top7/pier1.4/spacing18. Position supports outside verified traffic/water openings; never use the illustrative elevation as a surveyed deck height. Compose RailRibbon with Deck without duplicating the crossing.
+
+Stations: commuter building24 ×10 copies rail-05-station/stationBuildingLength/Width; other roof/canopy/platform/depot dimensions are authored additions. Map roof facts win. Platform pads follow actual polygons; shelters/canopies require evidence, not station name. The1920s recipe needs date and compatible form evidence; otherwise neutral StationMass. No signs, logos, clocks or named landmark façades.
+
+## Palette and provenance
+Parking and sport base/cool/warm/muted swatches copy infrastructure-kit-v1 assets' palette entries: asphalt626A70/59646B/6B6A61/657169, creamEEE9D9, grass73865B/6E835B/7B805A/68826A, clayB99A75. Concrete/steel B2ABA0,A7B4B6,B7AD9D,858F89,64766D and DCCDB0 also come from bridge/overpass palettes; concrete C5C0B3 is sharedLighting's concrete. Other swatches in specs are authored design-pack-d proposals. Colour spelling/case is normalized to #RRGGBB; never infer observed material from the proposed region palette.
+
+## Distance and validation
+Use infrastructure-kit-v1 lodPolicy screen extent: <6 px silhouette/cap only, 6–20 px broad layout, >20 px coarse lines and components. Preserve surface/deck continuity, layer identity and geometry at all distances. Fine netting/rail repetition/paint may simplify, never add false geometry. No numerical triangle/draw pass is claimed. Later implementation must measure main/shadow triangles and draws separately on native and web, plus hold-outs, before enabling any pack value.
+
+## Delivery boundaries
+PNG sheets are local and ignored; image-manifest.json stores exact SHA-256 hashes/bytes. Clone alone does not contain image pixels. Prompts/specs/README/geometry recipes/sameness checks are versioned. Camera/lighting/dimensions in AI art are intended values and cannot be read back as exact measurements. Native calibrated cameras, mesh topology and structural safety are not supplied by a picture.

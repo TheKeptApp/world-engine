@@ -1,0 +1,863 @@
+{
+  "status": "PROPOSED \u2014 awaiting R; not engine defaults",
+  "date": "2026-10-10",
+  "variants": [
+    {
+      "id": "parking-01",
+      "family": "parking",
+      "name": "Asphalt and three tree islands",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "site": [
+          70,
+          45
+        ],
+        "stall": [
+          2.7,
+          5.4
+        ],
+        "aisle": 7,
+        "island_width": 3,
+        "kerb_height": 0.15,
+        "paint_width": 0.1
+      },
+      "layout": "Two opposing perpendicular stall banks, central aisle, three staggered tree islands and two end entrances",
+      "colours": {
+        "asphalt": "#626A70",
+        "paint": "#EEE9D9",
+        "kerb": "#C5C0B3",
+        "planting": "#73865B"
+      },
+      "key_parts": "White stalls; low kerbs; 3 islands; 3 trees; no poles",
+      "commonness_heuristic": 9,
+      "pick_rule": "amenity=parking + parking=surface; 1500\u20136000 m\u00b2; default when no more specific evidence; regional palette only",
+      "archetype": "38 surface-parking / ParkingSurface",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Asphalt and three tree islands, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Two opposing perpendicular stall banks, central aisle, three staggered tree islands and two end entrances. Exact intended dimensions in metres: {\"site\": [70, 45], \"stall\": [2.7, 5.4], \"aisle\": 7, \"island_width\": 3, \"kerb_height\": 0.15, \"paint_width\": 0.1}. Materials: {\"asphalt\": \"#626A70\", \"paint\": \"#EEE9D9\", \"kerb\": \"#C5C0B3\", \"planting\": \"#73865B\"}. Key parts: White stalls; low kerbs; 3 islands; 3 trees; no poles. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "parking-02",
+      "family": "parking",
+      "name": "Large retail lot",
+      "region": "Southeast",
+      "dimensions_m": {
+        "site": [
+          140,
+          90
+        ],
+        "stall": [
+          2.7,
+          5.4
+        ],
+        "aisle": 7,
+        "island_width": 3,
+        "pole_height": 8,
+        "corral": [
+          2.7,
+          5.4
+        ],
+        "paint_width": 0.1
+      },
+      "layout": "Four double-loaded parking modules, perimeter circulation loop, planted row ends, two access mouths",
+      "colours": {
+        "asphalt": "#6B6A61",
+        "paint": "#EEE9D9",
+        "kerb": "#B7AD9D",
+        "planting": "#68826A",
+        "metal": "#59646B"
+      },
+      "key_parts": "Stalls; end kerbs; 8m poles; two empty cart corrals; tree islands",
+      "commonness_heuristic": 9,
+      "pick_rule": "surface parking >6000 m\u00b2 with related landuse=retail; mapped poles/corrals only in base world, otherwise Builder inferred overlay",
+      "archetype": "38 surface-parking / ParkingSurface; NEW corral component",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Large retail lot, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Four double-loaded parking modules, perimeter circulation loop, planted row ends, two access mouths. Exact intended dimensions in metres: {\"site\": [140, 90], \"stall\": [2.7, 5.4], \"aisle\": 7, \"island_width\": 3, \"pole_height\": 8, \"corral\": [2.7, 5.4], \"paint_width\": 0.1}. Materials: {\"asphalt\": \"#6B6A61\", \"paint\": \"#EEE9D9\", \"kerb\": \"#B7AD9D\", \"planting\": \"#68826A\", \"metal\": \"#59646B\"}. Key parts: Stalls; end kerbs; 8m poles; two empty cart corrals; tree islands. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "parking-03",
+      "family": "parking",
+      "name": "Small side-street lot",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "site": [
+          35,
+          24
+        ],
+        "stall": [
+          2.7,
+          5.4
+        ],
+        "aisle": 7,
+        "entrance": 6,
+        "kerb_height": 0.15
+      },
+      "layout": "Short rectangular pocket with one opposing pair of rows, single entrance and planted corner wedges",
+      "colours": {
+        "asphalt": "#59646B",
+        "paint": "#EEE9D9",
+        "kerb": "#C5C0B3",
+        "planting": "#6E835B"
+      },
+      "key_parts": "Perpendicular stalls; opening in kerb; two low corner beds; one tree",
+      "commonness_heuristic": 8,
+      "pick_rule": "surface parking <1500 m\u00b2; single mapped driveway; fit rows to polygon; do not infer street access",
+      "archetype": "38 surface-parking / ParkingSurface",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Small side-street lot, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Short rectangular pocket with one opposing pair of rows, single entrance and planted corner wedges. Exact intended dimensions in metres: {\"site\": [35, 24], \"stall\": [2.7, 5.4], \"aisle\": 7, \"entrance\": 6, \"kerb_height\": 0.15}. Materials: {\"asphalt\": \"#59646B\", \"paint\": \"#EEE9D9\", \"kerb\": \"#C5C0B3\", \"planting\": \"#6E835B\"}. Key parts: Perpendicular stalls; opening in kerb; two low corner beds; one tree. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "parking-04",
+      "family": "parking",
+      "name": "Worn angled lot",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "site": [
+          55,
+          32
+        ],
+        "stall": [
+          2.7,
+          5.4
+        ],
+        "aisle": 7,
+        "kerb_height": 0.15,
+        "paint_width": 0.1
+      },
+      "layout": "One-way 60-degree angled rows on a trapezoid, long perimeter planting strip, clipped island at narrow end",
+      "colours": {
+        "asphalt": "#657169",
+        "paint": "#BBB8A8",
+        "kerb": "#B2ABA0",
+        "planting": "#7B805A"
+      },
+      "key_parts": "Faded stripes at 45% opacity; broad repaired patches; broken-looking kerb seams; no rubbish",
+      "commonness_heuristic": 6,
+      "pick_rule": "parking:orientation=diagonal + surface=asphalt; worn finish only with condition evidence or explicit inferred Builder choice; absent evidence use parking-01",
+      "archetype": "38 surface-parking / ParkingSurface",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Worn angled lot, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: One-way 60-degree angled rows on a trapezoid, long perimeter planting strip, clipped island at narrow end. Exact intended dimensions in metres: {\"site\": [55, 32], \"stall\": [2.7, 5.4], \"aisle\": 7, \"kerb_height\": 0.15, \"paint_width\": 0.1}. Materials: {\"asphalt\": \"#657169\", \"paint\": \"#BBB8A8\", \"kerb\": \"#B2ABA0\", \"planting\": \"#7B805A\"}. Key parts: Faded stripes at 45% opacity; broad repaired patches; broken-looking kerb seams; no rubbish. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "soccer-01",
+      "family": "soccer",
+      "name": "Natural grass soccer",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "playing": [
+          105,
+          68
+        ],
+        "site": [
+          115,
+          78
+        ],
+        "line_width": 0.1,
+        "goal": [
+          7.32,
+          2.44
+        ]
+      },
+      "layout": "Single centered grass rectangle with 5m perimeter runoff and opposing goals",
+      "colours": {
+        "grass": "#6E835B",
+        "lines": "#EEE9D9",
+        "goal": "#C5C0B3"
+      },
+      "key_parts": "Boundary; halfway; circle; penalty boxes; two goals; no numbers",
+      "commonness_heuristic": 10,
+      "pick_rule": "leisure=pitch + sport=soccer + surface=grass; measured dimensions override illustrative fit",
+      "archetype": "30 sports-pitch / PitchSurface",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Natural grass soccer, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Single centered grass rectangle with 5m perimeter runoff and opposing goals. Exact intended dimensions in metres: {\"playing\": [105, 68], \"site\": [115, 78], \"line_width\": 0.1, \"goal\": [7.32, 2.44]}. Materials: {\"grass\": \"#6E835B\", \"lines\": \"#EEE9D9\", \"goal\": \"#C5C0B3\"}. Key parts: Boundary; halfway; circle; penalty boxes; two goals; no numbers. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "soccer-02",
+      "family": "soccer",
+      "name": "Muted synthetic soccer",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "playing": [
+          105,
+          68
+        ],
+        "site": [
+          119,
+          82
+        ],
+        "line_width": 0.1,
+        "goal": [
+          7.32,
+          2.44
+        ]
+      },
+      "layout": "Single synthetic rectangle with wide end aprons and subtly alternating broad mowing-like bands",
+      "colours": {
+        "turf": "#68826A",
+        "bands": "#728871",
+        "lines": "#E4E1D6",
+        "apron": "#B99A75"
+      },
+      "key_parts": "Same soccer line family; two goals; tan end aprons; no fence by default",
+      "commonness_heuristic": 7,
+      "pick_rule": "soccer + surface=artificial_turf; fit mapped pitch, apron only if mapped",
+      "archetype": "30 sports-pitch / PitchSurface",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Muted synthetic soccer, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Single synthetic rectangle with wide end aprons and subtly alternating broad mowing-like bands. Exact intended dimensions in metres: {\"playing\": [105, 68], \"site\": [119, 82], \"line_width\": 0.1, \"goal\": [7.32, 2.44]}. Materials: {\"turf\": \"#68826A\", \"bands\": \"#728871\", \"lines\": \"#E4E1D6\", \"apron\": \"#B99A75\"}. Key parts: Same soccer line family; two goals; tan end aprons; no fence by default. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "baseball-01",
+      "family": "baseball",
+      "name": "Grass outfield and dirt infield",
+      "region": "Southeast",
+      "dimensions_m": {
+        "site": [
+          145,
+          115
+        ],
+        "base_path": 27.432,
+        "outfield_radius": 95,
+        "line_width": 0.1
+      },
+      "layout": "Quarter-fan diamond, tan continuous infield and grass outfield, symmetric foul paths",
+      "colours": {
+        "grass": "#73865B",
+        "dirt": "#B99A75",
+        "lines": "#EEE9D9"
+      },
+      "key_parts": "Four base plates; pitching mound; foul lines; simple backstop mesh only if mapped",
+      "commonness_heuristic": 8,
+      "pick_rule": "pitch + sport=baseball + surface=grass; honor mapped diamond and separate dirt area",
+      "archetype": "30 sports-pitch / PitchSurface; NEW baseball markings",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Grass outfield and dirt infield, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Quarter-fan diamond, tan continuous infield and grass outfield, symmetric foul paths. Exact intended dimensions in metres: {\"site\": [145, 115], \"base_path\": 27.432, \"outfield_radius\": 95, \"line_width\": 0.1}. Materials: {\"grass\": \"#73865B\", \"dirt\": \"#B99A75\", \"lines\": \"#EEE9D9\"}. Key parts: Four base plates; pitching mound; foul lines; simple backstop mesh only if mapped. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "baseball-02",
+      "family": "baseball",
+      "name": "Synthetic diamond with clay cut-outs",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "site": [
+          135,
+          110
+        ],
+        "base_path": 27.432,
+        "outfield_radius": 90,
+        "line_width": 0.1
+      },
+      "layout": "Synthetic quarter-fan, green infield with separate clay base cut-outs and semicircular home apron",
+      "colours": {
+        "turf": "#68826A",
+        "clay": "#A98067",
+        "lines": "#E4E1D6"
+      },
+      "key_parts": "Base pads; clay mound; interrupted clay patches; low backstop when mapped",
+      "commonness_heuristic": 6,
+      "pick_rule": "baseball + artificial_turf; distinct infield layout requires component geometry or inferred overlay",
+      "archetype": "30 sports-pitch / PitchSurface; NEW baseball markings",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Synthetic diamond with clay cut-outs, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Synthetic quarter-fan, green infield with separate clay base cut-outs and semicircular home apron. Exact intended dimensions in metres: {\"site\": [135, 110], \"base_path\": 27.432, \"outfield_radius\": 90, \"line_width\": 0.1}. Materials: {\"turf\": \"#68826A\", \"clay\": \"#A98067\", \"lines\": \"#E4E1D6\"}. Key parts: Base pads; clay mound; interrupted clay patches; low backstop when mapped. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "court-01",
+      "family": "court",
+      "name": "Twin tennis courts",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "site": [
+          38,
+          36
+        ],
+        "playing_each": [
+          23.77,
+          10.97
+        ],
+        "net_height": 0.914,
+        "line_width": 0.05
+      },
+      "layout": "Two parallel tennis rectangles with central shared runoff and two taut nets",
+      "colours": {
+        "playing": "#68826A",
+        "runoff": "#B99A75",
+        "lines": "#EEE9D9",
+        "posts": "#59646B"
+      },
+      "key_parts": "Doubles/singles baselines; service boxes; two nets and four posts; fence only with evidence",
+      "commonness_heuristic": 8,
+      "pick_rule": "pitch + sport=tennis; count separate mapped courts; do not invent second court from area alone",
+      "archetype": "32 sports-court / CourtSurface; NEW tennis net",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Twin tennis courts, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Two parallel tennis rectangles with central shared runoff and two taut nets. Exact intended dimensions in metres: {\"site\": [38, 36], \"playing_each\": [23.77, 10.97], \"net_height\": 0.914, \"line_width\": 0.05}. Materials: {\"playing\": \"#68826A\", \"runoff\": \"#B99A75\", \"lines\": \"#EEE9D9\", \"posts\": \"#59646B\"}. Key parts: Doubles/singles baselines; service boxes; two nets and four posts; fence only with evidence. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "court-02",
+      "family": "court",
+      "name": "Single basketball court",
+      "region": "Southeast",
+      "dimensions_m": {
+        "site": [
+          32,
+          19
+        ],
+        "playing": [
+          28,
+          15
+        ],
+        "hoop_height": 3.05,
+        "line_width": 0.05
+      },
+      "layout": "One rectangle with terracotta keys, blue-grey interior and two end hoops",
+      "colours": {
+        "playing": "#788A91",
+        "keys": "#AD876F",
+        "runoff": "#C5C0B3",
+        "lines": "#EEE9D9"
+      },
+      "key_parts": "Centre circle; two keys; arc lines; two plain backboards; no lettering",
+      "commonness_heuristic": 9,
+      "pick_rule": "pitch + sport=basketball + hard surface; hoop points where mapped; not selected on tennis tags",
+      "archetype": "32 sports-court / CourtSurface; NEW basketball hoop",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Single basketball court, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: One rectangle with terracotta keys, blue-grey interior and two end hoops. Exact intended dimensions in metres: {\"site\": [32, 19], \"playing\": [28, 15], \"hoop_height\": 3.05, \"line_width\": 0.05}. Materials: {\"playing\": \"#788A91\", \"keys\": \"#AD876F\", \"runoff\": \"#C5C0B3\", \"lines\": \"#EEE9D9\"}. Key parts: Centre circle; two keys; arc lines; two plain backboards; no lettering. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "track-01",
+      "family": "track",
+      "name": "Red synthetic running track",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "site": [
+          180,
+          95
+        ],
+        "outer_oval": [
+          176,
+          91
+        ],
+        "lane_width": 1.22,
+        "lanes": 6,
+        "line_width": 0.05
+      },
+      "layout": "Six-lane oval with two straightaways, open grass centre, no embedded pitch",
+      "colours": {
+        "track": "#AD7766",
+        "lines": "#EEE9D9",
+        "centre": "#7B805A"
+      },
+      "key_parts": "Nested oval lane ribbons; unnumbered start ticks; drain edge; no stands",
+      "commonness_heuristic": 7,
+      "pick_rule": "leisure=track + sport=running + surface=synthetic; lanes=6 when explicit; use mapped oval, never infer oval from boundary",
+      "archetype": "33 running-track / TrackRibbon",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Red synthetic running track, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Six-lane oval with two straightaways, open grass centre, no embedded pitch. Exact intended dimensions in metres: {\"site\": [180, 95], \"outer_oval\": [176, 91], \"lane_width\": 1.22, \"lanes\": 6, \"line_width\": 0.05}. Materials: {\"track\": \"#AD7766\", \"lines\": \"#EEE9D9\", \"centre\": \"#7B805A\"}. Key parts: Nested oval lane ribbons; unnumbered start ticks; drain edge; no stands. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "track-02",
+      "family": "track",
+      "name": "Worn cinder running track",
+      "region": "Southeast",
+      "dimensions_m": {
+        "site": [
+          170,
+          90
+        ],
+        "outer_oval": [
+          166,
+          86
+        ],
+        "lane_width": 1.22,
+        "lanes": 4,
+        "line_width": 0.05
+      },
+      "layout": "Four-lane cinder oval with broad ends, offset perimeter access path and open grass centre",
+      "colours": {
+        "track": "#9B8A77",
+        "lines": "#C9C3B2",
+        "centre": "#6E835B",
+        "edge": "#B7AD9D"
+      },
+      "key_parts": "Faint chalk-like lane lines; tan access spur; broad low-frequency wear",
+      "commonness_heuristic": 4,
+      "pick_rule": "running track + surface=cinder or fine_gravel; lanes explicit; condition evidence for faded finish",
+      "archetype": "33 running-track / TrackRibbon",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Worn cinder running track, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Four-lane cinder oval with broad ends, offset perimeter access path and open grass centre. Exact intended dimensions in metres: {\"site\": [170, 90], \"outer_oval\": [166, 86], \"lane_width\": 1.22, \"lanes\": 4, \"line_width\": 0.05}. Materials: {\"track\": \"#9B8A77\", \"lines\": \"#C9C3B2\", \"centre\": \"#6E835B\", \"edge\": \"#B7AD9D\"}. Key parts: Faint chalk-like lane lines; tan access spur; broad low-frequency wear. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "playground-01",
+      "family": "playground",
+      "name": "Compact rubber play court",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "site": [
+          28,
+          20
+        ],
+        "tower_height": 2.4,
+        "slide_length": 3,
+        "swing_frame_height": 2.5,
+        "path_width": 1.8
+      },
+      "layout": "Rectangular rubber pad; slide tower west, swing bay east, central open circulation",
+      "colours": {
+        "surface": "#B99A75",
+        "accent": "#73865B",
+        "metal": "#59646B",
+        "path": "#C5C0B3"
+      },
+      "key_parts": "One simple tower; slide; two swings; low edge; planted corners",
+      "commonness_heuristic": 8,
+      "pick_rule": "playground + surface=rubber; equipment components from playground tags/points only",
+      "archetype": "35 playground / PlaySurface; NEW rubber layout",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Compact rubber play court, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Rectangular rubber pad; slide tower west, swing bay east, central open circulation. Exact intended dimensions in metres: {\"site\": [28, 20], \"tower_height\": 2.4, \"slide_length\": 3, \"swing_frame_height\": 2.5, \"path_width\": 1.8}. Materials: {\"surface\": \"#B99A75\", \"accent\": \"#73865B\", \"metal\": \"#59646B\", \"path\": \"#C5C0B3\"}. Key parts: One simple tower; slide; two swings; low edge; planted corners. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "playground-02",
+      "family": "playground",
+      "name": "Mulch adventure loop",
+      "region": "Southeast",
+      "dimensions_m": {
+        "site": [
+          36,
+          26
+        ],
+        "tower_height": 2.8,
+        "climber_height": 2.2,
+        "path_width": 1.8
+      },
+      "layout": "Bean-shaped mulch pad, looping perimeter path, separated climbing and slide clusters",
+      "colours": {
+        "mulch": "#AD876F",
+        "timber": "#BFA27D",
+        "metal": "#68826A",
+        "path": "#D4C8B1"
+      },
+      "key_parts": "Timber tower; short slide; low climber; edge logs; two shade trees outside fall zones",
+      "commonness_heuristic": 7,
+      "pick_rule": "playground + woodchips; fit mapped area; tree/equipment positions require components or inferred overlay",
+      "archetype": "35 playground / PlaySurface; NEW timber cluster",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Mulch adventure loop, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Bean-shaped mulch pad, looping perimeter path, separated climbing and slide clusters. Exact intended dimensions in metres: {\"site\": [36, 26], \"tower_height\": 2.8, \"climber_height\": 2.2, \"path_width\": 1.8}. Materials: {\"mulch\": \"#AD876F\", \"timber\": \"#BFA27D\", \"metal\": \"#68826A\", \"path\": \"#D4C8B1\"}. Key parts: Timber tower; short slide; low climber; edge logs; two shade trees outside fall zones. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "playground-03",
+      "family": "playground",
+      "name": "Sand and swing garden",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "site": [
+          32,
+          22
+        ],
+        "sand_basin": [
+          12,
+          8
+        ],
+        "swing_frame_height": 2.5,
+        "path_width": 1.8
+      },
+      "layout": "Two separate rounded pads, sand basin west and swing rectangle east, straight connecting walk",
+      "colours": {
+        "sand": "#D4C8B1",
+        "pad": "#788A91",
+        "metal": "#858F89",
+        "edge": "#C5C0B3"
+      },
+      "key_parts": "Low sand rim; swings; modest balance beam; separating planting bed",
+      "commonness_heuristic": 6,
+      "pick_rule": "playground + sand with mapped swing; two pads only from mapped components or inferred Builder choice",
+      "archetype": "35 playground / PlaySurface; NEW sand basin",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Sand and swing garden, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Two separate rounded pads, sand basin west and swing rectangle east, straight connecting walk. Exact intended dimensions in metres: {\"site\": [32, 22], \"sand_basin\": [12, 8], \"swing_frame_height\": 2.5, \"path_width\": 1.8}. Materials: {\"sand\": \"#D4C8B1\", \"pad\": \"#788A91\", \"metal\": \"#858F89\", \"edge\": \"#C5C0B3\"}. Key parts: Low sand rim; swings; modest balance beam; separating planting bed. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "playground-04",
+      "family": "playground",
+      "name": "Small neighbourhood balance court",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "site": [
+          22,
+          18
+        ],
+        "balance_height": 0.45,
+        "climber_height": 1.8,
+        "path_width": 1.8
+      },
+      "layout": "L-shaped muted two-tone rubber pad around central planting wedge, low balance route",
+      "colours": {
+        "surface": "#857C6B",
+        "accent": "#68826A",
+        "metal": "#A7B4B6",
+        "edge": "#B7AD9D"
+      },
+      "key_parts": "Low stepping forms; compact climbing arch; short slide; edge seating without text",
+      "commonness_heuristic": 5,
+      "pick_rule": "playground + rubber + mapped balance/climbing components; compact site <500 m\u00b2",
+      "archetype": "35 playground / PlaySurface; NEW low balance route",
+      "views": [
+        "street40",
+        "aerial150",
+        "top"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Three panels: top-left STREET, top-right AERIAL, full-width bottom TOP PLAN; absolutely no printed labels. All panels show the SAME fictional Small neighbourhood balance court, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: L-shaped muted two-tone rubber pad around central planting wedge, low balance route. Exact intended dimensions in metres: {\"site\": [22, 18], \"balance_height\": 0.45, \"climber_height\": 1.8, \"path_width\": 1.8}. Materials: {\"surface\": \"#857C6B\", \"accent\": \"#68826A\", \"metal\": \"#A7B4B6\", \"edge\": \"#B7AD9D\"}. Key parts: Low stepping forms; compact climbing arch; short slide; edge seating without text. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "bridge-01",
+      "family": "bridge",
+      "name": "Small concrete creek road bridge",
+      "region": "Southeast",
+      "dimensions_m": {
+        "span": 18,
+        "deck_width": 9,
+        "deck_thickness": 0.7,
+        "deck_above_bed": 3,
+        "rail_height": 1.1
+      },
+      "layout": "Single straight span with two abutments, narrow creek and low concrete side parapets",
+      "colours": {
+        "concrete": "#B2ABA0",
+        "asphalt": "#626A70",
+        "rail": "#DCCDB0",
+        "water": "#788A91"
+      },
+      "key_parts": "Two lanes; kerb edges; parapets; exposed soffit; no pier in creek",
+      "commonness_heuristic": 8,
+      "pick_rule": "highway + bridge=yes + bridge:structure=beam; small mapped span; requires measured elevations, never layer metres",
+      "archetype": "46 bridge / Deck; NEW small concrete subtype",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Small concrete creek road bridge, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Single straight span with two abutments, narrow creek and low concrete side parapets. Exact intended dimensions in metres: {\"span\": 18, \"deck_width\": 9, \"deck_thickness\": 0.7, \"deck_above_bed\": 3, \"rail_height\": 1.1}. Materials: {\"concrete\": \"#B2ABA0\", \"asphalt\": \"#626A70\", \"rail\": \"#DCCDB0\", \"water\": \"#788A91\"}. Key parts: Two lanes; kerb edges; parapets; exposed soffit; no pier in creek. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "bridge-02",
+      "family": "bridge",
+      "name": "Steel truss rail bridge",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "span": 75,
+        "deck_width": 8,
+        "truss_height": 9,
+        "panel_length": 9.375,
+        "deck_above_water": 7
+      },
+      "layout": "One track through two parallel eight-bay steel trusses with triangulated portals",
+      "colours": {
+        "steel": "#64766D",
+        "abutment": "#A7B4B6",
+        "rails": "#626A70",
+        "ties": "#857C6B"
+      },
+      "key_parts": "Top chords; diagonals; one rail pair; sleepers; plain abutments",
+      "commonness_heuristic": 6,
+      "pick_rule": "railway=rail + bridge=yes + bridge:structure=truss; track count from data; surveyed deck/approaches required",
+      "archetype": "46 bridge / Deck + 45 rail-corridor / RailRibbon; NEW rail truss composition",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Steel truss rail bridge, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: One track through two parallel eight-bay steel trusses with triangulated portals. Exact intended dimensions in metres: {\"span\": 75, \"deck_width\": 8, \"truss_height\": 9, \"panel_length\": 9.375, \"deck_above_water\": 7}. Materials: {\"steel\": \"#64766D\", \"abutment\": \"#A7B4B6\", \"rails\": \"#626A70\", \"ties\": \"#857C6B\"}. Key parts: Top chords; diagonals; one rail pair; sleepers; plain abutments. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "bridge-03",
+      "family": "bridge",
+      "name": "Pedestrian footbridge",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "span": 24,
+        "deck_width": 3,
+        "rail_height": 1.2,
+        "deck_above_bed": 2.5,
+        "post_spacing": 2
+      },
+      "layout": "Shallow arched timber deck between short path approaches with two simple steel rails",
+      "colours": {
+        "timber": "#B99A75",
+        "rails": "#858F89",
+        "abutment": "#B7AD9D",
+        "water": "#788A91"
+      },
+      "key_parts": "Deck boards simplified to broad bands; 2m post rhythm; abutments; path continuity",
+      "commonness_heuristic": 7,
+      "pick_rule": "highway=footway + bridge=yes + bridge:structure=arch + material=wood; otherwise straight neutral deck",
+      "archetype": "46 bridge / Deck; NEW pedestrian arch subtype",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Pedestrian footbridge, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Shallow arched timber deck between short path approaches with two simple steel rails. Exact intended dimensions in metres: {\"span\": 24, \"deck_width\": 3, \"rail_height\": 1.2, \"deck_above_bed\": 2.5, \"post_spacing\": 2}. Materials: {\"timber\": \"#B99A75\", \"rails\": \"#858F89\", \"abutment\": \"#B7AD9D\", \"water\": \"#788A91\"}. Key parts: Deck boards simplified to broad bands; 2m post rhythm; abutments; path continuity. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "bridge-04",
+      "family": "bridge",
+      "name": "Highway overpass",
+      "region": "Southeast",
+      "dimensions_m": {
+        "span": 36,
+        "deck_width": 18,
+        "deck_thickness": 1.2,
+        "deck_top_above_ground": 7,
+        "pier_width": 1.4,
+        "pier_spacing": 18,
+        "rail_height": 1.1
+      },
+      "layout": "Two-span concrete deck over perpendicular road, central bent in median, open undercroft",
+      "colours": {
+        "concrete": "#B7AD9D",
+        "asphalt": "#59646B",
+        "rail": "#C5C0B3"
+      },
+      "key_parts": "Side safety railings; expansion seam; central bent; no pier in carriageway; lane lines",
+      "commonness_heuristic": 9,
+      "pick_rule": "motorway/trunk + bridge=yes + beam; verified median and deck elevations; mapped crossing independent of region",
+      "archetype": "46 bridge / Deck (roads-03-overpass)",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Highway overpass, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Two-span concrete deck over perpendicular road, central bent in median, open undercroft. Exact intended dimensions in metres: {\"span\": 36, \"deck_width\": 18, \"deck_thickness\": 1.2, \"deck_top_above_ground\": 7, \"pier_width\": 1.4, \"pier_spacing\": 18, \"rail_height\": 1.1}. Materials: {\"concrete\": \"#B7AD9D\", \"asphalt\": \"#59646B\", \"rail\": \"#C5C0B3\"}. Key parts: Side safety railings; expansion seam; central bent; no pier in carriageway; lane lines. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "station-01",
+      "family": "station",
+      "name": "Brick commuter station",
+      "region": "Chicago north shore",
+      "dimensions_m": {
+        "building": [
+          24,
+          10
+        ],
+        "eave_height": 4,
+        "ridge_height": 6,
+        "platform": [
+          90,
+          6
+        ],
+        "canopy": [
+          40,
+          4
+        ],
+        "canopy_height": 3.4,
+        "post_spacing": 5
+      },
+      "layout": "Brick rectangle beside one side platform, detached linear canopy, separate track edge",
+      "colours": {
+        "brick": "#AD876F",
+        "stone": "#D4C8B1",
+        "roof": "#59646B",
+        "platform": "#C5C0B3"
+      },
+      "key_parts": "Pitched roof; glazed openings; repeated canopy posts; platform edge; plain benches",
+      "commonness_heuristic": 8,
+      "pick_rule": "building=train_station + related railway=platform; brick/material evidence; canopy only with roof/shelter geometry",
+      "archetype": "41 rail-station / StationMass + 42 rail-platform / PlatformPad",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Brick commuter station, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Chicago north shore; no real place or landmark. Layout: Brick rectangle beside one side platform, detached linear canopy, separate track edge. Exact intended dimensions in metres: {\"building\": [24, 10], \"eave_height\": 4, \"ridge_height\": 6, \"platform\": [90, 6], \"canopy\": [40, 4], \"canopy_height\": 3.4, \"post_spacing\": 5}. Materials: {\"brick\": \"#AD876F\", \"stone\": \"#D4C8B1\", \"roof\": \"#59646B\", \"platform\": \"#C5C0B3\"}. Key parts: Pitched roof; glazed openings; repeated canopy posts; platform edge; plain benches. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "station-02",
+      "family": "station",
+      "name": "Open-air platform and shelters",
+      "region": "Colorado Front Range",
+      "dimensions_m": {
+        "platform": [
+          110,
+          5
+        ],
+        "shelter_each": [
+          8,
+          3
+        ],
+        "shelter_height": 3.2,
+        "post_spacing": 4
+      },
+      "layout": "Long open side platform, two separated flat-roof shelters and broad unobstructed middle",
+      "colours": {
+        "roof": "#858F89",
+        "metal": "#59646B",
+        "platform": "#B7AD9D",
+        "glass": "#A7B4B6"
+      },
+      "key_parts": "Two four-post shelters; transparent back panels; plain benches; no station building",
+      "commonness_heuristic": 9,
+      "pick_rule": "railway=platform with mapped shelter=yes/components; station node alone creates no building",
+      "archetype": "42 rail-platform / PlatformPad; NEW shelter composition",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional Open-air platform and shelters, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Colorado Front Range; no real place or landmark. Layout: Long open side platform, two separated flat-roof shelters and broad unobstructed middle. Exact intended dimensions in metres: {\"platform\": [110, 5], \"shelter_each\": [8, 3], \"shelter_height\": 3.2, \"post_spacing\": 4}. Materials: {\"roof\": \"#858F89\", \"metal\": \"#59646B\", \"platform\": \"#B7AD9D\", \"glass\": \"#A7B4B6\"}. Key parts: Two four-post shelters; transparent back panels; plain benches; no station building. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    },
+    {
+      "id": "station-03",
+      "family": "station",
+      "name": "1920s depot",
+      "region": "Southeast",
+      "dimensions_m": {
+        "building": [
+          30,
+          12
+        ],
+        "eave_height": 4.5,
+        "ridge_height": 7,
+        "platform": [
+          65,
+          5
+        ],
+        "porch_depth": 3,
+        "post_spacing": 4
+      },
+      "layout": "Long hip-roof depot with projecting central entrance bay and platform-facing deep porch",
+      "colours": {
+        "brick": "#B58D70",
+        "trim": "#EEE9D9",
+        "roof": "#64766D",
+        "platform": "#B2ABA0"
+      },
+      "key_parts": "Hip roof; broad eaves; plain porch posts; tall windows; no clock/sign ornament",
+      "commonness_heuristic": 5,
+      "pick_rule": "train_station building + start_date=1920\u20131929 and compatible mapped hip roof/porch; unknown age never inferred from name",
+      "archetype": "41 rail-station / StationMass + 42 rail-platform / PlatformPad; NEW depot form",
+      "views": [
+        "street40",
+        "aerial150"
+      ],
+      "prompt": "Use case: stylized-concept, buildable asset variation sheet. Two equally sized side-by-side panels: left STREET, right AERIAL; absolutely no printed labels. All panels show the SAME fictional 1920s depot, identical layout, materials and component positions. Neutral flat warm-beige ground without a raised diorama base or surrounding city. Region palette: Southeast; no real place or landmark. Layout: Long hip-roof depot with projecting central entrance bay and platform-facing deep porch. Exact intended dimensions in metres: {\"building\": [30, 12], \"eave_height\": 4.5, \"ridge_height\": 7, \"platform\": [65, 5], \"porch_depth\": 3, \"post_spacing\": 4}. Materials: {\"brick\": \"#B58D70\", \"trim\": \"#EEE9D9\", \"roof\": \"#64766D\", \"platform\": \"#B2ABA0\"}. Key parts: Hip roof; broad eaves; plain porch posts; tall windows; no clock/sign ornament. STREET camera: eye 1.7m above ground, 40m horizontal distance from near asset edge, 45-degree azimuth to long axis, low three-quarter perspective; close view may crop far edge of large sites. AERIAL camera: 150m above ground, 45-degree downward pitch, whole asset with margin. TOP PLAN where requested: orthographic straight down, identical whole layout. Clear afternoon sun from WEST, 40-degree elevation, shadows to east; west is left in plan. Muted warm Style B palette, stylized-realistic true-scale clean simple broad matte forms, gently rounded layered foliage, readable shaded faces, blue sky in street view, neutral fill; no sepia grade. No photo textures, gravel noise, dense leaf geometry or tiny rivets. No readable text, signs, labels, logos, brands, symbols, numbers, people, characters, animals, vehicles, named locations or watermarks. A concept visualization, not construction certification. Do not include dimensions or hex values as text. Keep every requested panel present and preserve topology between views.",
+      "dimension_status": "Illustrative proposed geometry, not measured or regulation-certified",
+      "archetype_status": "Registry mappings are proposed interfaces, not existing Swift modules",
+      "palette_status": "Referenced infrastructure swatches plus authored extensions; not approved engine defaults"
+    }
+  ]
+}
