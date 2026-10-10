@@ -368,6 +368,7 @@ public final class World {
         let m = camera.transformMatrix(relativeTo: nil)
         followCamera(camPos, forward: -SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z), dt: dt)
         resources.update(globals: g)
+        tickStreaming(camera: camPos)
         viewClock += dt
         if viewClock >= 0.5 {
             viewClock = 0
@@ -490,14 +491,21 @@ public final class World {
     /// skyline LODs (`BuildingTileState`).
     private func buildBuildingCells() throws {
         var sources: [Int] = []
+        if options.diagnostics.contains("streamCells") { streamer = try CellStreamer() }
         for (source, cell) in scene.buildingCells.enumerated() {
             var state = BuildingCellState(rect: cell.rect, bounds: nil, levels: [], active: nil)
+            var streamedNear: WorldMesh.MeshBuffers?
             for lod in BuildingLOD.allCases {
-                guard let m = cell.meshes[lod], !m.isEmpty, let mesh = try MeshUpload.resource([m]) else { continue }
+                guard let m = cell.meshes[lod], !m.isEmpty else { continue }
+                // Streaming: the near level stays on disk until the camera comes close; the cell
+                // draws its next level until then (only when a coarser level exists).
+                let streamed = streamer != nil && lod == .near && cell.meshes.keys.contains { $0 > .near }
+                let mesh: MeshResource? = streamed ? nil : try MeshUpload.resource([m])
+                guard streamed || mesh != nil else { continue }
                 let e = Entity()
                 e.name = "Buildings \(cell.id) \(lod)"
                 e.isEnabled = false
-                e.components.set(ModelComponent(mesh: mesh, materials: [resources.staticMaterial]))
+                if let mesh { e.components.set(ModelComponent(mesh: mesh, materials: [resources.staticMaterial])) } else { streamedNear = m }
                 receiveIBL(e)
                 rootEntity.addChild(e)
                 state.levels.append((lod, e, m.triangleCount))
@@ -505,13 +513,17 @@ public final class World {
                     let box = BoundingBox(min: b.min, max: b.max)
                     state.bounds = state.bounds.map { $0.union(box) } ?? box
                 }
-                stats.meshBytes += m.gpuBytes
-                stats.meshBytesByKind["building-\(lod)", default: 0] += m.gpuBytes
+                if !streamed {
+                    stats.meshBytes += m.gpuBytes
+                    stats.meshBytesByKind["building-\(lod)", default: 0] += m.gpuBytes
+                }
             }
             guard !state.levels.isEmpty else { continue }
             buildingCells.append(state)
             sources.append(source)
+            if let near = streamedNear { try streamer?.store(cell: buildingCells.count - 1, mesh: near) }
         }
+        try streamer?.finishStoring()
         for size in Self.buildingTileSizes {
             var tileCells: [SIMD2<Int>: [Int]] = [:]
             for (i, source) in sources.enumerated() {
@@ -599,7 +611,7 @@ public final class World {
         }
         for i in buildingCells.indices {
             let levels = buildingCells[i].levels
-            let pick: Int? = tiled[i] ? nil : (levels.firstIndex { $0.lod >= want[i] } ?? (levels.count - 1))
+            let pick: Int? = tiled[i] ? nil : (levels.firstIndex { $0.lod >= want[i] && nearReady(i, $0.lod) } ?? (levels.count - 1))
             if buildingCells[i].active != pick {
                 for (j, l) in levels.enumerated() { l.entity.isEnabled = j == pick }
                 buildingCells[i].active = pick
@@ -607,6 +619,34 @@ public final class World {
             if let pick { tris += levels[pick].triangles }
         }
         buildingTriangles = tris
+    }
+
+    /// A streamed near level counts only once its mesh is resident.
+    private func nearReady(_ cell: Int, _ lod: BuildingLOD) -> Bool {
+        lod != .near || streamer == nil || streamer!.packed[cell] == nil || streamer!.isResident(cell)
+    }
+
+    /// Streaming tick (every frame, stream on): loads/releases near levels by camera distance and
+    /// re-picks LODs when residency changes. A released cell switches to its next level first.
+    private func tickStreaming(camera c: SIMD3<Float>) {
+        guard let streamer else { return }
+        let p = LocalPoint(Double(c.x), Double(-c.z))
+        let changed = streamer.tick(distances: { Self.distance(p, to: self.buildingCells[$0].rect) },
+            attach: { cell, resource in
+                guard let k = self.buildingCells[cell].levels.firstIndex(where: { $0.lod == .near }) else { return }
+                self.buildingCells[cell].levels[k].entity.components.set(ModelComponent(mesh: resource, materials: [self.resources.staticMaterial]))
+            },
+            detach: { cell in
+                let levels = self.buildingCells[cell].levels
+                guard let k = levels.firstIndex(where: { $0.lod == .near }) else { return }
+                if self.buildingCells[cell].active == k, k + 1 < levels.count {
+                    levels[k + 1].entity.isEnabled = true
+                    self.buildingCells[cell].active = k + 1
+                }
+                levels[k].entity.isEnabled = false
+                levels[k].entity.components.remove(ModelComponent.self)
+            })
+        if changed { updateBuildingLODs(camera: SIMD2(c.x, c.z)) }
     }
 
     /// Splits static geometry into flat ground (every corner within 0.3 m of the ground plane:
@@ -620,6 +660,16 @@ public final class World {
     var meshCacheCPUBytes: Int { meshCache.values.reduce(0) { $0 + $1.1.cpuBytes } }
     /// Whether the CPU copies of chunk, building-cell and boundary meshes were freed after upload.
     private(set) var loadOnlyGeometryReleased = false
+    /// Streaming slice 1 (`-diag streamCells`, default off): building-cell near levels from a disk cache.
+    private(set) var streamer: CellStreamer?
+    /// Stream counters for logs (resident bytes/cells, loads, evictions, worst upload frame).
+    public var streamSummary: String {
+        guard let st = streamer?.stats else { return "" }
+        return String(format: "pool=%.1fMiB slots=%d/%d ", Double(streamer?.poolBytes ?? 0) / 1_048_576, streamer?.slotCounts.free ?? 0, streamer?.slotCounts.total ?? 0) + "packed=\(streamer?.packed.count ?? 0) wanted=\(st.wanted) nearest=\(Int(st.nearest)) reads=\(st.reads) readFail=\(st.readFailures) " + String(format: "allocMaxMs=%.3f copyMaxMs=%.3f finishMaxMs=%.3f replaceMaxMs=%.3f partsMaxMs=%.3f attachMaxMs=%.3f finishesOver=%d ", st.allocMax * 1000, st.copyMax * 1000, st.finishMax * 1000, st.replaceMax * 1000, st.partsMax * 1000, st.attachMax * 1000, st.finishesOver) + String(format: "STREAM resident=%.1fMiB cells=%d loads=%d evictions=%d cancelled=%d uploadFrames=%d overBudget=%d", Double(st.residentBytes) / 1_048_576,
+                      st.residentCells, st.loads, st.evictions, st.cancelled, st.uploadFrames, st.framesOverBudget)
+    }
+    /// The worst single-frame upload time (ms) since the last call (stream on).
+    public func takeStreamFrameMaxMs() -> Double { (streamer?.takeFrameMax().frameMax ?? 0) * 1000 }
 
     /// Frees the CPU copies of geometry that only the load path reads (chunk, building-cell and
     /// boundary meshes): once uploaded, nothing reads them again, so rendering is unchanged.

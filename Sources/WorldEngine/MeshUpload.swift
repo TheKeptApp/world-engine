@@ -8,6 +8,31 @@ import WorldMesh
 @MainActor
 enum MeshUpload {
     static let stride = 56
+    static let attributes: [LowLevelMesh.Attribute] = [
+        .init(semantic: .position, format: .float3, offset: 0),
+        .init(semantic: .normal, format: .float3, offset: 12),
+        .init(semantic: .uv2, format: .float4, offset: 24),
+        .init(semantic: .uv3, format: .float4, offset: 40),
+    ]
+
+    /// Writes the parts' vertices in this layout into `raw` (shared by uploads and the stream cache).
+    static func writeVertices(of parts: [WorldMesh.MeshBuffers], into raw: UnsafeMutableRawBufferPointer) {
+        var o = 0
+        for m in parts {
+            for i in 0..<m.vertexCount {
+                let p = m.positions[i], n = m.normals[i]
+                raw.storeBytes(of: p.x, toByteOffset: o, as: Float.self)
+                raw.storeBytes(of: p.y, toByteOffset: o + 4, as: Float.self)
+                raw.storeBytes(of: p.z, toByteOffset: o + 8, as: Float.self)
+                raw.storeBytes(of: n.x, toByteOffset: o + 12, as: Float.self)
+                raw.storeBytes(of: n.y, toByteOffset: o + 16, as: Float.self)
+                raw.storeBytes(of: n.z, toByteOffset: o + 20, as: Float.self)
+                raw.storeBytes(of: m.paints[i], toByteOffset: o + 24, as: SIMD4<Float>.self)
+                raw.storeBytes(of: m.extras[i], toByteOffset: o + 40, as: SIMD4<Float>.self)
+                o += stride
+            }
+        }
+    }
 
     /// One mesh with one part per buffer (parts use material indices 0, 1, ...).
     static func resource(_ parts: [WorldMesh.MeshBuffers]) throws -> MeshResource? {

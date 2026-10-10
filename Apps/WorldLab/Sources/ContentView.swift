@@ -3,6 +3,7 @@ import RealityKit
 import SwiftUI
 import UIKit
 import WorldEngine
+import WorldGeo
 
 /// WorldLab root: a launcher (renderer switch, free walk, 10-minute test run) or, with launch
 /// arguments, straight into a renderer/preset (used by scripts).
@@ -212,6 +213,24 @@ struct RealityKitScreen: View {
             print("ATTR end \(iso.string(from: Date()))")
         }
         .task {
+            // `-pantest` (launch with `-mode route`): scripted pan across the whole package (5A Batch 1): lawnmower rows 250 m apart
+            // at street eye height, 30 m/s (see `panRig`); this task only logs: one PAN line per second with the
+            // process footprint, the worst stream-upload frame and the stream counters.
+            guard ProcessInfo.processInfo.arguments.contains("-pantest") else { return }
+            while world == nil || camera == nil { try? await Task.sleep(for: .milliseconds(200)) }
+            try? await Task.sleep(for: .seconds(8))
+            guard let world, let camera else { return }
+            let start = Date()
+            print("PAN start lengthM=\(Int(camera.route?.length ?? 0))"); fflush(nil)
+            while let r = camera.route, r.distance < r.length - 1, Date().timeIntervalSince(start) < 600 {
+                try? await Task.sleep(for: .seconds(1))
+                print(String(format: "PAN t=%.0f dist=%.0f mem=%.1f uploadMaxMs=%.3f ", Date().timeIntervalSince(start), camera.route?.distance ?? 0,
+                             Double(World.physicalFootprint()) / 1_048_576, world.takeStreamFrameMaxMs()) + world.streamSummary)
+                fflush(nil)
+            }
+            print("PAN done"); fflush(nil)
+        }
+        .task {
             // `-memreport`: the engine's MEMORY attribution line every 10 s (5A Batch 1, device runs).
             guard ProcessInfo.processInfo.arguments.contains("-memreport") else { return }
             while true {
@@ -406,6 +425,25 @@ struct RealityKitScreen: View {
         print("VIEWS done n=\(done) of \(list.count)"); fflush(nil)
     }
 
+    /// `-pantest` route (5A Batch 1): lawnmower rows 250 m apart over the whole package, 50 m in from
+    /// the edges, at the route rig's street eye height and 30 m/s (test speed). Set at launch only:
+    /// changing the camera route mid-session re-runs the RealityView update, which traps on device.
+    static func panRig(_ world: World) -> RouteRig {
+        let b = world.manifest.localBounds, margin = 50.0
+        var rows: [LocalPoint] = []
+        var y = b.min.y + margin, flip = false
+        while y <= b.max.y - margin {
+            let a = LocalPoint(b.min.x + margin, y), c = LocalPoint(b.max.x - margin, y)
+            rows += flip ? [c, a] : [a, c]
+            flip.toggle(); y += 250
+        }
+        var motion = ExperienceDefaults.Motion()
+        motion.routeMaxSpeed = 30
+        var rig = RouteRig(path: rows, loop: false, motion: motion)
+        rig.scenicSpeed = 30
+        return rig
+    }
+
     /// Sets one view up in place, as a launch with these options would (same area).
     private func applyView(_ o: LaunchOptions, world: World, camera: WorldCamera, env: EnvironmentController, demo: DemoConfig) async {
         print("FOLIAGE_EXP1 mode=\(o.foliageExperiment) value=\(["off", "remove", "layered"].firstIndex(of: o.foliageExperiment) ?? 0) defaultConstant=0 buildTimeVariant=true slots=3-6,24-28"); fflush(nil)
@@ -567,7 +605,8 @@ struct RealityKitScreen: View {
             // Explore is also a free inspection camera; the same altitude safety applies.
             startInspection(world: world, camera: camera, from: currentPostcard(world: world))
         case "route":
-            if let demo { camera.route = world.makeRouteRig(route: demo.routeCoordinates, loop: true) }
+            if ProcessInfo.processInfo.arguments.contains("-pantest") { camera.route = Self.panRig(world) }
+            else if let demo { camera.route = world.makeRouteRig(route: demo.routeCoordinates, loop: true) }
             camera.mode = .route
         case "follow":
             if let character { camera.mode = .street(following: character) }

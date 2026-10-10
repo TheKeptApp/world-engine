@@ -161,7 +161,7 @@ extension WorldMesh.MeshBuffers {
 @MainActor
 extension World {
     /// The app process's physical footprint (what iOS counts against its limit), in bytes.
-    nonisolated static func physicalFootprint() -> Int {
+    nonisolated public static func physicalFootprint() -> Int {
         var info = task_vm_info_data_t()
         var count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<integer_t>.size)
         let kr = withUnsafeMutablePointer(to: &info) {
