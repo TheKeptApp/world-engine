@@ -27,6 +27,27 @@ def decoded_geometry(path):
                * width[gltf['accessors'][i]['type']] for i in used)
 
 
+
+def corner_margins(manifest, bounds):
+    # Same WGS84 ECEF -> ENU definition as WorldGeo.LocalFrame; no fitted shifts.
+    lat0 = math.radians(manifest['center']['latitude'])
+    lon0 = math.radians(manifest['center']['longitude'])
+    def ecef(lat, lon):
+        e2 = 0.0066943799901413165
+        n = 6378137 / math.sqrt(1 - e2 * math.sin(lat)**2)
+        return n*math.cos(lat)*math.cos(lon), n*math.cos(lat)*math.sin(lon), n*(1-e2)*math.sin(lat)
+    origin = ecef(lat0, lon0)
+    margins = []
+    for lat in (bounds['south'], bounds['north']):
+        for lon in (bounds['west'], bounds['east']):
+            d = [a-b for a, b in zip(ecef(math.radians(lat), math.radians(lon)), origin)]
+            east = -math.sin(lon0)*d[0] + math.cos(lon0)*d[1]
+            north = -math.sin(lat0)*math.cos(lon0)*d[0] - math.sin(lat0)*math.sin(lon0)*d[1] + math.cos(lat0)*d[2]
+            margins.append(min(manifest['widthMeters']/2-abs(east), manifest['heightMeters']/2-abs(north)))
+    assert min(margins) >= 0, 'Requested geographic corner outside package extent'
+    return margins
+
+
 def receipt(area, package, extent):
     if shutil.disk_usage(package).free < 8_000_000_000:
         raise RuntimeError('Disk guard: below 8 GB')
@@ -34,6 +55,7 @@ def receipt(area, package, extent):
     world = json.loads((package / 'world.json').read_text())
     assert world['schema'] == 'worldengine.package/1'
     assert world['area']['id'] == manifest['id'] == extent['id']
+    margins = corner_margins(manifest, extent['bounds'])
     sources = []
     for source in manifest['sources']:
         path = area / source['path']
@@ -96,7 +118,7 @@ def receipt(area, package, extent):
     assert all(w['missingWays'] == 0 and w['unpairedEndpoints'] == 0 for w in water)
     return {'area': manifest['id'], 'status': 'PASS', 'scope': 'Package integrity and source closure; not real-world completeness or device performance',
             'worldSHA256': sha(package / 'world.json'), 'sourceManifestSHA256': sha(area / 'manifest.json'),
-            'requestedBounds': extent['bounds'], 'widthMeters': manifest['widthMeters'], 'heightMeters': manifest['heightMeters'],
+            'requestedCornerMarginsM': margins, 'requestedBounds': extent['bounds'], 'widthMeters': manifest['widthMeters'], 'heightMeters': manifest['heightMeters'],
             'cells': nx * ny, 'grid': [nx, ny], 'detailCounts': dict(Counter(c['detail'] for c in world['chunks'])),
             'lods': lods, 'totalPackageBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()),
             'commonAndMetadataBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()) - sum(x['bytes'] for x in lods),
