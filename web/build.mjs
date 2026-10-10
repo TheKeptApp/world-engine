@@ -33,3 +33,6 @@ copyFileSync(resolve(root, 'index.html'), resolve(dist, 'index.html'));
 // Host data (route, fixtures): the same file WorldLab uses.
 copyFileSync(resolve(root, '../Apps/WorldLab/Resources/demo.json'), resolve(dist, 'demo.json'));
 console.log('Built web/dist');
+
+// Host credits overlay is independent of the renderer bundle.
+for (const name of ['credits.js', 'credits.json']) copyFileSync(resolve(root, name), resolve(dist, name));
