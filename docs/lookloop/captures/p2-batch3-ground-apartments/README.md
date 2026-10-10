@@ -2,15 +2,21 @@
 
 All five are **default off** and region-independent: `-lookexp sidewalkendshort,retailground,parkingarea,denverapartments,sportsfields`. No shader, grade, exposure or palette-table change; only existing keys are used. Map data © OpenStreetMap contributors.
 
-Capture settings: exposure **pinned at gain 1.0**, because 5A's settled-gain capture mode is not on main (`scripts/capture_native.py` has no settled option at `165ed6e`). Clear sky, wind 0, ladder cameras as Batch 0. Frames, the all-five-ON frame, byte-copy controls and hashes are in [manifest.json](manifest.json). OFF/ON crops: [off-vs-on-crops.png](off-vs-on-crops.png).
+Capture settings: **primary set = 5A's `--exposure settled`** (landed in main `a7c433c` during this batch). **`pinned/` = the same pairs at fixed gain 1.0** on main `165ed6e`.
 
-## Controls and budget (rebased on main `165ed6e`, 5A's streaming/shadow-cells commit)
+Settled gain is solved per scene, so 3 of the 6 ON frames carry a small whole-frame exposure change. Sloan's 600: 0.6470 → 0.6439. Lakeview 40: 1.4317 → 1.4178. Lakeview 600: OFF 0.8494, ON 0.8491. For those views the pinned pairs are the clean comparison. Clear sky, wind 0, ladder cameras as Batch 0. Frames, the all-five-ON frame, byte-copy controls and hashes are in [manifest.json](manifest.json). OFF/ON crops: [off-vs-on-crops.png](off-vs-on-crops.png).
 
-Tests: **432/432** pass.
+## Controls and budget
 
-**OFF against main:**
+Tests: **432/432** pass on `a7c433c`.
+
+**OFF against main, settled exposure (`a7c433c`):**
+- Byte-identical: Lakeview 40/150.
+- Within 1/255: Sloan's 40/150/600 (3,982 / 79 / 6,808 bytes) and Lakeview 600 (14,647 bytes; settled gain 0.8494 vs 0.8491).
+
+**OFF against main, pinned gain (`165ed6e`):**
 - Byte-identical: Sloan's 40 and Lakeview 40/150/600.
-- Sloan's 150 and 600 m: at most 1/255 (60 and 190 bytes).
+- Within 1/255: Sloan's 150/600.
 
 **Main triangles / draws, OFF → all-five-ON:**
 
@@ -64,4 +70,4 @@ Every view stays under the floor budget (<400k triangles, ≤100 draws).
 - Gap: a dedicated track/clay key would be a **palette ruling for A2**; `pavingBrick` is reused.
 - None of the sports fields are inside the six ladder frames.
 
-Used: feature-types-audit README (ranks 1–4); facade-detail-v2 denver-apartment / denver-courtyard; base-palette keys. Mock: facade-detail-v2 values (no image for ground types). Deviation: one combined ON frame per view (per-item counts from tests); pinned gain 1.0; track reuses `pavingBrick`.
+Used: feature-types-audit README (ranks 1–4); facade-detail-v2 denver-apartment / denver-courtyard; base-palette keys. Mock: facade-detail-v2 values (no image for ground types). Deviation: one combined ON frame per view (per-item counts from tests); settled gain shifts in 3 ON frames (pinned pairs provided); track reuses `pavingBrick`.
