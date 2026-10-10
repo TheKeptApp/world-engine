@@ -116,3 +116,7 @@ Ground trial merged default OFF as `978396b`. R approved a fresh-current-main OF
 ### P2 lawnsmooth / wallspread — A3 native review, 9 Oct 2026
 
 [P2 Batch1 blind review](../review/p2-batch1-paired-scores.md): three fresh sessions, 18/18 supplied identical controls pass. OFF/lawnsmooth/wallspread overall ties6/6 at all six native views; no within-session grade change. Sloan40/150/600 overall2 throughout; Lakeview40/150 overall3/3/2 across sessions,600 overall2. Lawnsmooth Lakeview40 ground2 wins/4ties inconclusive; wallspread ground1 win/5ties, all remaining aspects6ties. Foliage2 throughout. Pinned gain1.0 may look darker than the real app. No promotion; remaining hold-outs and device/shadow budgets pending.
+
+### 2026-10-09 — A1 extended-area data
+
+General optional `AreaManifest.gridAnchor` → shared WorldBuild/ChunkGrid in both LOD passes → unchanged package schema with anchor provenance. Native renderer untouched; the new dataset still needs host selection/consumer streaming. Web standard/adaptive data delivered locally; no new web context-mesh implementation. [108-cell package and receipts](../data/sloans-lake-extended.md): 42 tests, three byte-identical legacy controls, full adaptive audit and repeat pack/ZIP; no A3 grade or device-floor claim.

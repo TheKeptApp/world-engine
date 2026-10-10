@@ -1,0 +1,153 @@
+{
+  "area": "sloans-lake-extended",
+  "status": "PASS",
+  "scope": "Package integrity and source closure; not real-world completeness or device performance",
+  "worldSHA256": "9e465754b59da3d4e1ecbe7a896bf417300f6733c7bc62e62ca9ccf2f00e698d",
+  "generator": {
+    "name": "WorldEngine WorldGen",
+    "version": "sources-86ae00c3f5c9d2c991e8a552a85e4fa9ab6aa4a7"
+  },
+  "sourceManifestSHA256": "6f206f7fc3a41a6965a024ceca50ab66b64023c597ac961d6ed69f3da25d655a",
+  "requestedCornerMarginsM": [
+    0.12471763985149664,
+    0.12471764267593244,
+    0.17070551285291913,
+    0.17070551259803324
+  ],
+  "requestedBounds": {
+    "south": 39.740489,
+    "north": 39.756254,
+    "west": -105.057738,
+    "east": -105.03208
+  },
+  "widthMeters": 2199.5567403812256,
+  "heightMeters": 1750.884811891805,
+  "cells": 108,
+  "grid": [
+    12,
+    9
+  ],
+  "gridAnchor": {
+    "latitude": 39.743995668594096,
+    "longitude": -105.05383359349004
+  },
+  "gridStartEN": [
+    -1164.9438345866083,
+    -885.8094124220967
+  ],
+  "detailCounts": {
+    "full": 108
+  },
+  "lods": [
+    {
+      "meanDecodedGeometryMBPerCell": 2.4022845,
+      "maxDecodedGeometryMBPerCell": 6.496722,
+      "lod": 0,
+      "cells": 108,
+      "bytes": 259673552,
+      "meanMBPerCell": 2.4043847407407406,
+      "medianMBPerCell": 2.351248,
+      "maxMBPerCell": 6.49852,
+      "triangles": 1980818
+    },
+    {
+      "meanDecodedGeometryMBPerCell": 0.4508497037037037,
+      "maxDecodedGeometryMBPerCell": 1.317018,
+      "lod": 1,
+      "cells": 108,
+      "bytes": 48917328,
+      "meanMBPerCell": 0.45293822222222224,
+      "medianMBPerCell": 0.381456,
+      "maxMBPerCell": 1.318804,
+      "triangles": 345831
+    }
+  ],
+  "totalPackageBytes": 345436908,
+  "commonAndMetadataBytes": 36846028,
+  "previousSourceRetention": {
+    "buildings": {
+      "oldSourceRefs": 1427,
+      "absentFromExtendedSource": [],
+      "presentButTagChanged": []
+    },
+    "roadsAndPaths": {
+      "oldSourceRefs": 624,
+      "absentFromExtendedSource": [],
+      "presentButTagChanged": []
+    },
+    "water": {
+      "oldSourceRefs": 5,
+      "absentFromExtendedSource": [],
+      "presentButTagChanged": []
+    }
+  },
+  "missingWayNodeReferences": 0,
+  "waterRelations": [
+    {
+      "id": 4049789,
+      "name": "Sloan's Lake",
+      "ways": 2,
+      "missingWays": 0,
+      "unpairedEndpoints": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": "osm.json",
+      "bytes": 11127118,
+      "sha256": "74f96f756264c9ec5572030e70de42e4d2f1040c6fd98cefda40dc95325c756c",
+      "bounds": {
+        "east": -105.03207562006406,
+        "north": 39.756255536988576,
+        "south": 39.740486033803265,
+        "west": -105.05773945445593
+      },
+      "license": "ODbL-1.0",
+      "dataTimestamp": "2026-10-10T00:47:03Z"
+    },
+    {
+      "path": "context.json",
+      "bytes": 20748461,
+      "sha256": "ea24c198f54cd1f1bd8dbe567581b44a849a38797b63d16891a540c51ced2707",
+      "bounds": {
+        "east": -104.9970497348869,
+        "north": 39.78326606049189,
+        "south": 39.71345701704189,
+        "west": -105.09271998745575
+      },
+      "license": "ODbL-1.0",
+      "dataTimestamp": "2026-10-10T00:47:03Z"
+    }
+  ],
+  "heightRoofObservationSidecarsPresent": false,
+  "terrainPresent": false,
+  "dataLicense": {
+    "derivativeDatabase": [
+      "world.json",
+      "chunks/*/scene.json",
+      "chunks/*/lod0.glb",
+      "chunks/*/lod1.glb",
+      "instances.json",
+      "clutter-tufts.bin",
+      "collision.json",
+      "environment.json",
+      "map/*.json",
+      "mapmeta/*.json"
+    ],
+    "license": "ODbL-1.0",
+    "licenseURL": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "notice": "LICENSE-DATA.md",
+    "offer": {
+      "status": "pending"
+    },
+    "separatelyLicensed": [
+      "palettes.json",
+      "materials.json",
+      "profiles/*.json",
+      "prototypes/*.glb",
+      "boundary.glb",
+      "sky-*.png",
+      "independent/*"
+    ]
+  }
+}
