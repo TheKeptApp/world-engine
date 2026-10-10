@@ -32,8 +32,8 @@ final class CellStreamer {
         var slot: Int?
         var vertexDone = 0
         var indexDone = 0
-        /// GPU copy and parts done; attach comes next frame.
-        var copiedToGPU = false
+        /// Finishing phase: 0 copying, 1 GPU copy committed (parts next), 2 parts set (attach next).
+        var phase = 0
     }
 
     /// A reusable mesh: buffers sized for the largest streamed cell and its resource, both created
@@ -71,7 +71,7 @@ final class CellStreamer {
     /// Cells farther than this are released (hysteresis against `loadRadius`).
     var releaseRadius: Double = 140
     /// Hard cap on resident near-level bytes; the farthest resident cells go first.
-    var capBytes = 16 * 1_048_576
+    var capBytes = 32 * 1_048_576
     /// Upload budget per frame (s), whole step.
     var frameBudget = 0.0005
     /// Bytes copied per slice inside a frame's budget.
@@ -91,6 +91,11 @@ final class CellStreamer {
     init() throws {
         let dir = FileManager.default.temporaryDirectory.appendingPathComponent("WorldEngineStream", isDirectory: true)
         try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        // Caches of earlier launches (killed before `deinit`) are this streamer's own files: remove
+        // them first, so a test run that is terminated does not leave its cache behind.
+        for old in (try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? [] where old.pathExtension == "cells" {
+            try? FileManager.default.removeItem(at: old)
+        }
         file = dir.appendingPathComponent(UUID().uuidString + ".cells")
         FileManager.default.createFile(atPath: file.path, contents: nil)
         handle = try FileHandle(forWritingTo: file)
@@ -152,6 +157,9 @@ final class CellStreamer {
     }
 
     func isResident(_ cell: Int) -> Bool { resident[cell] != nil }
+
+    /// Nothing in flight and nothing wanted within the load radius (captures wait for this).
+    var idle: Bool { job == nil && reading == nil && stats.wanted == 0 }
 
     /// One frame: chooses the wanted cells from their distances, releases what is far or over the
     /// cap, and advances the upload within the frame budget. `attach`/`detach` give the caller the
@@ -263,8 +271,22 @@ final class CellStreamer {
         job = j
         if copied { stats.copyMax = max(stats.copyMax, CFAbsoluteTimeGetCurrent() - copyStart) }
         // Finishing (parts + attach) gets a frame of its own, after the last copy frame.
-        if !copied, j.copiedToGPU {
-            // Second finishing frame: attach only.
+        if !copied, j.phase == 1 {
+            // Second finishing frame: parts only.
+            let t0 = CFAbsoluteTimeGetCurrent()
+            var offset = 0
+            mesh.parts.replaceAll(p.parts.map { part in
+                defer { offset += part.indexCount * 4 }
+                return LowLevelMesh.Part(indexOffset: offset, indexCount: part.indexCount, topology: .triangle, materialIndex: 0, bounds: part.bounds)
+            })
+            stats.partsMax = max(stats.partsMax, CFAbsoluteTimeGetCurrent() - t0)
+            j.phase = 2
+            job = j
+            if spent() > frameBudget { stats.finishesOver += 1 }
+            return false
+        }
+        if !copied, j.phase == 2 {
+            // Third finishing frame: attach only.
             let resource = slots[slot].resource
             slotOf[j.cell] = slot
             resident[j.cell] = (resource, p.bytes)
@@ -282,21 +304,14 @@ final class CellStreamer {
             defer { stats.finishMax = max(stats.finishMax, CFAbsoluteTimeGetCurrent() - finishStart) }
             // One GPU copy into fresh slot buffers, ordered with RealityKit's rendering.
             guard let cb = queue.makeCommandBuffer(), let blit = cb.makeBlitCommandEncoder() else { return false }
-            var t0 = CFAbsoluteTimeGetCurrent()
+            let t0 = CFAbsoluteTimeGetCurrent()
             let vb = mesh.replace(bufferIndex: 0, using: cb), ib = mesh.replaceIndices(using: cb)
             stats.replaceMax = max(stats.replaceMax, CFAbsoluteTimeGetCurrent() - t0)
             blit.copy(from: staging, sourceOffset: 0, to: vb, destinationOffset: 0, size: p.vertexBytes)
             blit.copy(from: staging, sourceOffset: p.vertexBytes, to: ib, destinationOffset: 0, size: p.indexBytes)
             blit.endEncoding()
             cb.commit()
-            t0 = CFAbsoluteTimeGetCurrent()
-            var offset = 0
-            mesh.parts.replaceAll(p.parts.map { part in
-                defer { offset += part.indexCount * 4 }
-                return LowLevelMesh.Part(indexOffset: offset, indexCount: part.indexCount, topology: .triangle, materialIndex: 0, bounds: part.bounds)
-            })
-            stats.partsMax = max(stats.partsMax, CFAbsoluteTimeGetCurrent() - t0)
-            j.copiedToGPU = true
+            j.phase = 1
             job = j
             if CFAbsoluteTimeGetCurrent() - finishStart > frameBudget { stats.finishesOver += 1 }
         }

@@ -44,6 +44,12 @@ public final class WorldPostProcess: @unchecked Sendable {
     private var size = (0, 0)
     /// The eased mean display brightness, carried from frame to frame (one float).
     private var meanBuffer: MTLBuffer?
+    /// The linear exposure gain the composite applies now: the solved auto-exposure ratio (display
+    /// space, linear = r^2.2) times the look lift; nil before the first solve. Diagnostics only.
+    public var appliedLinearGain: Float? {
+        guard settings.autoExposure, let r = meanBuffer?.contents().load(as: Float.self), r > 0 else { return nil }
+        return pow(r, 2.2) * Float(pow(2, Double(settings.lookEV)))
+    }
 
     public init() {}
 

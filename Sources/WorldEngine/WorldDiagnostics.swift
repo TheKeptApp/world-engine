@@ -232,12 +232,17 @@ extension World {
         var tris = 0, draws = 0
         var split: [String: (Int, Int)] = [:]
         func add(_ k: String, _ t: Int, _ d: Int) { tris += t; draws += d; split[k, default: (0, 0)].0 += t; split[k, default: (0, 0)].1 += d }
-        for c in cullables where c.category == \ViewCost.chunks && !c.name.hasSuffix("ground") && !c.name.contains("water") && casts(c.bounds) {
-            add("chunks", c.triangles, c.draws)
+        func on(_ e: Entity) -> Bool { e.components[DynamicLightShadowComponent.self]?.castsShadow ?? true }
+        for t in raisedTiles where on(t.entity) && casts(t.bounds) {
+            add("chunks", cullables.first { $0.name == t.entity.name }?.triangles ?? 0, 1)
         }
-        for cell in buildingCells { if let b = cell.bounds, let a = cell.active, casts(b) { add("buildings", cell.levels[a].triangles, 1) } }
-        for tile in buildingTiles { if let a = tile.active, casts(tile.levels[a].bounds) { add("buildings", tile.levels[a].triangles, 1) } }
-        for batch in lodBatches where batch.count > 0 {
+        for cell in buildingCells {
+            if let b = cell.bounds, let a = cell.active, on(cell.levels[a].entity), casts(b) { add("buildings", cell.levels[a].triangles, 1) }
+        }
+        for tile in buildingTiles {
+            if let a = tile.active, on(tile.levels[a].entity), casts(tile.levels[a].bounds) { add("buildings", tile.levels[a].triangles, 1) }
+        }
+        for batch in lodBatches where batch.count > 0 && batch.casts {
             if let b = batch.bounds, casts(b) { add(batch.kind.isFoliage ? "foliage" : "props", batch.count * batch.triangles, 1) }
         }
         let s = split.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value.0)/\($0.value.1)" }.joined(separator: " ")

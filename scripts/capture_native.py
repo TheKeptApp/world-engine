@@ -168,6 +168,7 @@ def main():
     parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
     parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 build variant, absent defaults off')
     parser.add_argument('--lookexp', help='P2 Batch 1: comma-separated default-off generator look experiments (lawnsmooth, wallspread)')
+    parser.add_argument('--diag', help='5A: comma-separated engine diagnostics (e.g. shadowCells,streamCells); capture-only')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
     args = parser.parse_args()
     run = (args.output or ROOT / '.build/lookloop' / f'native-{uuid.uuid4().hex[:12]}').resolve()
@@ -176,7 +177,7 @@ def main():
     created_run = False
     try:
         view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1, args.date)
-        view["args"] = view["args"] + ["-sceneready"]
+        view["args"] = view["args"] + ["-sceneready"] + (['-diag', args.diag] if args.diag else [])
         if args.lookexp:
             names = sorted(set(args.lookexp.split(',')))
             if not set(names) <= {'lawnsmooth', 'wallspread'}: raise ValueError('unknown look experiment')
