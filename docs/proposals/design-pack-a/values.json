@@ -1,0 +1,830 @@
+{
+  "schema": "worldengine.design-pack-a.v1",
+  "status": "proposal awaiting R approval; authored geometry and palettes, not measured buildings",
+  "look_ref": "../style-b-calibration-v2/values.json#/sharedLook",
+  "lighting_override_requested_by_R": {
+    "sun_azimuth_deg": 270,
+    "sun_elevation_deg": 40,
+    "reason": "R explicitly requests afternoon light from west; calibration fixture azimuth225 replaced for these sheets only"
+  },
+  "variants": [
+    {
+      "id": "C01",
+      "type": "church",
+      "name": "White clapboard steeple",
+      "region": "Southeast",
+      "footprint_shape": "bar with projecting entry",
+      "bounds_m": [
+        12,
+        26
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          2,
+          12,
+          24
+        ],
+        [
+          4.4,
+          0,
+          3.2,
+          2
+        ]
+      ],
+      "footprint_area_m2": 294.4,
+      "levels": 1,
+      "eaves_m": 5,
+      "roof_form": "steep gable and pointed steeple",
+      "roof_pitch_deg": 42,
+      "wall_material": "painted clapboard",
+      "wall_hex": "#E6E0D1",
+      "roof_hex": "#454B52",
+      "trim_hex": "#CEC3AC",
+      "colour_family": "warm white",
+      "era": "1880\u20131910",
+      "commonness_1_10": 7,
+      "key_features": "3.2 m square entry tower; plain steeple 17 m; tall narrow windows",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          206,
+          397
+        ],
+        "levels": 1,
+        "region": "Southeast",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C02",
+      "type": "church",
+      "name": "Gothic-revival brick tower",
+      "region": "Chicago north shore",
+      "footprint_shape": "cross nave",
+      "bounds_m": [
+        20,
+        36
+      ],
+      "components_rect_xywh_m": [
+        [
+          5,
+          0,
+          10,
+          36
+        ],
+        [
+          0,
+          12,
+          5,
+          10
+        ],
+        [
+          15,
+          12,
+          5,
+          10
+        ]
+      ],
+      "footprint_area_m2": 460,
+      "levels": 2,
+      "eaves_m": 8,
+      "roof_form": "cross gables and flat tower",
+      "roof_pitch_deg": 50,
+      "wall_material": "dark red brick",
+      "wall_hex": "#784F43",
+      "roof_hex": "#414851",
+      "trim_hex": "#C9BEA8",
+      "colour_family": "dark red",
+      "era": "1900\u20131930",
+      "commonness_1_10": 6,
+      "key_features": "6 m square offset tower 19 m; pointed window groups; broad entry steps",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          322,
+          621
+        ],
+        "levels": 2,
+        "region": "Chicago north shore",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C03",
+      "type": "church",
+      "name": "Stone Romanesque",
+      "region": "Chicago north shore",
+      "footprint_shape": "nave with semicircular apse",
+      "bounds_m": [
+        18,
+        30
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          18,
+          21
+        ]
+      ],
+      "footprint_area_m2": 505.23,
+      "levels": 1,
+      "eaves_m": 7,
+      "roof_form": "hip with conical apse",
+      "roof_pitch_deg": 30,
+      "wall_material": "limestone",
+      "wall_hex": "#B5AC98",
+      "roof_hex": "#555C65",
+      "trim_hex": "#DDD2BA",
+      "colour_family": "buff stone",
+      "era": "1870\u20131890",
+      "commonness_1_10": 4,
+      "key_features": "round arch entry 3 m wide; paired round arches; heavy 0.35 m surrounds; no tower",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          354,
+          682
+        ],
+        "levels": 1,
+        "region": "Chicago north shore",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      },
+      "apse": {
+        "centre_xy_m": [
+          9,
+          21
+        ],
+        "radius_m": 9,
+        "side": "rear semicircle; replaces rear rectangle"
+      }
+    },
+    {
+      "id": "C04",
+      "type": "church",
+      "name": "1960s low brick detached bell tower",
+      "region": "Front Range",
+      "footprint_shape": "L wings",
+      "bounds_m": [
+        34,
+        28
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          34,
+          12
+        ],
+        [
+          0,
+          12,
+          12,
+          16
+        ]
+      ],
+      "footprint_area_m2": 600,
+      "levels": 1,
+      "eaves_m": 4,
+      "roof_form": "low butterfly",
+      "roof_pitch_deg": 8,
+      "wall_material": "tan brick",
+      "wall_hex": "#AA8967",
+      "roof_hex": "#72736C",
+      "trim_hex": "#D8D0BA",
+      "colour_family": "earth tan",
+      "era": "1960\u20131969",
+      "commonness_1_10": 6,
+      "key_features": "detached open 3 m square bell frame 13 m tall; low clerestory; covered entry",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          420,
+          810
+        ],
+        "levels": 1,
+        "region": "Front Range",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C05",
+      "type": "church",
+      "name": "Modern A-frame glass",
+      "region": "Front Range",
+      "footprint_shape": "triangular-front bar",
+      "bounds_m": [
+        22,
+        32
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          22,
+          32
+        ]
+      ],
+      "footprint_area_m2": 704,
+      "levels": 1,
+      "eaves_m": 3,
+      "roof_form": "A-frame",
+      "roof_pitch_deg": 55,
+      "wall_material": "timber with glass",
+      "wall_hex": "#756B5C",
+      "roof_hex": "#505A60",
+      "trim_hex": "#A9997B",
+      "colour_family": "charcoal timber",
+      "era": "1980\u20131999",
+      "commonness_1_10": 3,
+      "key_features": "18.71 m ridge; dark flat front glazing; structural ribs at 4 m bays; no tower",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          493,
+          950
+        ],
+        "levels": 1,
+        "region": "Front Range",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C06",
+      "type": "church",
+      "name": "Spanish mission stucco",
+      "region": "Front Range",
+      "footprint_shape": "U courtyard",
+      "bounds_m": [
+        30,
+        32
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          22,
+          30,
+          10
+        ],
+        [
+          0,
+          0,
+          10,
+          22
+        ],
+        [
+          20,
+          0,
+          10,
+          22
+        ]
+      ],
+      "footprint_area_m2": 740,
+      "levels": 1,
+      "eaves_m": 5,
+      "roof_form": "shallow tile gables",
+      "roof_pitch_deg": 20,
+      "wall_material": "stucco",
+      "wall_hex": "#C5A17D",
+      "roof_hex": "#926F58",
+      "trim_hex": "#E2D0AD",
+      "colour_family": "warm ochre",
+      "era": "1920\u20131949",
+      "commonness_1_10": 4,
+      "key_features": "curved plain parapet 7 m high; 2.6 m deep arcade; courtyard open at front; no symbols",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          518,
+          999
+        ],
+        "levels": 1,
+        "region": "Front Range",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C07",
+      "type": "church",
+      "name": "Tiny country chapel",
+      "region": "Southeast",
+      "footprint_shape": "compact rectangle",
+      "bounds_m": [
+        7,
+        12
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          7,
+          12
+        ]
+      ],
+      "footprint_area_m2": 84,
+      "levels": 1,
+      "eaves_m": 3.2,
+      "roof_form": "simple metal gable",
+      "roof_pitch_deg": 28,
+      "wall_material": "painted board-and-batten",
+      "wall_hex": "#BBC1B9",
+      "roof_hex": "#737D7E",
+      "trim_hex": "#E5E0D2",
+      "colour_family": "pale sage grey",
+      "era": "1940\u20131959",
+      "commonness_1_10": 5,
+      "key_features": "4.86 m ridge; tiny covered porch; three rectangular side windows; no tower",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          59,
+          113
+        ],
+        "levels": 1,
+        "region": "Southeast",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "C08",
+      "type": "church",
+      "name": "Large low modern worship hall",
+      "region": "Southeast",
+      "footprint_shape": "broad hall with entry wing",
+      "bounds_m": [
+        60,
+        44
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          8,
+          60,
+          36
+        ],
+        [
+          12,
+          0,
+          36,
+          8
+        ]
+      ],
+      "footprint_area_m2": 2448,
+      "levels": 1,
+      "eaves_m": 6,
+      "roof_form": "flat parapet",
+      "roof_pitch_deg": 0,
+      "wall_material": "light brick with metal panels",
+      "wall_hex": "#C8B399",
+      "roof_hex": "#666F73",
+      "trim_hex": "#E1D7C7",
+      "colour_family": "light sand",
+      "era": "2000\u20132025",
+      "commonness_1_10": 7,
+      "key_features": "8 m entry canopy; 7 m parapet; broad glazing band; concept parking lot 100 by 90 m",
+      "registry_archetype": "worship",
+      "module": "WorshipMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          1714,
+          3305
+        ],
+        "levels": 1,
+        "region": "Southeast",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S01",
+      "type": "school",
+      "name": "1920s brick entrance tower",
+      "region": "Chicago north shore",
+      "footprint_shape": "E wings",
+      "bounds_m": [
+        64,
+        42
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          12,
+          42
+        ],
+        [
+          12,
+          0,
+          52,
+          10
+        ],
+        [
+          12,
+          16,
+          52,
+          10
+        ],
+        [
+          12,
+          32,
+          52,
+          10
+        ]
+      ],
+      "footprint_area_m2": 2064,
+      "levels": 3,
+      "eaves_m": 12,
+      "roof_form": "hip and entrance tower",
+      "roof_pitch_deg": 25,
+      "wall_material": "red brick with limestone",
+      "wall_hex": "#945D4B",
+      "roof_hex": "#4B525B",
+      "trim_hex": "#D3C5AE",
+      "colour_family": "red brick",
+      "era": "1920\u20131939",
+      "commonness_1_10": 7,
+      "key_features": "7 m wide central entrance tower 17 m; regular classroom bays; limestone entry",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          1445,
+          2786
+        ],
+        "levels": 3,
+        "region": "Chicago north shore",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S02",
+      "type": "school",
+      "name": "1950s long low wings",
+      "region": "Southeast",
+      "footprint_shape": "H wings",
+      "bounds_m": [
+        88,
+        44
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          16,
+          44
+        ],
+        [
+          72,
+          0,
+          16,
+          44
+        ],
+        [
+          16,
+          17,
+          56,
+          10
+        ]
+      ],
+      "footprint_area_m2": 1968,
+      "levels": 1,
+      "eaves_m": 4.2,
+      "roof_form": "low gables",
+      "roof_pitch_deg": 12,
+      "wall_material": "cream brick",
+      "wall_hex": "#C7B998",
+      "roof_hex": "#78817C",
+      "trim_hex": "#E6DFC9",
+      "colour_family": "cream",
+      "era": "1950\u20131969",
+      "commonness_1_10": 8,
+      "key_features": "paired classroom wings; covered walkway; continuous rectangular window band",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          1378,
+          2657
+        ],
+        "levels": 1,
+        "region": "Southeast",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S03",
+      "type": "school",
+      "name": "1970s blocky brick",
+      "region": "Chicago north shore",
+      "footprint_shape": "stepped L",
+      "bounds_m": [
+        54,
+        46
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          54,
+          12
+        ],
+        [
+          0,
+          12,
+          12,
+          34
+        ]
+      ],
+      "footprint_area_m2": 1056,
+      "levels": 2,
+      "eaves_m": 8,
+      "roof_form": "flat stepped parapets",
+      "roof_pitch_deg": 0,
+      "wall_material": "brown brick",
+      "wall_hex": "#806A57",
+      "roof_hex": "#646B6C",
+      "trim_hex": "#B8B4A5",
+      "colour_family": "brown",
+      "era": "1970\u20131989",
+      "commonness_1_10": 8,
+      "key_features": "9 m parapet; recessed entry 4 m; offset gym mass 9 m; deep window bands",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          739,
+          1426
+        ],
+        "levels": 2,
+        "region": "Chicago north shore",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S04",
+      "type": "school",
+      "name": "Modern glass and metal",
+      "region": "Front Range",
+      "footprint_shape": "U atrium",
+      "bounds_m": [
+        62,
+        40
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          30,
+          62,
+          10
+        ],
+        [
+          0,
+          0,
+          10,
+          30
+        ],
+        [
+          52,
+          0,
+          10,
+          30
+        ]
+      ],
+      "footprint_area_m2": 1220,
+      "levels": 3,
+      "eaves_m": 11.4,
+      "roof_form": "sawtooth and flat wings",
+      "roof_pitch_deg": 15,
+      "wall_material": "painted metal with glass",
+      "wall_hex": "#9DAAA9",
+      "roof_hex": "#596A70",
+      "trim_hex": "#D4D2C1",
+      "colour_family": "blue grey",
+      "era": "2000\u20132025",
+      "commonness_1_10": 6,
+      "key_features": "14 m atrium crest; simple metal panels; broad flat dark glazing; shaded canopy",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          854,
+          1647
+        ],
+        "levels": 3,
+        "region": "Front Range",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S05",
+      "type": "school",
+      "name": "Private school converted house",
+      "region": "Southeast",
+      "footprint_shape": "T house",
+      "bounds_m": [
+        16,
+        20
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          16,
+          10
+        ],
+        [
+          4,
+          10,
+          8,
+          10
+        ]
+      ],
+      "footprint_area_m2": 240,
+      "levels": 2,
+      "eaves_m": 6.2,
+      "roof_form": "cross gable",
+      "roof_pitch_deg": 35,
+      "wall_material": "painted wood siding",
+      "wall_hex": "#BCA184",
+      "roof_hex": "#6D797C",
+      "trim_hex": "#E5DCC7",
+      "colour_family": "warm beige",
+      "era": "1890\u20131919",
+      "commonness_1_10": 4,
+      "key_features": "9.70 m ridge; modest porch; retained house-form windows; no institutional tower",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          168,
+          324
+        ],
+        "levels": 2,
+        "region": "Southeast",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    },
+    {
+      "id": "S06",
+      "type": "school",
+      "name": "Charter former strip building",
+      "region": "Front Range",
+      "footprint_shape": "elongated bar",
+      "bounds_m": [
+        58,
+        16
+      ],
+      "components_rect_xywh_m": [
+        [
+          0,
+          0,
+          58,
+          16
+        ]
+      ],
+      "footprint_area_m2": 928,
+      "levels": 1,
+      "eaves_m": 4.5,
+      "roof_form": "mono-pitch behind parapet",
+      "roof_pitch_deg": 3,
+      "wall_material": "light stucco",
+      "wall_hex": "#C9C3B6",
+      "roof_hex": "#737C80",
+      "trim_hex": "#9F927E",
+      "colour_family": "pale greige",
+      "era": "1990\u20131999",
+      "commonness_1_10": 5,
+      "key_features": "5.4 m parapet; repeated former retail bays; single plain entry; no new school crest",
+      "registry_archetype": "school",
+      "module": "InstitutionMass",
+      "variant_id_status": "new visual subtype; existing semantic archetype",
+      "pick_rule": {
+        "requires": "explicit compatible physical form or approved Builder choice; reliably associated worship/school use alone does not establish this shape",
+        "area_m2": [
+          650,
+          1253
+        ],
+        "levels": 1,
+        "region": "Front Range",
+        "confidence": "geometry-inferred candidate only; tag-certain applies to semantic use, never inferred era/architecture"
+      },
+      "budgets_authored_unmeasured": {
+        "street_main_triangles_max": 2400,
+        "aerial_main_triangles_max": 600,
+        "main_draws_max": 3,
+        "shadow_triangles_max": 800
+      }
+    }
+  ]
+}
