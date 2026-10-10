@@ -1,10 +1,11 @@
 import Foundation
 import simd
 
-/// The warmwalls experiment (LookExperiments, default off; R-approved 10 Oct 2026 for the Front Range profile only):
-/// unmapped house walls rotate toward a warm hue band and roofs move to a slate, with lightness and chroma clamped to the
-/// ranges P2 measured in a region's approved mock. Values live in the profile (`lookExperiments.warmwalls`); a profile
-/// without the block is unchanged. Mapped `building:colour` / `roof:colour` always win.
+/// The warmwalls / roofslate experiments (LookExperiments, default off; R-approved 10 Oct 2026 for the Front Range profile
+/// only): unmapped house walls rotate toward the region's mock hue band (`-lookexp warmwalls`) and roofs clamp to the mock
+/// roof lightness/chroma (`-lookexp roofslate`), from the median of the region's approved mocks as measured by P2. Values
+/// live in the profile (`lookExperiments.warmwalls`); a profile without the block is unchanged. Mapped
+/// `building:colour` / `roof:colour` always win.
 public struct WarmWalls: Codable, Sendable, Equatable {
     public var source: String?
     /// Constant hue rotation for walls (degrees), then clamped into `wallHueDeg`.
@@ -12,7 +13,8 @@ public struct WarmWalls: Codable, Sendable, Equatable {
     public var wallHueDeg: [Double]
     public var wallLightness: [Double]
     public var wallChroma: [Double]
-    public var roofHueDeg: Double
+    /// Roof hue; nil keeps each roof's own hue.
+    public var roofHueDeg: Double?
     public var roofLightness: [Double]
     public var roofChroma: [Double]
 
@@ -26,7 +28,7 @@ public struct WarmWalls: Codable, Sendable, Equatable {
 
     public func roof(_ hex: String) -> String {
         var c = Self.lch(hex)
-        c.h = roofHueDeg
+        if let h = roofHueDeg { c.h = h }
         c.l = Self.clamp(c.l, roofLightness)
         c.c = Self.clamp(c.c, roofChroma)
         return Self.hex(c)

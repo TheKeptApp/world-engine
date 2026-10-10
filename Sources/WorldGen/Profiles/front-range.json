@@ -204,7 +204,7 @@
   },
   "chimneyLikelihood": 0.35,
   "foundationMeters": [0.45, 0.75],
-  "lookExperiments": {"warmwalls": {"source": "R approval 10 Oct 2026 (P2 Batch 4), Front Range only. Ranges measured by P2 from style-b-calibration-v2 frames/06-sloans.png house band (docs/lookloop/captures/p2-batch1-lawn-walls/README.md section 2): walls hue 30-63 deg, L* 57-77, C* 3-21; roofs slate hue ~275 deg, L* 36-40, C* 12-18. wallHueShiftDeg -50 is P2's rotation of the native yellow-gray band (83-115 deg) onto the mock band before clamping.", "wallHueShiftDeg": -50, "wallHueDeg": [30, 63], "wallLightness": [57, 77], "wallChroma": [3, 21], "roofHueDeg": 275, "roofLightness": [36, 40], "roofChroma": [12, 18]}},
+  "lookExperiments": {"warmwalls": {"source": "R approval 10 Oct 2026 (P2 Batch 4), Front Range only. Median of five approved Denver mocks measured by P2 (house-contrast-v1 images/denver-hero.png; house-archetypes-v1 denver-02-bungalow.png, denver-04-ranch.png, denver-01-square.png; style-b-calibration-v2 frames/06-sloans.png): walls hue 30-90 deg (median 63), C* 3-35 (median 26), L* 34-77 (median 52); roofs L* 35-50 (median 45), C* 1-18 (median 3; 06-sloans' slate 12-18 is the outlier). Bands below are the inter-mock ranges around those medians; wallHueShiftDeg -30 is P2's rotation of the native rendered band (83-115 deg) toward the median before clamping.", "wallHueShiftDeg": -30, "wallHueDeg": [45, 75], "wallLightness": [34, 77], "wallChroma": [11, 35], "roofLightness": [35, 50], "roofChroma": [1, 6]}},
   "provenance": {
     "comment": "Documentation only; the profile decoder ignores this object.",
     "trees.canopyShare": {

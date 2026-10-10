@@ -302,10 +302,10 @@ public struct BuildingGenerator: Sendable {
                 tuple[0] = walls[Int(wr.next() % UInt64(walls.count))]
             }
         }
-        // warmwalls experiment (Batch 4): this profile's warm wall band and slate roof, unmapped colours only.
-        if LookExperiments.on(LookExperiments.warmWalls), let warm = profile.lookExperiments?.warmwalls, role == .house || role == .block {
-            if b.tags["building:colour"].flatMap(Self.hexColor) == nil { tuple[0] = warm.wall(tuple[0]) }
-            if b.tags["roof:colour"].flatMap(Self.hexColor) == nil { tuple[3] = warm.roof(tuple[3]) }
+        // warmwalls / roofslate experiments (Batch 4): this profile's mock wall band and roof range, unmapped colours only.
+        if let warm = profile.lookExperiments?.warmwalls, role == .house || role == .block {
+            if LookExperiments.on(LookExperiments.warmWalls), b.tags["building:colour"].flatMap(Self.hexColor) == nil { tuple[0] = warm.wall(tuple[0]) }
+            if LookExperiments.on(LookExperiments.roofSlate), b.tags["roof:colour"].flatMap(Self.hexColor) == nil { tuple[3] = warm.roof(tuple[3]) }
         }
         g.colors = tuple
         var wallShade = Float(rng.range(0.97, 1.03))

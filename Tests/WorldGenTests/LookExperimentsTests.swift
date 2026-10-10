@@ -202,7 +202,7 @@ import WorldMesh
     @Test(arguments: [("sloans-lake", "front-range"), ("lakeview-sheil-park", "chicago-dense-north")])
     func warmWallsMoveFrontRangeOnly(_ area: String, _ profile: String) throws {
         guard BuildingAreaTests.has(area) else { return }
-        let off = try Self.build(area, profile, []), on = try Self.build(area, profile, [LookExperiments.warmWalls])
+        let off = try Self.build(area, profile, []), on = try Self.build(area, profile, [LookExperiments.warmWalls, LookExperiments.roofSlate])
         #expect(Self.sameGeometry(off, on))
         let tags = Dictionary(off.features.buildings.map { ($0.ref, $0.tags) }, uniquingKeysWith: { a, _ in a })
         func stats(_ b: WorldBuild, _ i: Int, mappedKey: String) -> [WarmWalls.LCh] {
@@ -221,8 +221,8 @@ import WorldMesh
         let r0 = stats(off, 3, mappedKey: "roof:colour"), r1 = stats(on, 3, mappedKey: "roof:colour")
         print("warmwalls \(area): walls \(summary(w0)) → \(summary(w1)); roofs \(summary(r0)) → \(summary(r1)) (n=\(w1.count))")
         if profile == "front-range" {
-            #expect(w1.allSatisfy { $0.h >= 29 && $0.h <= 64 && $0.l >= 56 && $0.l <= 78 && $0.c <= 22 })
-            #expect(r1.allSatisfy { $0.l >= 35 && $0.l <= 41 && $0.c >= 11 && $0.c <= 19 })
+            #expect(w1.allSatisfy { $0.h >= 44 && $0.h <= 76 && $0.l >= 33 && $0.l <= 78 && $0.c >= 10 && $0.c <= 36 })
+            #expect(r1.allSatisfy { $0.l >= 34 && $0.l <= 51 && $0.c <= 7 })
         } else {
             #expect(zip(off.scene.buildings, on.scene.buildings).allSatisfy { $0.colors == $1.colors })
         }
