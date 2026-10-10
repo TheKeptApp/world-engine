@@ -82,3 +82,33 @@ Close-ups: [storefront-closeups.png](storefront-closeups.png), from 4 extra capt
 - `park.treeDensityPerHa` and `park.pathMowContrast`
 
 Used: classification-audit README §4/§7; facade-detail-v2 content.families[denver-mixed-use] and v2b chicago-cornerMixedUse (R approved 8 Oct); RoadMarkings.crossingSpans. Mock: facade-detail-v2 denver-mixed-use values (no image consulted for roadclip). Deviation: denverMixedUse window size from the profile duplex; 4 extra close-up captures beyond the 18; storefront bays not legible at 45°.
+
+## Merge recheck on main `5c511f9` (after A1's extended Sloan's package; R authorized the WorldBuild.swift resolution)
+
+Only the authorized conflict was resolved: both lines after `gen.zones = zones` were kept (A1's `chunkGridAnchor` and P2's `businessPoints`). There was one add-only handoffs.md conflict, with both entries kept in date order.
+
+- Tests: **431/431** pass.
+- Recounts (unchanged): roadclip crossing runs 164 / 66 / 27 → 0 (Sloan's / Lakeview / Wilmette); commercialpoints 26 / 24 / 0 buildings.
+- The ladder views and these counts use the `sloans-lake` area. The 108-cell `sloans-lake-extended` is a separate area id and is not scored here.
+
+**Default OFF against new main** (six fresh captures of each):
+- Triangles and draws are identical in all six views.
+- Byte-identical: Sloan's 40 and Lakeview 40/150/600.
+- Sloan's 150 m: at most 1/255 (197 bytes).
+- Sloan's 600 m: at most **2/255** (198 bytes). That is the known 600 m repeat noise (5A gate ≤2/255), not within 1/255.
+
+No recapture of the ON frames was needed. Two main Lakeview controls and the first test run were refused for load (26.3–26.8) and rerun.
+
+## Residual spots after roadclip (Batch 2 roadclip frames; pixel coordinates in the 1005×565 frame)
+
+| View | Pixel | What it is |
+|---|---|---|
+| Lakeview 40 | (100, 420) | Sidewalk across an alley mouth (`service=alley`, 22 m from the eye). Realistic; outside the street rule. |
+| Lakeview 40 | (590, 420) | Same alley mouth, east sidewalk |
+| Sloan's 40 | (700, 300) | Sidewalk end at the curb: the ribbon's half-width (0.8 m) reaches the asphalt; its centreline is outside the carriageway, so it is not cut |
+| Sloan's 150 | (820, 330) | Corner sidewalk stub about 1 m into the road (curb end, same cause) |
+| Lakeview 150 | (523, 458) | Sidewalk apron meeting a painted crosswalk (curb end) |
+
+There are **no true mid-street overlaps** left in the four 40/150 m views.
+
+Remaining gap: ribbon-width curb ends. A general follow-up would end mapped sidewalks at the carriageway edge minus the ribbon half-width (0.8 m).
