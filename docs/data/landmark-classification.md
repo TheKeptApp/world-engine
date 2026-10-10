@@ -642,4 +642,57 @@ if __name__=='__main__':
 
 Used: P2 classification audit, archetypes §§1–6, REFERENCE-MAP Facades/Ground/Context and infrastructure/campus catalogs, DECISIONS, LocalFrame/OSMDocument/MapFeatureBuilder/OvertureSource, held hashes above, official OSM/Overture schemas and linked completeness/licence sources. Mock: registry and text for infrastructure rail-02/04/05, land-01/03, utility-03/04 and venues campus-01/02/03; no images inspected, new civic mock gaps remain. Deviation: research/census only; no code, renderer change, captures, visual score, calibrated precision or legal clearance.
 
+## 9. Main-summary extension — 10 October 2026
+
+[Main findings summary](landmark-classification-summary.md) answers the expanded class list. Main advanced to `165ed6e`; all five held input-hash dictionaries match the original §8 census. This is source classification availability, not a new renderer audit or national completeness result. **No Places/Base intake** was added. New food/shop predicates follow [OSM amenity](https://wiki.openstreetmap.org/wiki/Key:amenity), [shop](https://wiki.openstreetmap.org/wiki/Key:shop) and [cuisine](https://wiki.openstreetmap.org/wiki/Key:cuisine); forms/site predicates follow [building](https://wiki.openstreetmap.org/wiki/Key:building), [leisure](https://wiki.openstreetmap.org/wiki/Key:leisure), [parking](https://wiki.openstreetmap.org/wiki/Tag:amenity=parking) and [bridge](https://wiki.openstreetmap.org/wiki/Key:bridge). A communication tower need not serve mobile phones: require the service qualifier for the cell count. [Communication tower conventions](https://wiki.openstreetmap.org/wiki/Tag:tower:type=communication).
+
+The five-core counts retain §2 richer-source deduplication, lifecycle filter, multipolygon member suppression and anchor inclusion. They count B/P/S/L source records, exclude X, and may overlap between classes (pizza is a restaurant/fast-food subtype). Zero unresolved-X matches occurred in this extension. The parking summary selects S polygons from its predicate; Greenville's building and node are not called lots. Pitches include courts. Bridge components/segments are not conflated into structures. Office POIs are occupants, not confirmed office buildings. A school site is not one building. Worship subtypes retain form versus active-use uncertainty. The hotel predicate includes hotel-form buildings. Big-box has no predicate: its internal zero accumulator is **not a measured count**. No giant footprint/brand rule is substituted. Golf clubhouse requires direct golf qualification; unqualified clubhouse points or membership-only hypotheses are not counted. There is zero positive local validation for the absent university/yard/golf/mosque/synagogue classes in these five cores.
+
+Overture capability for new commercial requests: Places has `restaurant` and descendants, `bar`, `cafe`, `ice_cream_shop`, `pizza_restaurant`, `barber`, `hair_salon`, `beauty_salon`, `hardware_store`, `grocery_store`, `gas_station`, `hotel`, `parking_lot` and `playground`; these identify POIs, not entire roof/frontage occupancy. The pinned official [2026-09-23.0 taxonomy](https://docs.overturemaps.org/taxonomy/2026-09-23.0/taxonomy.csv) was checked; its existence is not a positive in the held Buildings-only intake. Apartment/office building-form support is separate from Places occupants; no big-box inference is made from a store category. See §1 for civic/rail/golf/utility crosswalks.
+
+Reproduce: save the following fenced extension to `/tmp/landmark-summary-census.py` and run `python3 /tmp/landmark-summary-census.py`. It extracts and reuses the §8 census from this report, overrides only the stated class predicates, and writes diagnostic JSON to `/tmp/landmark-summary-census.json`. No builds, downloads, source edits or captures. The paths assume the standard repository location and may be changed for another read-only checkout.
+
+```python
+import re, sys, json
+from pathlib import Path
+s=Path('~/Desktop/world-engine/docs/data/landmark-classification.md').expanduser().read_text()
+ns={'__name__':'census_library'}
+sys.argv=['census',str(Path('~/Desktop/world-engine/Data/areas').expanduser()),'source']
+exec(re.search(r'```python\n(.*?)\n```',s,re.S).group(1),ns)
+original=ns['classes']
+extra=['restaurant','bar','cafe','ice-cream','pizza','salon','hardware','grocery','gas','big-box','hotel','office','apartment','parking-lot','sports-field','playground','bridge','water-tower','cell-tower','substation','clubhouse','communication-mast']
+def classes(t):
+ out=original(t); a=t.get('amenity'); b=t.get('building');sh=t.get('shop');le=t.get('leisure')
+ for c,ok in {
+ 'restaurant':a=='restaurant','bar':a in {'bar','pub'},'cafe':a=='cafe',
+ 'ice-cream':a=='ice_cream' or sh=='ice_cream',
+ 'pizza':a in {'restaurant','fast_food'} and 'pizza' in t.get('cuisine','').split(';'),
+ 'salon':sh in {'hairdresser','beauty'},'hardware':sh in {'hardware','doityourself'},
+ 'grocery':sh in {'supermarket','convenience','grocery'},'gas':a=='fuel',
+ 'big-box':False,'hotel':t.get('tourism')=='hotel' or b=='hotel',
+ 'office':b=='office' or t.get('office') not in {None,'','no'},'apartment':b=='apartments',
+ 'parking-lot':a=='parking' and t.get('parking') not in {'underground','multi-storey'},
+ 'sports-field':le=='pitch','playground':le=='playground',
+ 'bridge':t.get('bridge') not in {None,'','no'} or t.get('man_made')=='bridge',
+ 'water-tower':t.get('man_made')=='water_tower',
+ 'communication-mast':t.get('man_made') in {'tower','mast','communications_tower'} and t.get('tower:type')=='communication',
+ 'cell-tower':t.get('man_made') in {'tower','mast','communications_tower'} and t.get('communication:mobile_phone')=='yes',
+ 'substation':t.get('power')=='substation',
+ 'clubhouse':le=='golf_course' and b=='clubhouse' or b=='clubhouse' and t.get('sport')=='golf'
+ }.items():
+  if ok:out.add(c)
+ return out
+ns['classes']=classes;ns['TYPES']+=extra
+out=[ns['run'](a) for a in ns['AREAS'][:5]]
+Path('/tmp/landmark-summary-census.json').write_text(json.dumps(out,sort_keys=True,indent=2))
+for c in ns['TYPES']:
+ print(c, [sum(o['counts'][c].get(k,0) for k in ['B','P','S','L']) for o in out])
+print('worship', [o['worship_subtypes'] for o in out])
+print('unresolved', [{c:v.get('X') for c,v in o['counts'].items() if v.get('X')} for o in out])
+```
+
+**Evidence hashes:** extension stdout/JSON total vectors were used directly; input SHA-256 remains the §8 source manifest. Full temporary diagnostic output SHA-256: `633fc5cb0e7f3859233f3f5bbf9cb8d09b2c743dfbe79baf4bb223950876eaf7`. This hash is a check on this run, not a shipped engine output.
+
+Used: main report §§1–8, handoffs, P2 classification audit, archetypes, DECISIONS and REFERENCE-MAP, held source files and official tag/taxonomy sources above. Mock: infrastructure/campus registry text only; no image inspected. Deviation: source-only extension, no renderer verification, manual truth set, legal clearance, code change, visuals or score/budget delta.
+
 **Build first:** shared provenance-aware outline/point/site association with conflict-preserving neutral fallback, then the approved mapped station/platform family (3 station outlines and 6 platform areas across 3 held cores), before any shape/name-based civic guess.
