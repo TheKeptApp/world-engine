@@ -1,7 +1,7 @@
 // UI only. Wording is copied verbatim from A11 docs/legal/credits-draft.md.
 // Conditional notices come from the displayed package, never a research-source inventory.
 export function applicableCredits(manifest, catalog) {
-  const sourceText = JSON.stringify(manifest?.sources ?? []).toLowerCase();
+  const sourceText = JSON.stringify([...(manifest?.sources ?? []), ...(manifest?.credits ?? [])]).toLowerCase();
   return catalog.filter(c => c.id === 'osm' || c.matches.some(key => sourceText.includes(key)));
 }
 export async function mountCredits({worldBase = new URLSearchParams(location.search).get('world') || 'world/', host = document.body} = {}) {
