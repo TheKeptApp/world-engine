@@ -415,6 +415,13 @@
  },
   "areas_comment": "Other bundled areas for `-area ID` (P2's test areas; data in Data/areas/<id>, OSM out body). Named cameras for `-camera NAME` stand on public streets inside each area: P2's gate cameras (scripts/p2_gate_shots.sh) and the regions-fixture compositions (docs/proposals/regions-chicagoland-miami/fixtures.json: eye 1.65 m, pitch 3° down, 50° FOV) placed inside the area, because the fixtures' own locations are approximate references outside these areas. 'distance' makes an orbit camera: it looks at lat/lon from that slant distance.",
   "areas": {
+    "sloans-lake-extended": {
+      "focus": { "south": 39.740489, "west": -105.057738, "north": 39.756254, "east": -105.032080 },
+      "profile": "front-range",
+      "locationLabel": "Sloan's Lake, Denver",
+      "timeZone": "America/Denver",
+      "phenology": "denver-calendar-demo-v1"
+    },
     "wilmette-vattmann-park": {
       "focus": { "south": 42.0720, "west": -87.7225, "north": 42.0790, "east": -87.7130 },
       "profile": "wilmette",

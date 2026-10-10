@@ -162,7 +162,7 @@ public final class World {
     /// Shadow cells (`-diag shadowCells`, default off; 5A Batch 2): only objects whose shadow can
     /// reach the shadow range draw into the shadow map. Lossless by construction: a caster whose
     /// shadow cannot meet the range sphere around the camera cannot shadow anything that is drawn.
-    var shadowCells: Bool { options.diagnostics.contains("shadowCells") }
+    var shadowCells: Bool { options.diagnostics.contains("shadowCells") || options.diagnostics.contains("roam") }
     /// Raised chunk tiles (shadow cells: 200 m tiles), with their bounds, cast toggled by reach.
     private(set) var raisedTiles: [(entity: Entity, bounds: BoundingBox)] = []
     /// Range used by the last caster pass, to re-run it when the applied range changes.
@@ -540,7 +540,7 @@ public final class World {
     /// skyline LODs (`BuildingTileState`).
     private func buildBuildingCells() throws {
         var sources: [Int] = []
-        if options.diagnostics.contains("streamCells") { streamer = try CellStreamer() }
+        if options.diagnostics.contains("streamCells") || options.diagnostics.contains("roam") { streamer = try CellStreamer() }
         for (source, cell) in scene.buildingCells.enumerated() {
             var state = BuildingCellState(rect: cell.rect, bounds: nil, levels: [], active: nil)
             var streamedNear: WorldMesh.MeshBuffers?

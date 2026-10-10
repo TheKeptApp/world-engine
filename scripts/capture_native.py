@@ -115,7 +115,7 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
                 proof = dict(field.split('=', 1) for field in signals[0].split()[1:])
                 if proof.get('context') != ('ready' if require_context else 'not-required'):
                     raise ValueError('scene not ready: unexpected context state')
-                if proof.get('exposure') != 'pinned-1':
+                if not (proof.get('exposure') == 'pinned-1' or re.fullmatch(r'frozen-\d+\.\d{4}', proof.get('exposure', ''))):
                     raise ValueError('scene not ready: deterministic capture exposure was not confirmed')
                 if int(proof.get('gpuCompleted', '0')) < 3 or int(proof.get('stableFrames', '0')) < 3:
                     raise ValueError('scene not ready: insufficient completed stable frames')
@@ -132,7 +132,7 @@ def verify_scene_readiness(run, view_id, require_context, require_scene_ready=Fa
             if not drawsplit or not cost:
                 raise ValueError('capture lacks scene coverage counters')
             matched.append(dict(contextRequired=require_context, contextAttachedBeforeCapture=bool(completions),
-                                gpuCompletionProved=proof is not None, captureExposure=({'mode': 'pinned', 'gain': 1.0} if proof else None), sceneReady=proof, outputStability=output_proof, triangles=int(cost[1]), draws=int(cost[2]),
+                                gpuCompletionProved=proof is not None, captureExposure=(({'mode': 'pinned', 'gain': 1.0} if proof.get('exposure') == 'pinned-1' else {'mode': 'settled', 'gain': float(proof['exposure'].split('-', 1)[1])}) if proof else None), sceneReady=proof, outputStability=output_proof, triangles=int(cost[1]), draws=int(cost[2]),
                                 drawsplit=drawsplit[1], launchLog=str(path), shotLine=shot + 1))
     if len(matched) != 1:
         raise ValueError('capture lacks one unambiguous launch-log VIEWSHOT')
@@ -168,6 +168,9 @@ def main():
     parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
     parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 build variant, absent defaults off')
     parser.add_argument('--lookexp', help='P2 Batch 1: comma-separated default-off generator look experiments (lawnsmooth, wallspread, roadclip, commercialpoints)')
+    parser.add_argument('--area', help='5A: capture-only area override (e.g. sloans-lake-extended); same pose and date')
+    parser.add_argument('--exposure', choices=('pinned', 'settled'), default='pinned',
+                        help='5A: pinned = fixed gain 1.0 (default, the frozen contract); settled = freeze the settled live auto exposure')
     parser.add_argument('--diag', help='5A: comma-separated engine diagnostics (e.g. shadowCells,streamCells); capture-only')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
     args = parser.parse_args()
@@ -177,7 +180,14 @@ def main():
     created_run = False
     try:
         view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1, args.date)
-        view["args"] = view["args"] + ["-sceneready"] + (['-diag', args.diag] if args.diag else [])
+        if args.area:
+            if not re.fullmatch(r'[a-z0-9-]+', args.area): raise ValueError('invalid capture area id')
+            a = view["args"]
+            if '-area' in a:
+                i = a.index('-area'); a = a[:i] + a[i + 2:]
+            view = dict(view, args=a + ['-area', args.area])
+        view["args"] = view["args"] + ["-sceneready"] + (['-diag', args.diag] if args.diag else []) \
+            + (['-captureexposure', 'settled'] if args.exposure == 'settled' else [])
         if args.lookexp:
             names = sorted(set(args.lookexp.split(',')))
             if not set(names) <= {'lawnsmooth', 'wallspread', 'roadclip', 'commercialpoints'}: raise ValueError('unknown look experiment')

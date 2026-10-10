@@ -360,11 +360,12 @@ struct RealityKitScreen: View {
                   o.inspectionPose == nil || InspectionCamera.Input(o.inspectionPose!) != nil else {
                 print("VIEWS failed: invalid foliage mode or inspection pose for \(spec.id)"); fflush(nil); return
             }
-            let shippingAutoExposure = post.settings.autoExposure
+            let shippingAutoExposure = post.settings.autoExposure, shippingRate = post.settings.exposureRate
             defer {
                 if o.sceneReady {
                     post.captureFrames.end()
                     post.settings.autoExposure = shippingAutoExposure
+                    post.settings.exposureRate = shippingRate
                 }
             }
             var captureSignature: String?
@@ -377,9 +378,30 @@ struct RealityKitScreen: View {
                         throw NSError(domain: "SceneReady", code: 4, userInfo: [NSLocalizedDescriptionKey: "SCENEREADY requires the Metal frame completion observer; noPost and offscreen capturequality are unsupported"])
                     }
                     try await world.awaitCaptureSceneCompletion()
-                    // Capture-only deterministic gain: the unchanged composite kernel uses gain 1
-                    // when autoExposure is false. Keep look grading; restore shipping policy on exit.
-                    post.settings.autoExposure = false
+                    // Capture-only deterministic gain. Default: the unchanged composite kernel uses gain 1
+                    // when autoExposure is false. `-captureexposure settled` (5A Batch 3): let the live
+                    // auto exposure settle, then freeze it (rate 0: the solve keeps its state), so the
+                    // frame shows what the user sees. Keep look grading; restore shipping policy on exit.
+                    var exposureToken = "pinned-1"
+                    // The view's own arguments (batched captures pass them in the view list), else the launch's.
+                    let viewArgs = spec.args.contains("-captureexposure") ? spec.args : ProcessInfo.processInfo.arguments
+                    if let i = viewArgs.firstIndex(of: "-captureexposure"), i + 1 < viewArgs.count, viewArgs[i + 1] == "settled" {
+                        var last = post.appliedLinearGain ?? 0, steady = 0
+                        let settleDeadline = Date().addingTimeInterval(20)
+                        while steady < 30, Date() < settleDeadline {
+                            try await Task.sleep(for: .milliseconds(16))
+                            let g = post.appliedLinearGain ?? 0
+                            steady = g > 0 && abs(g - last) <= max(1e-4, last * 5e-4) ? steady + 1 : 0
+                            last = g
+                        }
+                        guard steady >= 30, last > 0 else {
+                            throw NSError(domain: "SceneReady", code: 8, userInfo: [NSLocalizedDescriptionKey: "Auto exposure did not settle"])
+                        }
+                        post.settings.exposureRate = 0
+                        exposureToken = String(format: "frozen-%.4f", last)
+                    } else {
+                        post.settings.autoExposure = false
+                    }
                     post.captureFrames.begin()
                     let deadline = Date().addingTimeInterval(30)
                     while post.captureFrames.proof() == nil {
@@ -395,7 +417,7 @@ struct RealityKitScreen: View {
                     captureSize = "\(proof.width)x\(proof.height)"
                     let signature = Data(proof.signature.utf8).base64EncodedString()
                     print(world.memoryReport()); fflush(nil)
-                    print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") exposure=pinned-1 gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
+                    print("SCENEREADY id=\(spec.id) context=\(world.captureSceneState == .notRequired ? "not-required" : "ready") exposure=\(exposureToken) gpuCompleted=\(proof.sequence) stableFrames=\(proof.stableFrames) size=\(proof.width)x\(proof.height) signature=\(signature)"); fflush(nil)
                 } catch {
                     post.captureFrames.end()
                     print("VIEWS failed: SCENEREADY id=\(spec.id): \(error)"); fflush(nil); return

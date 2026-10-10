@@ -36,6 +36,10 @@ targets:
       - path: ../../Data/areas/wilmette-vattmann-park
         type: folder
         buildPhase: resources
+      # A1's extended Sloan's Lake (lake + 400 m, 108 cells); raw osm/context are local, git-ignored.
+      - path: ../../Data/areas/sloans-lake-extended
+        type: folder
+        buildPhase: resources
       # Generated, git-ignored, optional (scripts/generate.sh makes them):
       #   dog/      DogWell's dog for RealityKit (.usdz) and three.js (.glb), scripts/convert-dog.sh
       #   package/  the shared world package, scripts/export-package.sh
