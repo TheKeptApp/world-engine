@@ -164,3 +164,6 @@ GREEN ODbL core/context intake; requested bbox covered by 108 anchored/clipped 2
 
 ### 2026-10-09 — Extended Sloan’s post-merge scoreboard
 Merged delivery `36cd08c`; all 27 frames completed under the heavy wrapper (nine datasets/eight places). Extended Sloan’s passes at 40 m, fails rendering budgets at 150/600 m, and has no blank-ground/tunnel-strip flags. Aggregate: 26 budget failures, seven blank-ground flags; no visual/device promotion. [Evidence](../data/sloans-lake-extended.md#post-merge-scoreboard). Final package hashes and data gates remain unchanged.
+
+### 2026-10-10 — Overture Places five-area pull (report only)
+Release 2026-09-23.1 retained in ignored research files; source/provider grants verified for internal intake, external release still RED. Sloan’s extended / Lakeview / Wilmette / West Highland / Greenville: Places 567/444/98/207/2367; inside footprints 345/292/44/140/1814; limited-crosswalk additional-category candidates 109/101/13/25/192 (not verified entity novelty). A8 baseline vectors reproduce; extended Sloan’s is separately recomputed. Nine offline controls pass under the heavy wrapper, lock released. No engine/package/area-manifest/ladder change or promotion. [Full evidence/top 15/fields/rights](../data/overture-places-five-areas.md).
