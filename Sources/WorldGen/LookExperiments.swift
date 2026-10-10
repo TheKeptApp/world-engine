@@ -9,7 +9,11 @@ public enum LookExperiments {
     public static let lawnSmooth = "lawnsmooth"
     /// Unmapped house walls take a wider per-building value spread.
     public static let wallSpread = "wallspread"
-    public static let known: Set<String> = [lawnSmooth, wallSpread]
+    /// Mapped sidewalks and paths are cut where they cross a street carriageway (RoadClip).
+    public static let roadClip = "roadclip"
+    /// A shop or food/drink point inside a footprint of 250 m² or more is commercial evidence (mixed-use strip family).
+    public static let commercialPoints = "commercialpoints"
+    public static let known: Set<String> = [lawnSmooth, wallSpread, roadClip, commercialPoints]
 
     @TaskLocal public static var active: Set<String> = parse(ProcessInfo.processInfo.arguments, ProcessInfo.processInfo.environment)
 

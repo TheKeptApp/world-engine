@@ -125,7 +125,7 @@ extension SceneGenerator {
             switch g.role {
             case .garage, .shed: continue
             case .house, .block:
-                let residential = Self.yardBuildingTypes.contains(s.building.type) && g.family != "cornerMixedUse" && s.building.tags["shop"] == nil
+                let residential = Self.yardBuildingTypes.contains(s.building.type) && g.family != "cornerMixedUse" && g.family != "denverMixedUse" && s.building.tags["shop"] == nil
                 if residential {
                     eligible.insert(s.index)
                     maxDistance[Int32(s.index)] = library.rules(for: g.profileID ?? profile.id).maxLotDepth
