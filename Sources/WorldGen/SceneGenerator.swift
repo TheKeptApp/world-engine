@@ -129,6 +129,8 @@ public struct SceneGenerator: Sendable {
     var chunkGrid: ChunkGrid { ChunkGrid(bounds: features.bounds, size: chunkSize, anchor: chunkGridAnchor) }
     /// 0 = full detail; 1 = reduced (every building simple, no curbs or sidewalk edges).
     public var lod = 0
+    /// Mapped shop and food/drink points (commercialpoints experiment; WorldBuild fills it only when the experiment is on).
+    public var businessPoints: [LocalPoint] = []
     /// Palette to continue from (keeps slot numbers equal across detail levels).
     public var startPalette: Palette?
     /// Per-building zone profiles; nil = `profile` for every building.
@@ -154,6 +156,24 @@ public struct SceneGenerator: Sendable {
     /// Small single-storey `building=yes` outbuildings (14–75 m²) with a principal building
     /// (≥ 70 m²) within 30 m that stands at least 4 m closer to the nearest street: detached
     /// garages behind houses (footprint and position evidence; tagged buildings are never changed).
+    /// commercialpoints experiment (P2 Batch 2): footprints of 250 m² or more that hold a mapped shop or food/drink
+    /// point take commercial evidence (the outline's own tags are read already in `blockEvidence`).
+    static let commercialMinArea = 250.0
+    static func commercialRefs(_ features: MapFeatures, points: [LocalPoint]) -> Set<OSMRef> {
+        guard !points.isEmpty else { return [] }
+        var out = Set<OSMRef>()
+        for b in features.buildings where !b.isPart && b.footprint.area >= commercialMinArea {
+            let box = Rect2D(enclosing: b.footprint.outer)
+            if points.contains(where: { box.contains($0) && b.footprint.contains($0) }) { out.insert(b.ref) }
+        }
+        return out
+    }
+
+    /// Shop and food/drink tags that count as commercial evidence when mapped as a point.
+    public static func isBusinessPoint(_ t: Tags) -> Bool {
+        t["shop"] != nil || ["restaurant", "bar", "pub", "cafe", "ice_cream", "fast_food"].contains(t["amenity"] ?? "")
+    }
+
     static func detachedGarages(_ features: MapFeatures, context: StreetContext) -> Set<OSMRef> {
         var principals: [SIMD2<Int>: [(LocalPoint, Double)]] = [:]
         func key(_ p: LocalPoint) -> SIMD2<Int> { SIMD2(Int((p.x / 30).rounded(.down)), Int((p.y / 30).rounded(.down))) }
@@ -219,10 +239,12 @@ public struct SceneGenerator: Sendable {
             houseAreas[id, default: []].append(b.footprint.area)
         }
         let detachedGarages = Self.detachedGarages(features, context: context)
+        let commercialRefs = Self.commercialRefs(features, points: businessPoints)
         func makeGenerator(_ p: StyleProfile) -> BuildingGenerator {
             var g = BuildingGenerator(profile: p, context: context)
             g.obstacles = buildingIndex
             g.detachedGarages = detachedGarages
+            g.commercialRefs = commercialRefs
             let t = p.typeThresholds.resolved(houseAreas: houseAreas[p.id] ?? [])
             if t != p.typeThresholds { g.areaThresholds = t }
             return g
@@ -359,6 +381,7 @@ public struct SceneGenerator: Sendable {
             addLines(road.centerline, width: road.width, y: service ? GroundLayer.alley : GroundLayer.road,
                      paint: paint, feature: road.ref.description, into: &chunks)
         }
+        let roadClip = LookExperiments.on(LookExperiments.roadClip) ? RoadClip(features.roads) : nil
         // Road paint (infrastructure-kit-v1 stage 1): lane lines and crosswalks from tags, full detail only.
         // (At reduced detail only the crossing bands' carriageway parts are dropped, so the LODs agree.)
         let roadPaint: RoadMarkings.Output? = markingValues.flatMap { v in markingTuning.map { RoadMarkings(features: features, values: v, tuning: $0).build() } }
@@ -377,7 +400,9 @@ public struct SceneGenerator: Sendable {
                 }
                 continue
             }
-            addLines(path.centerline, width: w, y: y, paint: paint, feature: path.ref.description, into: &chunks)
+            for line in path.isCrossing ? [path.centerline] : roadClip?.pieces(path.centerline) ?? [path.centerline] {
+                addLines(line, width: w, y: y, paint: paint, feature: path.ref.description, into: &chunks)
+            }
         }
         if lod == 0, let roadPaint, let v = markingValues {
             var meshes: [SIMD2<Int>: MeshBuffers] = [:]
@@ -406,10 +431,12 @@ public struct SceneGenerator: Sendable {
             ]) { _, new in new }
         }
         for sw in features.sidewalks where !sw.suppressesPedestrianSurfaceRendering {
-            addLines(sw.centerline, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),
-                     feature: sw.ref.description, into: &chunks)
-            if lod == 0, Rect2D(enclosing: sw.centerline).intersects(focus) {
-                addSidewalkEdges(sw.centerline, width: 1.6, paint: Paint(slot: n("curb")), feature: sw.ref.description, into: &chunks)
+            for line in roadClip?.pieces(sw.centerline) ?? [sw.centerline] {
+                addLines(line, width: 1.6, y: GroundLayer.sidewalk, paint: Paint(slot: n("sidewalk"), flags: .sidewalk),
+                         feature: sw.ref.description, into: &chunks)
+                if lod == 0, Rect2D(enclosing: line).intersects(focus) {
+                    addSidewalkEdges(line, width: 1.6, paint: Paint(slot: n("curb")), feature: sw.ref.description, into: &chunks)
+                }
             }
         }
 

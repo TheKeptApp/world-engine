@@ -61,6 +61,11 @@ public struct WorldBuild: Sendable {
         var gen = try generator(features: features, profile: profile, season: season, focus: focus)
         gen.zones = zones
         gen.chunkGridAnchor = manifest.gridAnchor.map { manifest.frame.localPoint(of: $0) }
+        if LookExperiments.on(LookExperiments.commercialPoints) {
+            let doc = try AreaLoader.loadDocument(areaDirectory, manifest: manifest, layers: ["all"])
+            gen.businessPoints = doc.nodes.values.filter { SceneGenerator.isBusinessPoint($0.tags) }
+                .sorted { $0.id < $1.id }.map { manifest.frame.localPoint(of: $0.coordinate) }
+        }
         gen.buildingLODs = recipe.buildingLODs
         let scene = gen.generate()
         var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,

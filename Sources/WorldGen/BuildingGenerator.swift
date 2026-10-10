@@ -125,6 +125,9 @@ public struct BuildingGenerator: Sendable {
     /// Small `building=yes` outbuildings standing behind a principal building on the same block
     /// side (computed per area by the scene): detached garages even without an alley.
     public var detachedGarages: Set<OSMRef> = []
+    /// commercialpoints experiment (LookExperiments): footprints of 250 m² or more holding a mapped shop or
+    /// food/drink point (SceneGenerator.commercialRefs). Empty unless the experiment is on.
+    public var commercialRefs: Set<OSMRef> = []
     /// Size thresholds resolved for this area (percentiles of local house footprints); nil = the profile's.
     public var areaThresholds: StyleProfile.Thresholds?
     var thresholds: StyleProfile.Thresholds { areaThresholds ?? profile.typeThresholds }
@@ -188,6 +191,7 @@ public struct BuildingGenerator: Sendable {
     /// `building=yes` beside a mapped alley is an alley garage (footprint and access evidence).
     public func role(for b: Building) -> GeneratedBuilding.Role {
         let base = Self.role(of: b)
+        if commercialRefs.contains(b.ref), base == .house || base == .block { return .block }
         guard b.type == "yes" else { return base }
         let area = b.footprint.area
         if base == .house, area >= 14, area <= 75, b.levels.map({ $0 <= 1.5 }) ?? true,

@@ -214,11 +214,16 @@ extension BuildingGenerator {
         return out
     }
 
+    /// Profile types used only under the commercialpoints experiment (front-range's facade-detail-v2 mixed-use strip).
+    static let experimentTypes: Set<String> = ["denverMixedUse"]
+
     /// The family for a block building: the first evidence kind the profile has a family for,
     /// else the profile's plain flat-roofed type.
     func blockFamily(for b: Building, shape: FootprintAnalysis) -> StyleProfile.HouseType? {
-        for ev in Self.blockEvidence(b, shape: shape) {
-            let matches = profile.houseTypes.filter { families.grammar($0.id).evidence == ev }
+        let evidence = (commercialRefs.contains(b.ref) ? ["commercial"] : []) + Self.blockEvidence(b, shape: shape)
+        let experiment = LookExperiments.on(LookExperiments.commercialPoints)
+        for ev in evidence {
+            let matches = profile.houseTypes.filter { families.grammar($0.id).evidence == ev && (experiment || !Self.experimentTypes.contains($0.id)) }
             if !matches.isEmpty {
                 var r = b.ref.random("block-family")
                 return r.pick(matches) { _ in 1 }

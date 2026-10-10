@@ -2,6 +2,7 @@ import Foundation
 import simd
 import Testing
 import WorldGeo
+import WorldMap
 import WorldMesh
 @testable import WorldGen
 
@@ -100,5 +101,55 @@ import WorldMesh
         #expect(mappedChanged == 0)
         #expect(ratios.count > 100 && ratios.values.allSatisfy { $0 >= 0.82 - 1e-3 && $0 <= 1.22 + 1e-3 })
         print("wallspread \(area): \(ratios.count) buildings, factor \(ratios.values.min() ?? 0)…\(ratios.values.max() ?? 0)")
+    }
+
+    static let batch2: [(String, String)] = [("sloans-lake", "front-range"), ("lakeview-sheil-park", "chicago-dense-north"),
+                                              ("wilmette-vattmann-park", "wilmette")]
+
+    /// roadclip: no mapped sidewalk or path piece crosses a street carriageway; only those features change.
+    @Test(arguments: batch2)
+    func roadClipRemovesCarriagewayCrossings(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let off = try Self.build(area, profile, []), on = try Self.build(area, profile, [LookExperiments.roadClip])
+        let clip = RoadClip(off.features.roads)
+        var before = (0, 0.0, 0, 0.0), after = (0, 0.0, 0, 0.0)
+        func add(_ a: inout (Int, Double, Int, Double), _ o: (crossingRuns: Int, crossingM: Double, parallelRuns: Int, parallelM: Double)) {
+            a.0 += o.crossingRuns; a.1 += o.crossingM; a.2 += o.parallelRuns; a.3 += o.parallelM
+        }
+        let lines = off.features.sidewalks.filter { !$0.suppressesPedestrianSurfaceRendering }.map(\.centerline)
+            + off.features.paths.filter { !$0.isCrossing && !$0.suppressesPedestrianSurfaceRendering }.map(\.centerline)
+        for l in lines {
+            add(&before, clip.overlap(l))
+            for piece in clip.pieces(l) { add(&after, clip.overlap(piece)) }
+        }
+        print("roadclip \(area): crossing runs \(before.0) / \(Int(before.1)) m → \(after.0) / \(Int(after.1)) m; lying along \(before.2) / \(Int(before.3)) m (kept)")
+        #expect(after.1 <= 2 * RoadClip.step * Double(before.0), "at most one sample per cut end remains")
+        #expect(on.scene.buildings.count == off.scene.buildings.count)
+        let changed = Set(zip(off.scene.chunks, on.scene.chunks).flatMap { x, y in
+            Set(x.staticFeatures.map(\.feature)).symmetricDifference(y.staticFeatures.map(\.feature))
+                .union(x.staticFeatures.filter { f in !y.staticFeatures.contains(where: { $0.feature == f.feature && $0.count == f.count }) }.map(\.feature))
+        })
+        let mapped = Set(off.features.sidewalks.map(\.ref.description) + off.features.paths.map(\.ref.description))
+        #expect(changed.isSubset(of: mapped), "only mapped sidewalks/paths change: \(changed.subtracting(mapped).prefix(3))")
+    }
+
+    /// commercialpoints: footprints ≥ 250 m² holding a shop/food point become commercial blocks; nothing else changes role.
+    @Test(arguments: batch2)
+    func commercialPointsMapToMixedUse(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        func zoned() throws -> WorldBuild {
+            try WorldBuild.generate(areaDirectory: BuildingAreaTests.dir(area), recipe: WorldRecipe(date: ISO8601DateFormatter().date(from: "2026-10-15T20:30:00Z")!))
+        }
+        let off = try LookExperiments.$active.withValue([]) { try zoned() }
+        let on = try LookExperiments.$active.withValue([LookExperiments.commercialPoints]) { try zoned() }
+        let a = Dictionary(off.scene.buildings.map { ($0.ref, $0) }, uniquingKeysWith: { x, _ in x })
+        var changes: [String: Int] = [:]
+        var seen = Set<OSMRef>()
+        for g in on.scene.buildings where seen.insert(g.ref).inserted {
+            guard let o = a[g.ref], o.role != g.role || o.family != g.family else { continue }
+            changes["\(o.role.rawValue):\(o.family ?? "-") → \(g.role.rawValue):\(g.family ?? "-")", default: 0] += 1
+            #expect(["cornerMixedUse", "denverMixedUse"].contains(g.family ?? ""), "\(g.ref) → \(g.family ?? "-")")
+        }
+        print("commercialpoints \(area): \(changes.values.reduce(0, +)) buildings change: \(changes.sorted { $0.key < $1.key })")
     }
 }
