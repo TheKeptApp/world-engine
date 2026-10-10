@@ -25,6 +25,11 @@ def area_of(args):
     return a[a.index("-area") + 1] if "-area" in a else "sloans-lake"
 
 
+def lookexp_of(args):
+    a = args.split()
+    return a[a.index("-lookexp") + 1] if "-lookexp" in a else None
+
+
 def date_of(args):
     a = args.split()
     return a[a.index("-date") + 1] if "-date" in a else None
@@ -36,7 +41,8 @@ groups = {}
 for line in open(os.path.join(run, "views.tsv")):
     vid, args = line.rstrip("\n").split("\t", 1)
     d = date_of(args)
-    groups.setdefault((area_of(args), d[:10] if d else None), []).append((vid, args, d))
+    # Generator look experiments (-lookexp) shape the world at load: also a launch group key.
+    groups.setdefault((area_of(args), d[:10] if d else None, lookexp_of(args)), []).append((vid, args, d))
 
 
 def record(vid, status, seconds="-"):
@@ -51,15 +57,16 @@ sim_data = subprocess.run(["xcrun", "simctl", "getenv", udid, "SIMULATOR_SHARED_
 if not os.path.isabs(sim_data):
     raise SystemExit("capture: simulator shared resources directory is unavailable")
 first = True
-for (area, day), views in groups.items():
+for (area, day, lookexp), views in groups.items():
     launch_date = next((d for _, _, d in views if d), None)
     views = [(vid, args) for vid, args, _ in views]
     specs = []
     for vid, args in views:
         a = args.split()
-        if "-area" in a:  # the area is a launch argument, not a per-view one
-            i = a.index("-area")
-            a = a[:i] + a[i + 2:]
+        for key in ("-area", "-lookexp"):  # launch arguments, not per-view ones
+            if key in a:
+                i = a.index(key)
+                a = a[:i] + a[i + 2:]
         specs.append({"id": vid, "args": a})
     log = os.path.join(run, "logs", f"_launch-{area}-{day or 'default'}.log")
     # simctl resolves /tmp inside the device, not the host worktree. Read that
@@ -68,7 +75,7 @@ for (area, day), views in groups.items():
     source_log = os.path.join(sim_data, device_log.lstrip("/"))
     launch = ["xcrun", "simctl", "launch", "--terminate-running-process", f"--stdout={device_log}", f"--stderr={device_log}", udid, bundle,
               *common, *(["-area", area] if area != "sloans-lake" else []), *(["-date", launch_date] if launch_date else []),
-              "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
+              *(["-lookexp", lookexp] if lookexp else []), "-viewlist64", base64.b64encode(json.dumps(specs).encode()).decode(), "-viewsettle", settle]
     env = dict(os.environ, SIMCTL_CHILD_NSUnbufferedIO="YES")
     for attempt in range(6):  # refusals come and go with host load: back off for up to ~2 min
         try:
