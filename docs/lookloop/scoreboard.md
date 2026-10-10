@@ -312,8 +312,14 @@ Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not th
 |---|---|---|---|
 | roadclip roads/sidewalks+overall; commercialpoints buildings/houses+overall | Ladder40/150/600 all6ties; overall2. Commercial storefront ON6/6 for buildings/overall;2→2 | Lakeview same ladder/close-up result; Wilmette/West Highland/Greenville pending | [Report](../review/p2-batch2-paired-scores.md).24/24 controls pass; pinned gain1.0 exposure mismatch and close-up provenance limits. No promotion. |
 
-## Native P2 Batch3 — 10 Oct 2026, no promotion
+## Native P2 Batch3 — original coordinator-third review, 10 Oct 2026 (SUPERSEDED)
 
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | Settled OFF/all-ON40/150/600; pinned secondary | Overall2 in all sessions/modes | Lakeview40/150=2;600=2/2/1 across sessions, unchanged modes; others pending | [Report](../review/p2-batch3-paired-scores.md).19/24 controls pass; saturation/ground/overall preferences unreliable, other aspects tie6/6. No overall>2 or gate/promotion. Two fresh contexts + coordinator third limitation. |
+
+## Native P2 Batch3 — corrected three-fresh-reviewer result, 10 Oct 2026
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Settled OFF/all-ON40/150/600; pinned secondary | Overall2 in all fresh sessions/modes | Lakeview overall2 at every height/session/mode; other hold-outs pending | [Corrected report](../review/p2-batch3-paired-scores.md).18/24 controls pass; saturation/ground/overall preferences unreliable; materials/foliage/light tie6/6. Original coordinator grades excluded; no overall>2, gate pass or promotion. |
