@@ -299,3 +299,9 @@ Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not th
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | OFF/lawnsmooth/wallspread; 40/150/600; three fresh sessions | Overall2 in all modes/sessions; every preference aspect ties6/6 | Lakeview40/150 overall3/3/2 across sessions,600 overall2; all modes identical within each session. Lawn ground40:2 candidate/4ties, inconclusive; wall ground40:1 candidate/5ties; all others6ties | [Report](../review/p2-batch1-paired-scores.md).18/18 controls pass; pinned gain1.0 may look darker than app. No promotion; other hold-outs and device/shadow proof pending. |
+
+## Native P2 Batch1 — fresh scope-limited review, 9 Oct 2026
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| Lawnsmooth:ground/overall; wallspread:houses/overall;40/150/600 | Every scored pair-aspect0 OFF/0 candidate/6 ties; overall2 for all modes/sessions | Lakeview same at all three heights; other hold-outs pending | [Fresh report](../review/p2-batch1-scoped-paired-scores.md).18/18 controls pass; no whole-point movement/promotion. Pinned gain1.0 may look darker than app. Foliage/shadows outside scope. Prior review preserved, not pooled. |

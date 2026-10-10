@@ -120,3 +120,7 @@ Ground trial merged default OFF as `978396b`. R approved a fresh-current-main OF
 ### 2026-10-09 — A1 extended-area data
 
 General optional `AreaManifest.gridAnchor` → shared WorldBuild/ChunkGrid in both LOD passes → unchanged package schema with anchor provenance. Native renderer untouched; the new dataset still needs host selection/consumer streaming. Web standard/adaptive data delivered locally; no new web context-mesh implementation. [108-cell package and receipts](../data/sloans-lake-extended.md): 42 tests, three byte-identical legacy controls, full adaptive audit and repeat pack/ZIP; no A3 grade or device-floor claim.
+
+### P2 Batch1 fresh scope-limited review — 9 Oct 2026
+
+[Fresh scoped P2 Batch1 review](../review/p2-batch1-scoped-paired-scores.md): three fresh contexts; lawnsmooth ground/overall and wallspread houses/overall each0 OFF/0 candidate/6 ties at Sloan and Lakeview40/150/600. Overall2 in all54 frame/session grades;18/18 identical controls pass, no control-flagged aspect. Foliage/shadows and each trial’s unrelated feature are outside scope, not ties. Pinned gain1.0 may look darker than the real app. No promotion; prior review retained separately, other hold-outs/device/shadow evidence pending.

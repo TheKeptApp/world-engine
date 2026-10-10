@@ -4,6 +4,8 @@ R’s decisions, newest date first; one line per decision with its application/r
 
 ## 2026-10-09 — A3 scoring disposition (not an owner approval)
 
+- **Fresh scoped P2 Batch1 disposition:** lawnsmooth ground/overall and wallspread houses/overall tie OFF6/6 at all six views; overall2 in all three fresh sessions;18/18 controls pass. Unrelated aspects excluded; no promotion or new owner approval. Prior review retained separately. [Fresh scores and raw records](../review/p2-batch1-scoped-paired-scores.md).
+
 - **P2 Batch1:** neither lawnsmooth nor wallspread establishes an overall improvement; both tie OFF6/6 in all six views, no within-session whole-point change,18/18 controls pass. Lakeview40 lawn ground2/6 preference is inconclusive. Keep experimental/default-off status; pinned gain1.0 may look darker than the real app; no promotion. [Scores and raw evidence](../review/p2-batch1-paired-scores.md).
 
 ## 2026-10-09 — R
