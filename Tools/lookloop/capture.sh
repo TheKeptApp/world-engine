@@ -105,12 +105,17 @@ if [ "${LOOKLOOP_BATCH:-1}" != 0 ]; then
   [ "$rc" = 4 ] && echo "capture: this WorldLab has no view-list hook; one launch per view" || { echo "capture: batch capture failed ($rc)"; exit "$rc"; }
   rm -f "$RUN/capture.tsv"
 fi
+SIM_DATA=$(xcrun simctl getenv "$UDID" SIMULATOR_SHARED_RESOURCES_DIRECTORY)
+[[ "$SIM_DATA" = /* ]] || { echo "capture: simulator shared resources directory is unavailable"; exit 1; }
 now() { python3 -c 'import time;print(time.time())'; }
 while IFS=$'\t' read -r id args; do
   log="$RUN/logs/$id.log"
   # Never pre-create the log: a file this session creates carries com.apple.provenance, and the
   # Simulator's launchd then refuses the whole launch ("Operation not permitted"). simctl creates it.
   rm -f "$log"
+  # /tmp is inside the simulated device; poll its host-backed path.
+  device_log="/tmp/worldengine-lookloop-$(uuidgen).log"
+  source_log="$SIM_DATA$device_log"
   t0=$(now)
   # NSUnbufferedIO (as Xcode sets it) makes print() reach the log at once, so STATS/RENDER lines arrive live.
   # Right after an install SpringBoard can refuse the launch while it registers the app: retry, then
@@ -118,7 +123,7 @@ while IFS=$'\t' read -r id args; do
   launched=0
   for attempt in 1 2 3 4 5 6; do
     # shellcheck disable=SC2086
-    if SIMCTL_CHILD_NSUnbufferedIO=YES limit 60 xcrun simctl launch --terminate-running-process --stdout="$log" --stderr="$log" \
+    if SIMCTL_CHILD_NSUnbufferedIO=YES limit 60 xcrun simctl launch --terminate-running-process --stdout="$device_log" --stderr="$device_log" \
       "$UDID" "$BUNDLE" $COMMON $args >/dev/null 2>"$RUN/logs/$id.launch-error"; then launched=1; break; fi
     sleep $((attempt * 5))
   done
@@ -129,10 +134,11 @@ while IFS=$'\t' read -r id args; do
   fi
   ok=0
   for _ in $(seq 1 $((LOAD_TIMEOUT * 10))); do
-    if grep -q '^STATS ' "$log" 2>/dev/null; then ok=1; break; fi
-    if grep -q 'Failed to build world' "$log" 2>/dev/null; then break; fi
+    if grep -q '^STATS ' "$source_log" 2>/dev/null; then ok=1; break; fi
+    if grep -q 'Failed to build world' "$source_log" 2>/dev/null; then break; fi
     sleep 0.1
   done
+  [ ! -f "$source_log" ] || cp "$source_log" "$log"
   t1=$(now)
   if [ "$ok" = 1 ]; then
     sleep "$SETTLE"
