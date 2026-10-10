@@ -56,6 +56,8 @@ public struct WorldBuild: Sendable {
         // An explicit profile is a test override for every building; otherwise each building
         // takes the zone profile at its centroid.
         let zones = recipe.profileID == nil ? try ZoneProfiles.load(for: manifest) : nil
+        // Capture evidence of the default-off look experiments (empty on main).
+        print("LOOKEXP active=\(LookExperiments.active.sorted().joined(separator: ","))")
         var gen = try generator(features: features, profile: profile, season: season, focus: focus)
         gen.zones = zones
         gen.buildingLODs = recipe.buildingLODs

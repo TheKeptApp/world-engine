@@ -299,7 +299,14 @@ public struct BuildingGenerator: Sendable {
             }
         }
         g.colors = tuple
-        let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: Float(rng.range(0.97, 1.03))).annotated(.wall, material: b.tags["building:material"], mappedColour: b.tags["building:colour"].flatMap(Self.hexColor) != nil, familyColour: true)
+        var wallShade = Float(rng.range(0.97, 1.03))
+        // wallspread experiment (LookExperiments, default off): unmapped house walls take a wider value spread,
+        // stable per building (P2 Batch 1: native lit-wall L* spread ~7 vs ~20 in style-b-calibration-v2 06-sloans).
+        if LookExperiments.on(LookExperiments.wallSpread), role == .house || role == .block, b.tags["building:colour"].flatMap(Self.hexColor) == nil {
+            var vr = b.ref.random("wall-value")
+            wallShade *= Float(vr.range(0.82, 1.22))
+        }
+        let wallPaint = Paint(slot: palette.slot(hex: tuple[0]), shade: wallShade).annotated(.wall, material: b.tags["building:material"], mappedColour: b.tags["building:colour"].flatMap(Self.hexColor) != nil, familyColour: true)
         let trim = Paint(slot: palette.slot(hex: tuple[1])).annotated(.trim, familyColour: true)
         let doorPaint = Paint(slot: palette.slot(hex: tuple[2])).annotated(.door, familyColour: true)
         let roofPaint = Paint(slot: palette.slot(hex: tuple[3]), shade: Float(rng.range(0.96, 1.04))).annotated(.roof, material: b.tags["roof:material"], mappedColour: b.tags["roof:colour"].flatMap(Self.hexColor) != nil, familyColour: true)

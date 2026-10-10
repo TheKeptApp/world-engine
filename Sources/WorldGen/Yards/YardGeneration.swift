@@ -268,6 +268,7 @@ extension SceneGenerator {
             // Lawn: emitted after every tree and shrub is placed (contact pools), with in-lot patches,
             // mowing bands on some front lawns and worn edges beside walks and drives (GroundDetail).
             var field = LawnField(shade: shade, tone: tone, seed: lotSeed)
+            if LookExperiments.on(LookExperiments.lawnSmooth) { field.broad = BroadLawn(range: range) }
             let contrast = rules.groundContrast ?? .spec
             field.patchLimit = contrast.patchAmplitude[1]
             field.wornShade = contrast.wornShade

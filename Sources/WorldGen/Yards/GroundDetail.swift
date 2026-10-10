@@ -33,6 +33,8 @@ struct LawnField {
     var shade: Float
     var tone: Float
     var seed: Float
+    /// The lawnsmooth experiment (LookExperiments): replaces the lot's own shade and tone per vertex.
+    var broad: BroadLawn?
     var patches: [Patch] = []
     var mow: Mow?
     var worn: [Worn] = []
@@ -197,9 +199,10 @@ enum GroundDetail {
         var idx: [UInt32] = []
         for p in poly {
             let w = field.wear(p)
-            let shade = Double(field.shade) * field.patchFactor(p) * mow * pools.factor(p) * (1 + field.wornShade * w)
+            let base = field.broad?.shade(p) ?? Double(field.shade), tone = field.broad?.tone(p) ?? field.tone
+            let shade = base * field.patchFactor(p) * mow * pools.factor(p) * (1 + field.wornShade * w)
             m.paint = Paint(slot: slot, shade: Float(shade), flags: .lawn)
-            m.extra = SIMD4(1, min(1, field.tone + Float(field.wornTone * w)), 0, field.seed)
+            m.extra = SIMD4(1, min(1, tone + Float(field.wornTone * w)), 0, field.seed)
             idx.append(m.addVertex(P(p, y), normal: sceneUp))
         }
         for k in 1..<(poly.count - 1) {
@@ -288,7 +291,14 @@ extension GroundDetail {
             let tri = Earcut.triangulate(Polygon2D(outer: ring))
             for k in stride(from: 0, to: tri.indices.count - 2, by: 3) {
                 let a = P(tri.vertices[tri.indices[k]], y), b = P(tri.vertices[tri.indices[k + 1]], y), c = P(tri.vertices[tri.indices[k + 2]], y)
-                let i0 = m.addVertex(a, normal: sceneUp), i1 = m.addVertex(b, normal: sceneUp), i2 = m.addVertex(c, normal: sceneUp)
+                func add(_ q: SIMD3<Float>, _ v: LocalPoint) -> UInt32 {
+                    if let broad = field.broad {
+                        m.paint = Paint(slot: slot, shade: Float(broad.shade(v)), flags: .lawn)
+                        m.extra = SIMD4(1, broad.tone(v), 0, field.seed)
+                    }
+                    return m.addVertex(q, normal: sceneUp)
+                }
+                let i0 = add(a, tri.vertices[tri.indices[k]]), i1 = add(b, tri.vertices[tri.indices[k + 1]]), i2 = add(c, tri.vertices[tri.indices[k + 2]])
                 if simd_cross(b - a, c - a).y >= 0 { m.addTriangle(i0, i1, i2) } else { m.addTriangle(i0, i2, i1) }
             }
         }

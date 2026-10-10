@@ -167,6 +167,7 @@ def main():
     parser.add_argument('--date', help='explicit capture-only UTC date override; frozen defaults stay unchanged')
     parser.add_argument('--inspectionpose', help='R A10: lat,lon,AGL metres,heading,pitch down; replaces hero framing only')
     parser.add_argument('--foliageexp1', choices=('off', 'remove', 'layered'), help='R A10 build variant, absent defaults off')
+    parser.add_argument('--lookexp', help='P2 Batch 1: comma-separated default-off generator look experiments (lawnsmooth, wallspread)')
     parser.add_argument('--output', type=Path, help='new run directory; defaults to .build/lookloop/native-<unique ID>')
     args = parser.parse_args()
     run = (args.output or ROOT / '.build/lookloop' / f'native-{uuid.uuid4().hex[:12]}').resolve()
@@ -176,6 +177,10 @@ def main():
     try:
         view = inspection_view(frozen_view(ROOT, args.view), args.inspectionpose, args.foliageexp1, args.date)
         view["args"] = view["args"] + ["-sceneready"]
+        if args.lookexp:
+            names = sorted(set(args.lookexp.split(',')))
+            if not set(names) <= {'lawnsmooth', 'wallspread'}: raise ValueError('unknown look experiment')
+            view["args"] = view["args"] + ["-lookexp", ','.join(names)]
         if shutil.disk_usage(ROOT).free < 8 * 1024**3:
             raise ValueError('less than 8 GB free; native capture not started')
         run.mkdir(parents=True, exist_ok=False)  # never accept frames from an earlier run
@@ -206,6 +211,11 @@ def main():
             logs = '\n'.join(p.read_text(errors='replace') for p in sorted((run / 'logs').glob('_launch-*.log')))
             expected = f'FOLIAGE_EXP1 mode={args.foliageexp1} value={("off", "remove", "layered").index(args.foliageexp1)} defaultConstant=0'
             if expected not in logs: raise ValueError('captured launch did not confirm foliage mode')
+        logs = '\n'.join(p.read_text(errors='replace') for p in sorted((run / 'logs').glob('_launch-*.log')))
+        expected = 'LOOKEXP active=' + ','.join(sorted(set(args.lookexp.split(',')))) if args.lookexp else 'LOOKEXP active='
+        observed = [line for line in logs.splitlines() if line.startswith('LOOKEXP active=')]
+        if not observed or any(line.strip() != expected for line in observed): raise ValueError(f'captured launch did not confirm look experiments: {observed[:2]}')
+        report['lookExperiments'] = expected.split('=', 1)[1]
         report['observedCameraLines'] = [line for p in sorted((run / 'logs').glob('_launch-*.log')) for line in p.read_text(errors='replace').splitlines() if line.startswith('CAMERA -inspectionpose ')]
         if args.inspectionpose and not report['observedCameraLines']: raise ValueError('capture did not report the inspection pose')
         report.update(inspectionPose=args.inspectionpose, foliageExp1=args.foliageexp1 or 'off', defaultConstant=0,
