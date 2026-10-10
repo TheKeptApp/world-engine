@@ -2,6 +2,10 @@
 
 R’s decisions, newest date first; one line per decision with its application/reference link. These 9 Oct 2026 instructions supersede conflicting earlier process/ship-bar wording; historical scores and outcomes remain historical, not retroactive passes. Earlier decisions remain in the [owner log](../decisions/owner-log.md).
 
+## 2026-10-09 — A3 scoring disposition (not an owner approval)
+
+- **P2 Batch1:** neither lawnsmooth nor wallspread establishes an overall improvement; both tie OFF6/6 in all six views, no within-session whole-point change,18/18 controls pass. Lakeview40 lawn ground2/6 preference is inconclusive. Keep experimental/default-off status; pinned gain1.0 may look darker than the real app; no promotion. [Scores and raw evidence](../review/p2-batch1-paired-scores.md).
+
 ## 2026-10-09 — R
 
 - **Ground-trial control and regional gaps (R approval recorded by A2):** use fresh current-main OFF with exact full-PNG trial-OFF equality (`f7fdfe1` for this delivery); `c8c361d` is historical only. General data-driven regional inference is allowed where approved inputs are missing; label inferred/unknown fields and exclude pending packs. [A2 approval record and limits](../../web/bakeoff/evidence/ground-trial/REGIONAL-ADAPTER.md).
