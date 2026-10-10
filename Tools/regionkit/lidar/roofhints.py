@@ -217,10 +217,10 @@ def mix_of(records, min_n, pc):
 
 def overture_ref(gers):
     """The engine's ref of an Overture feature (Sources/WorldMap/OvertureSource.swift `OSMRef.init(overtureID:)`):
-    the first 16 hex digits of the GERS id (hyphens ignored), written 'overture/<16 lowercase hex digits>'
-    (`OSMRef.description`). None when the id has fewer than 16 hex digits."""
-    hexs = "".join(c for c in gers if c != "-")[:16]
-    if len(hexs) != 16:
+    the full GERS id (hyphens ignored), written 'overture/<32 lowercase hex digits>' (`OSMRef.description`).
+    None unless the id has exactly 32 hex digits."""
+    hexs = "".join(c for c in gers if c != "-")
+    if len(hexs) != 32:
         return None
     try:
         int(hexs, 16)
@@ -510,7 +510,7 @@ def footprints_header(area, D):
         out["source"] = [f"{area['area']}/osm.json", f"{area['area']}/overture-buildings.json"]
         out["overtureMerge"] = D["overture"]
         out["note"] = (note + "; plus the Overture buildings the engine adds (no OpenStreetMap source, centroid in the area and outside every "
-                       "OSM building or part), keyed by the engine's ref: overture/<first 16 hex digits of the GERS id, lowercase> "
+                       "OSM building or part), keyed by the engine's ref: overture/<the full GERS id, 32 lowercase hex digits> "
                        "(Sources/WorldMap/OvertureSource.swift OSMRef.init(overtureID:))")
     return out
 

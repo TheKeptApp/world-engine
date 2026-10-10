@@ -945,9 +945,8 @@ count of mansard roofs. Nothing was tuned on it.
 Same lidar, alignment, planes and heights as 14 (heights and pitches of the two old areas are byte-identical).
 
 **Keys.** The engine's refs: `way/<id>`, `relation/<id>` for OSM, and `overture/<id>` for Overture footprints, where `<id>` is the
-first 16 hex digits of the Overture (GERS) id read as an unsigned 64-bit number and written as a signed 64-bit integer
-(`OSMRef.init(overtureID:)` in `Sources/WorldMap/OvertureSource.swift`; `roofhints.overture_ref`, tested against
-the boundary values). Footprints follow `OvertureBuildings.merge`: records with an OpenStreetMap source are dropped, a
+full Overture (GERS) id as 32 lowercase hex digits without hyphens (since 2026-10-07; earlier keys were the first 16 digits)
+(`OSMRef.init(overtureID:)` in `Sources/WorldMap/OvertureSource.swift`; `roofhints.overture_ref`, tested). Footprints follow `OvertureBuildings.merge`: records with an OpenStreetMap source are dropped, a
 footprint whose centroid is inside an OSM building or part is dropped, the centroid must be inside the area, ids in
 sorted order, a repeated ref keeps the first, under 1 m² dropped. A record with several polygons would share one ref
 in the engine; here the largest polygon represents it (none of the five areas has such a record).

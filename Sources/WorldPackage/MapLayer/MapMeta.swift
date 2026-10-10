@@ -25,7 +25,7 @@ enum MapMeta {
     IDs are stable engine IDs derived from source identities (worldengine.map/2 §3). OSM nodes, ways, relations, places, \
     stops and OSM buildings use the OSM identity itself (type/id). Road segments: way/<osm way id>:<k>, k = index of the \
     piece along the way's full node list; the link gives the way and the node index range. Overture buildings: \
-    overture/<first 16 hex digits of the GERS ID>; the link gives the full GERS ID. Lots gen:lot:<building>:<front|back> \
+    overture/<the full GERS ID, 32 hex digits>; the link gives the GERS ID as Overture writes it. Lots gen:lot:<building>:<front|back> \
     and entry points gen:entry:<building>:<kind>[:<n>] derive from their building's ID. An ID changes only when its own \
     source element changes; when a source feature is split, merged or deleted, mapmeta/migration.json maps old IDs to \
     new ones for that snapshot pair.

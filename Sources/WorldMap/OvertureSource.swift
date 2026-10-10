@@ -243,7 +243,7 @@ public enum OvertureBuildings {
                     continue
                 }
                 if let other = seenRefs[ref], other != r.id {
-                    // Two GERS IDs sharing their first 16 hex digits: keep the first (by ID order).
+                    // The same GERS ID written two ways (e.g. with and without hyphens): keep the first.
                     out.report.skipped.append(.init(ref: ref, reason: "Overture ID collision with \(other)"))
                     report.skipped += 1
                     continue
@@ -251,7 +251,7 @@ public enum OvertureBuildings {
                 seenRefs[ref] = r.id
                 var tags = tags(for: r)
                 // The footprint's dataset, for the map data layer's provenance labels (`overture:id`
-                // already holds the full GERS ID; the ref keeps its first 16 hex digits).
+                // already holds the GERS ID as Overture writes it).
                 if let g = r.sources.first(where: { $0.property == nil || $0.property == "" }) { tags["overture:geometry_source"] = g.dataset }
                 let type = tags["building"] ?? "yes"
                 var added = false, insideOSM = false, outside = false
@@ -370,12 +370,12 @@ public struct OvertureMergeReport: Sendable, Equatable {
 }
 
 extension OSMRef {
-    /// The ref for an Overture feature: the first 16 hex digits of its GERS ID (hyphens
-    /// ignored) as a UInt64, stored bit for bit in `id`. Nil if the ID has fewer than 16 hex
-    /// digits.
+    /// The ref for an Overture feature from its GERS ID (hyphens ignored): the first 16 hex digits
+    /// as a UInt64 stored bit for bit in `id` (the seed), the last 16 in `overtureLow`. Nil unless the
+    /// ID has exactly 32 hex digits.
     public init?(overtureID gers: String) {
-        let hex = gers.filter { $0 != "-" }.prefix(16)
-        guard hex.count == 16, let v = UInt64(hex, radix: 16) else { return nil }
-        self.init(.overture, Int64(bitPattern: v))
+        let hex = gers.filter { $0 != "-" }
+        guard hex.count == 32, let hi = UInt64(hex.prefix(16), radix: 16), let lo = UInt64(hex.suffix(16), radix: 16) else { return nil }
+        self.init(.overture, Int64(bitPattern: hi), overtureLow: lo)
     }
 }

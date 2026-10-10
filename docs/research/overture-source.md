@@ -122,12 +122,14 @@ passed to `loadFeatures` apply to both sources.
 ## Identity
 
 - `OSMRef.Kind.overture`. Its `random()` kind code is 4 (node 1, way 2, relation 3).
-- `id` = the first 16 hex digits of the GERS ID (hyphens ignored), parsed as `UInt64` and stored
-  with `Int64(bitPattern:)`. IDs can be negative. `description` is `overture/<id>`. This is the
-  feature ID in packages (`scene.json`) and the seed for all generated detail.
-- Current GERS IDs are random UUIDs (60 random bits in the first 16 hex digits), so collisions inside
-  one area are practically impossible. If two IDs in one load share their first 16 hex digits, the
-  first in ID order wins and the other is reported as skipped.
+- The full 32-hex GERS ID (hyphens ignored) is the identity (owner decision 2026-10-07): `id` = its first
+  16 hex digits as `UInt64` stored with `Int64(bitPattern:)` (can be negative), `overtureLow` = its last 16.
+  `description` is `overture/<32 lowercase hex digits>`: the feature ID in packages (`scene.json`), the map
+  data layer and the lidar roof keys. Until 2026-10-07 the ID was the first 16 digits only (before
+  2026-10-06 the signed decimal of them).
+- The seed for generated detail is `kind` + `id` (the first 64 bits) only, so the switch to full IDs changed
+  no generated output. Two GERS IDs sharing their first 16 digits are now distinct features with the same
+  seed (practically impossible: 60 random bits). One GERS ID written two ways keeps its first record.
 - The ref is as stable as the GERS ID. GERS IDs are meant to stay the same across releases, so a
   re-fetch should keep the seeds. This was not checked across releases here.
 

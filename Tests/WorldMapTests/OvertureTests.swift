@@ -150,13 +150,18 @@ struct OvertureTests {
     // MARK: Identity
 
     @Test func refsComeFromTheGERSID() throws {
-        #expect(OSMRef(overtureID: "29d3611a-af94-4734-98d1-6d928d82e634") == OSMRef(.overture, 0x29d3_611a_af94_4734))
-        #expect(OSMRef(overtureID: "08b2a100d2c8dfff0200f7a6b2fd1f1c") == OSMRef(.overture, 0x08b2_a100_d2c8_dfff)) // older 32-hex form
+        let a = try #require(OSMRef(overtureID: "29d3611a-af94-4734-98d1-6d928d82e634"))
+        #expect(a.id == Int64(bitPattern: 0x29d3_611a_af94_4734) && a.overtureLow == 0x98d1_6d92_8d82_e634)
+        #expect(a.description == "overture/29d3611aaf94473498d16d928d82e634")
+        #expect(OSMRef(overtureID: "08b2a100d2c8dfff0200f7a6b2fd1f1c")?.description == "overture/08b2a100d2c8dfff0200f7a6b2fd1f1c")
         let neg = try #require(OSMRef(overtureID: "ffffffff-ffff-4fff-8000-0000000000ff"))
         #expect(neg.id == Int64(bitPattern: 0xffff_ffff_ffff_4fff) && neg.id < 0)
-        #expect(neg.description == "overture/ffffffffffff4fff")
-        #expect(OSMRef(.overture, 0x08b2_a100_d2c8_dfff).description == "overture/08b2a100d2c8dfff")
+        #expect(neg.description == "overture/ffffffffffff4fff80000000000000ff")
+        // Same first 64 bits, different GERS IDs: distinct refs, same seed (generated detail unchanged).
+        let b = try #require(OSMRef(overtureID: "29d3611a-af94-4734-0000-000000000001"))
+        #expect(a != b && a.random("x").next() == b.random("x").next())
         #expect(OSMRef(overtureID: "abc") == nil)
+        #expect(OSMRef(overtureID: "29d3611aaf944734") == nil, "a 16-digit prefix is not a GERS ID")
         #expect(OSMRef(overtureID: "not-a-gers-id-at-all-zzzz") == nil)
     }
 

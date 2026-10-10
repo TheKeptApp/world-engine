@@ -129,7 +129,7 @@ struct MapLayerTests {
     }
 
     @Test func overtureRefsAreHex() {
-        #expect(OSMRef(.overture, -1).description == "overture/ffffffffffffffff")
+        #expect(OSMRef(.overture, -1, overtureLow: 0x2a).description == "overture/ffffffffffffffff000000000000002a")
         #expect(OSMRef(.way, 42).description == "way/42")
     }
 

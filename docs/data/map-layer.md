@@ -80,11 +80,12 @@ Every exported feature has a stable engine ID, linked to its source identity:
 | segments | `way/<osm way id>:<k>` | way + node index range `[k0, k1]` of the full node list, end nodes (`mapmeta/ids.json`) |
 | gated areas, turn restrictions, places, stops, routes | the OSM element (`node/…`, `way/…`, `relation/…`) | itself |
 | buildings (OSM) | `way/…`, `relation/…` | itself |
-| buildings (Overture) | `overture/<first 16 hex digits of the GERS ID>` | full GERS ID and footprint dataset (`mapmeta/ids.json`) |
+| buildings (Overture) | `overture/<full GERS ID, 32 lowercase hex digits>` | the GERS ID itself; footprint dataset (`mapmeta/ids.json`) |
 | lots | `gen:lot:<building id>:<front\|back>` | the building |
 | entry points | `gen:entry:<building id>:<kind>[:<n>]` | the building |
 
-The Overture form changed on 2026-10-06 from `overture/<signed int64>` to 16 hex digits (the contract's pattern);
+The Overture form changed on 2026-10-06 from `overture/<signed int64>` to 16 hex digits, and on 2026-10-07 to the full
+32-hex GERS ID (owner decision; also used by the G0 streaming contract);
 scene.json identities, lidar roof hints and lot/entry IDs use the same form. One building per GERS ID: an
 Overture record with several polygons keeps its largest.
 

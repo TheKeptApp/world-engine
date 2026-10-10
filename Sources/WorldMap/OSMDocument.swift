@@ -6,27 +6,34 @@ import WorldGeo
 public struct OSMRef: Hashable, Codable, Sendable, CustomStringConvertible, Comparable {
     public enum Kind: String, Codable, Sendable, Comparable {
         case node, way, relation
-        /// An Overture Maps feature. `id` holds the first 16 hex digits of its GERS ID
-        /// (see `OSMRef.init(overtureID:)` in OvertureSource.swift).
+        /// An Overture Maps feature: `id` holds the first 16 hex digits of its GERS ID and
+        /// `overtureLow` the last 16 (see `OSMRef.init(overtureID:)` in OvertureSource.swift).
         case overture
         public static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
 
     public var kind: Kind
     public var id: Int64
+    /// Overture only: the last 64 bits of the 128-bit GERS ID (nil for OSM elements). Part of the
+    /// identity, not of the seed: `random(_:)` uses `kind` and `id`, so generated detail is the
+    /// same as before full IDs were kept.
+    public var overtureLow: UInt64?
 
-    public init(_ kind: Kind, _ id: Int64) {
+    public init(_ kind: Kind, _ id: Int64, overtureLow: UInt64? = nil) {
         self.kind = kind
         self.id = id
+        self.overtureLow = overtureLow
     }
 
-    /// `node/<id>`, `way/<id>`, `relation/<id>`; Overture: `overture/<16 lowercase hex digits>`, the
-    /// GERS ID prefix the ref holds (the form the map data layer's ID patterns require).
+    /// `node/<id>`, `way/<id>`, `relation/<id>`; Overture: `overture/<32 lowercase hex digits>`, the
+    /// full GERS ID without hyphens (owner decision 2026-10-07; the map data layer and the streaming
+    /// contract use it).
     public var description: String {
-        kind == .overture ? "overture/" + String(format: "%016llx", UInt64(bitPattern: id)) : "\(kind.rawValue)/\(id)"
+        guard kind == .overture else { return "\(kind.rawValue)/\(id)" }
+        return "overture/" + String(format: "%016llx", UInt64(bitPattern: id)) + String(format: "%016llx", overtureLow ?? 0)
     }
 
-    public static func < (a: OSMRef, b: OSMRef) -> Bool { (a.kind, a.id) < (b.kind, b.id) }
+    public static func < (a: OSMRef, b: OSMRef) -> Bool { (a.kind, a.id, a.overtureLow ?? 0) < (b.kind, b.id, b.overtureLow ?? 0) }
 
     /// A deterministic generator for this element. `salt` separates independent uses.
     public func random(_ salt: String) -> StableRandom {
