@@ -161,3 +161,6 @@ Direct Global ML release 2026-08-13; full CDLA2 retained with ignored raw/join d
 ## 2026-10-09 — Sloan’s Lake extended package
 
 GREEN ODbL core/context intake; requested bbox covered by 108 anchored/clipped 200 m cells, 217 adaptive leaves. Full/reduced mean GLB 2.404/0.453 MB per parent; export 135.638 s, pack 82.706 s. 42 tests, full adaptive/coverage audits, three byte-identical legacy controls and repeat pack/ZIP pass. All original core building/highway/water refs retained; source gaps and unrefreshed height/roof/DEM sidecars explicitly retained. Local bundle `Generated/sloans-lake-extended/bundle.zip`, SHA-256 `839560baa903a6a753eaa788c06629364ac4836af8fef372c95c942a57507dc7` (102,636,658 B); binaries/raw extracts ignored. [Evidence](../data/sloans-lake-extended.md). Renderer unchanged; general optional grid-anchor input only; no visual or device-floor claim.
+
+### 2026-10-09 — Extended Sloan’s post-merge scoreboard
+Merged delivery `36cd08c`; all 27 frames completed under the heavy wrapper (nine datasets/eight places). Extended Sloan’s passes at 40 m, fails rendering budgets at 150/600 m, and has no blank-ground/tunnel-strip flags. Aggregate: 26 budget failures, seven blank-ground flags; no visual/device promotion. [Evidence](../data/sloans-lake-extended.md#post-merge-scoreboard). Final package hashes and data gates remain unchanged.
