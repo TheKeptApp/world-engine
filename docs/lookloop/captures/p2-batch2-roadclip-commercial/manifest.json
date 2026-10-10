@@ -1,0 +1,426 @@
+{
+ "id": "p2-batch2-roadclip-commercial",
+ "renderer": "native WorldLab (Simulator)",
+ "viewport": [
+  1005,
+  565
+ ],
+ "exposure": "pinned gain 1.0 (capture only; 5A measuring converged exposure)",
+ "weather": "clear, cloud 0, wind 0",
+ "utc": "2026-10-15T20:30:00Z",
+ "camera": "as p2-native-ladder-b0",
+ "modes": {
+  "off": "current main",
+  "roadclip": "-lookexp roadclip",
+  "commercialpoints": "-lookexp commercialpoints"
+ },
+ "pairs": [
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "sloans-40",
+   "pair": [
+    "sloans-40-off.png",
+    "sloans-40-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "sloans-150",
+   "pair": [
+    "sloans-150-off.png",
+    "sloans-150-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "sloans-600",
+   "pair": [
+    "sloans-600-off.png",
+    "sloans-600-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "lakeview-40",
+   "pair": [
+    "lakeview-40-off.png",
+    "lakeview-40-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "lakeview-150",
+   "pair": [
+    "lakeview-150-off.png",
+    "lakeview-150-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-roadclip.png"
+   ],
+   "lever": "roadclip"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-commercialpoints.png"
+   ],
+   "lever": "commercialpoints"
+  },
+  {
+   "view": "lakeview-600",
+   "pair": [
+    "lakeview-600-off.png",
+    "lakeview-600-off-control.png"
+   ],
+   "lever": "identical-image control (byte copy)"
+  }
+ ],
+ "frames": [
+  {
+   "file": "sloans-40-off.png",
+   "mode": "off",
+   "sha256": "41bd4276f96ede35ff48552d194d13a586711a22b494675dfec20edc5939a09e",
+   "mainTriangles": 312880,
+   "mainDraws": 53,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "sloans-40-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "be1151804040bb5093c83d620c355a5611c0a7f52944d3eb90338d86b9c37c92",
+   "mainTriangles": 312606,
+   "mainDraws": 53,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "sloans-40-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "41bd4276f96ede35ff48552d194d13a586711a22b494675dfec20edc5939a09e",
+   "mainTriangles": 312880,
+   "mainDraws": 53,
+   "observedLookExperiments": "commercialpoints"
+  },
+  {
+   "file": "sloans-150-off.png",
+   "mode": "off",
+   "sha256": "8871510d6fa9ebc675477a6eda413f83897a7058e2f2de01a33d3258e59022d8",
+   "mainTriangles": 333744,
+   "mainDraws": 50,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "sloans-150-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "1a53c69f6656f941cd8f795900e9ac4e546762553db5499fb5541e09bd0164d6",
+   "mainTriangles": 333464,
+   "mainDraws": 50,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "sloans-150-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "f825df91c66b1f8d8b6652a044c7abd064a60b3964ac75c59431363110621355",
+   "mainTriangles": 333744,
+   "mainDraws": 50,
+   "observedLookExperiments": "commercialpoints"
+  },
+  {
+   "file": "sloans-600-off.png",
+   "mode": "off",
+   "sha256": "40a8848484f4099ab7c9a4575a361054180aaf3694030444fc0a18451a495107",
+   "mainTriangles": 228013,
+   "mainDraws": 43,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "sloans-600-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "b48b093c077e5b1db32f52198c3d0c1e1aef0c04b6a646d578834ee3e67bf934",
+   "mainTriangles": 227999,
+   "mainDraws": 43,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "sloans-600-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "ff24b147b0ced3021f4119ea44abd8e6725791ee5d5b6126b85ad0fd6ecf9dfa",
+   "mainTriangles": 228001,
+   "mainDraws": 43,
+   "observedLookExperiments": "commercialpoints"
+  },
+  {
+   "file": "lakeview-40-off.png",
+   "mode": "off",
+   "sha256": "7771776939501ea42fecfacc2d74f3e58f16d116e3038d3e83c9ca8d7142cebb",
+   "mainTriangles": 295759,
+   "mainDraws": 56,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "lakeview-40-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "8f030fd6d3e50f4f2789f4544000fb811c5e0eeedc436f284d03281da7ec1be7",
+   "mainTriangles": 295759,
+   "mainDraws": 56,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "lakeview-40-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "7771776939501ea42fecfacc2d74f3e58f16d116e3038d3e83c9ca8d7142cebb",
+   "mainTriangles": 295196,
+   "mainDraws": 56,
+   "observedLookExperiments": "commercialpoints"
+  },
+  {
+   "file": "lakeview-150-off.png",
+   "mode": "off",
+   "sha256": "768e1dc9f41d8e402198642bcc14d2d644cc008e8b443f263c9a39194a141ee8",
+   "mainTriangles": 271763,
+   "mainDraws": 48,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "lakeview-150-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "d2d651268cc35e943f0c1622e4ca58dc434dbbcc4e802b162031db2bededfae6",
+   "mainTriangles": 271763,
+   "mainDraws": 48,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "lakeview-150-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "8daec1259a8eddf1fc752070f954cd2055519b32d42940b63a16599a30926b51",
+   "mainTriangles": 271961,
+   "mainDraws": 48,
+   "observedLookExperiments": "commercialpoints"
+  },
+  {
+   "file": "lakeview-600-off.png",
+   "mode": "off",
+   "sha256": "1942c2b653c0890daa138c83d99d1bc2f05152182c4b97960ae364d082946b1e",
+   "mainTriangles": 194160,
+   "mainDraws": 35,
+   "observedLookExperiments": ""
+  },
+  {
+   "file": "lakeview-600-roadclip.png",
+   "mode": "roadclip",
+   "sha256": "3e1bbf20517393d3aea40ff0a7d98e06577ce7c0c7ac2c7e48e42e2555992d9e",
+   "mainTriangles": 194160,
+   "mainDraws": 35,
+   "observedLookExperiments": "roadclip"
+  },
+  {
+   "file": "lakeview-600-commercialpoints.png",
+   "mode": "commercialpoints",
+   "sha256": "d6e9dd0d63815a7091841392f9c55dd21b096dff22342f15bbe0867c5be23147",
+   "mainTriangles": 193754,
+   "mainDraws": 35,
+   "observedLookExperiments": "commercialpoints"
+  }
+ ],
+ "captureCommit": "5949a777edb55a99aa8c6ce18d7b79574a8dcdff",
+ "offVsMain": {
+  "sloans-40": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "sloans-150": {
+   "maxByte": 1,
+   "meanByte": 2.5e-05,
+   "bytesDiffer": 42,
+   "pixelsDiffer": 36
+  },
+  "sloans-600": {
+   "maxByte": 1,
+   "meanByte": 2.3e-05,
+   "bytesDiffer": 40,
+   "pixelsDiffer": 34
+  },
+  "lakeview-40": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "lakeview-150": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  },
+  "lakeview-600": {
+   "maxByte": 0,
+   "meanByte": 0.0,
+   "bytesDiffer": 0,
+   "pixelsDiffer": 0
+  }
+ },
+ "onVsOff": {
+  "roadclip": {
+   "sloans-40": {
+    "maxByte": 3,
+    "meanByte": 0.002271,
+    "bytesDiffer": 2962,
+    "pixelsDiffer": 1286
+   },
+   "sloans-150": {
+    "maxByte": 120,
+    "meanByte": 0.016116,
+    "bytesDiffer": 674,
+    "pixelsDiffer": 255
+   },
+   "sloans-600": {
+    "maxByte": 118,
+    "meanByte": 0.018485,
+    "bytesDiffer": 728,
+    "pixelsDiffer": 273
+   },
+   "lakeview-40": {
+    "maxByte": 33,
+    "meanByte": 0.000311,
+    "bytesDiffer": 27,
+    "pixelsDiffer": 9
+   },
+   "lakeview-150": {
+    "maxByte": 57,
+    "meanByte": 0.000946,
+    "bytesDiffer": 60,
+    "pixelsDiffer": 20
+   },
+   "lakeview-600": {
+    "maxByte": 109,
+    "meanByte": 0.002721,
+    "bytesDiffer": 135,
+    "pixelsDiffer": 45
+   }
+  },
+  "commercialpoints": {
+   "sloans-40": {
+    "maxByte": 0,
+    "meanByte": 0.0,
+    "bytesDiffer": 0,
+    "pixelsDiffer": 0
+   },
+   "sloans-150": {
+    "maxByte": 1,
+    "meanByte": 2e-06,
+    "bytesDiffer": 3,
+    "pixelsDiffer": 2
+   },
+   "sloans-600": {
+    "maxByte": 141,
+    "meanByte": 0.207519,
+    "bytesDiffer": 18285,
+    "pixelsDiffer": 6285
+   },
+   "lakeview-40": {
+    "maxByte": 0,
+    "meanByte": 0.0,
+    "bytesDiffer": 0,
+    "pixelsDiffer": 0
+   },
+   "lakeview-150": {
+    "maxByte": 54,
+    "meanByte": 0.038663,
+    "bytesDiffer": 3721,
+    "pixelsDiffer": 1275
+   },
+   "lakeview-600": {
+    "maxByte": 114,
+    "meanByte": 0.050116,
+    "bytesDiffer": 4157,
+    "pixelsDiffer": 1402
+   }
+  }
+ }
+}
