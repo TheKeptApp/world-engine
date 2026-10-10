@@ -4,6 +4,8 @@ R’s decisions, newest date first; one line per decision with its application/r
 
 ## 2026-10-10 — A3 scoring disposition (not an owner approval)
 
+- **P2 Batch3:** [P2 Batch3 review](../review/p2-batch3-paired-scores.md): settled primary/pinned secondary,19/24 controls pass; saturation/ground/overall preferences unreliable. Materials/foliage/light tie6/6 throughout; max overall2, Lakeview600 session3=1 in both modes. Lakeview retail-strip alias registered, no duplicate votes. Two fresh contexts plus coordinator third (not three fresh contexts). Denver-apartment/sports change visibility pending; proposed close-ups filed. Main T/D fits recorded floor only; shadow/device/other hold-outs pending; default-off/no promotion.
+
 - **P2 Batch2:** no ladder preference (all scoped aspects/overall tie6/6); commercialpoints preferred6/6 for buildings and overall in both storefront pairs, still overall2/5 throughout.24/24 controls pass. Retain default-off/no promotion; pinned exposure and incomplete close-up fixture provenance limit interpretation. [Scores and raw records](../review/p2-batch2-paired-scores.md).
 
 ## 2026-10-09 — A3 scoring disposition (not an owner approval)

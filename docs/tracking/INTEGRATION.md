@@ -128,3 +128,7 @@ General optional `AreaManifest.gridAnchor` → shared WorldBuild/ChunkGrid in bo
 ### P2 Batch2 roadclip / commercialpoints — A3 review, 10 Oct 2026
 
 [P2 Batch2 blind review](../review/p2-batch2-paired-scores.md): three fresh sessions,24/24 identical controls pass. Roadclip roads/sidewalks+overall and commercialpoints buildings/houses+overall tie OFF6/6 at Sloan/Lakeview40/150/600. Both commercial storefront pairs prefer ON6/6 (3 each position), buildings+overall; all66 overall grades2, no whole-point change. Pinned gain1.0; supplied Sloan live gains1.11/1.17/.65–.70 mean reported10–15% dark at40/150 and35–43% bright at600. Close-up fixture provenance incomplete; no promotion, other hold-outs/device/shadow proof pending.
+
+### P2 Batch3 — A3 review, 10 Oct 2026
+
+[P2 Batch3 review](../review/p2-batch3-paired-scores.md): settled primary/pinned secondary,19/24 controls pass; saturation/ground/overall preferences unreliable. Materials/foliage/light tie6/6 throughout; max overall2, Lakeview600 session3=1 in both modes. Lakeview retail-strip alias registered, no duplicate votes. Two fresh contexts plus coordinator third (not three fresh contexts). Denver-apartment/sports change visibility pending; proposed close-ups filed. Main T/D fits recorded floor only; shadow/device/other hold-outs pending; default-off/no promotion.
