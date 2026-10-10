@@ -305,3 +305,9 @@ Current acceptance uses [R’s 9 Oct ship bar](../tracking/DECISIONS.md), not th
 | Scope | Sloan's score | hold-out score | Result |
 |---|---|---|---|
 | Lawnsmooth:ground/overall; wallspread:houses/overall;40/150/600 | Every scored pair-aspect0 OFF/0 candidate/6 ties; overall2 for all modes/sessions | Lakeview same at all three heights; other hold-outs pending | [Fresh report](../review/p2-batch1-scoped-paired-scores.md).18/18 controls pass; no whole-point movement/promotion. Pinned gain1.0 may look darker than app. Foliage/shadows outside scope. Prior review preserved, not pooled. |
+
+## Native P2 Batch2 — 10 Oct 2026, no promotion
+
+| Scope | Sloan's score | hold-out score | Result |
+|---|---|---|---|
+| roadclip roads/sidewalks+overall; commercialpoints buildings/houses+overall | Ladder40/150/600 all6ties; overall2. Commercial storefront ON6/6 for buildings/overall;2→2 | Lakeview same ladder/close-up result; Wilmette/West Highland/Greenville pending | [Report](../review/p2-batch2-paired-scores.md).24/24 controls pass; pinned gain1.0 exposure mismatch and close-up provenance limits. No promotion. |

@@ -124,3 +124,7 @@ General optional `AreaManifest.gridAnchor` → shared WorldBuild/ChunkGrid in bo
 ### P2 Batch1 fresh scope-limited review — 9 Oct 2026
 
 [Fresh scoped P2 Batch1 review](../review/p2-batch1-scoped-paired-scores.md): three fresh contexts; lawnsmooth ground/overall and wallspread houses/overall each0 OFF/0 candidate/6 ties at Sloan and Lakeview40/150/600. Overall2 in all54 frame/session grades;18/18 identical controls pass, no control-flagged aspect. Foliage/shadows and each trial’s unrelated feature are outside scope, not ties. Pinned gain1.0 may look darker than the real app. No promotion; prior review retained separately, other hold-outs/device/shadow evidence pending.
+
+### P2 Batch2 roadclip / commercialpoints — A3 review, 10 Oct 2026
+
+[P2 Batch2 blind review](../review/p2-batch2-paired-scores.md): three fresh sessions,24/24 identical controls pass. Roadclip roads/sidewalks+overall and commercialpoints buildings/houses+overall tie OFF6/6 at Sloan/Lakeview40/150/600. Both commercial storefront pairs prefer ON6/6 (3 each position), buildings+overall; all66 overall grades2, no whole-point change. Pinned gain1.0; supplied Sloan live gains1.11/1.17/.65–.70 mean reported10–15% dark at40/150 and35–43% bright at600. Close-up fixture provenance incomplete; no promotion, other hold-outs/device/shadow proof pending.

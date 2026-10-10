@@ -2,6 +2,10 @@
 
 R’s decisions, newest date first; one line per decision with its application/reference link. These 9 Oct 2026 instructions supersede conflicting earlier process/ship-bar wording; historical scores and outcomes remain historical, not retroactive passes. Earlier decisions remain in the [owner log](../decisions/owner-log.md).
 
+## 2026-10-10 — A3 scoring disposition (not an owner approval)
+
+- **P2 Batch2:** no ladder preference (all scoped aspects/overall tie6/6); commercialpoints preferred6/6 for buildings and overall in both storefront pairs, still overall2/5 throughout.24/24 controls pass. Retain default-off/no promotion; pinned exposure and incomplete close-up fixture provenance limit interpretation. [Scores and raw records](../review/p2-batch2-paired-scores.md).
+
 ## 2026-10-09 — A3 scoring disposition (not an owner approval)
 
 - **Fresh scoped P2 Batch1 disposition:** lawnsmooth ground/overall and wallspread houses/overall tie OFF6/6 at all six views; overall2 in all three fresh sessions;18/18 controls pass. Unrelated aspects excluded; no promotion or new owner approval. Prior review retained separately. [Fresh scores and raw records](../review/p2-batch1-scoped-paired-scores.md).
