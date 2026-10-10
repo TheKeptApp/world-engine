@@ -146,12 +146,15 @@ public struct StyleProfile: Codable, Sendable, Equatable {
     public var shed: Outbuilding
     public var chimneyLikelihood: Double
     public var foundationMeters: [Double]
+    /// Profile-scoped default-off look experiments (`-lookexp`); nil in every profile without a block.
+    public var lookExperiments: ProfileLookExperiments?
 
     /// Decoded keys. Anything else in a profile file is ignored by the decoder: a top-level `"comment"`
     /// string and a top-level `"provenance"` object (per-field status/source notes for reviewers) are
     /// documentation only.
     enum CodingKeys: String, CodingKey {
         case id, version, name, seasons, trees, houseTypes, typeRules, typeThresholds, garage, shed, chimneyLikelihood, foundationMeters
+        case lookExperiments
     }
 
     /// The optional fields of `Trees` and `Thresholds` (`canopyShare`, `*AreaPercentile`) are decoded by
@@ -172,6 +175,7 @@ public struct StyleProfile: Codable, Sendable, Equatable {
         shed = try c.decode(Outbuilding.self, forKey: .shed)
         chimneyLikelihood = try c.decode(Double.self, forKey: .chimneyLikelihood)
         foundationMeters = try c.decode([Double].self, forKey: .foundationMeters)
+        lookExperiments = try c.decodeIfPresent(ProfileLookExperiments.self, forKey: .lookExperiments)
     }
 
     public func houseType(_ id: String) -> HouseType? { houseTypes.first { $0.id == id } }

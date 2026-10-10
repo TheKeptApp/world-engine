@@ -23,8 +23,10 @@ public enum LookExperiments {
     public static let denverApartments = "denverapartments"
     /// Batch 3: pitches by sport (courts, fields with lines, baseball infields) and leisure=track.
     public static let sportsFields = "sportsfields"
+    /// Batch 4: unmapped walls toward a warm hue band and roofs toward slate, per profile (`lookExperiments.warmwalls`).
+    public static let warmWalls = "warmwalls"
     public static let known: Set<String> = [lawnSmooth, wallSpread, roadClip, commercialPoints, sidewalkEndShort, retailGround,
-                                            parkingArea, denverApartments, sportsFields]
+                                            parkingArea, denverApartments, sportsFields, warmWalls]
 
     @TaskLocal public static var active: Set<String> = parse(ProcessInfo.processInfo.arguments, ProcessInfo.processInfo.environment)
 

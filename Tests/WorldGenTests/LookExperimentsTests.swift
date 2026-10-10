@@ -197,4 +197,34 @@ import WorldMesh
         let trackRanges = tracks.scene.chunks.flatMap(\.staticFeatures).filter { $0.feature.hasPrefix("gen:track:") }.map(\.feature)
         print("batch3 \(area): curb ends \(before) → \(after) (pieces dropped \(dropped)); retail/commercial areas \(retail); parking \(parking.count) (not at ground \(notGround)); pitches \(sports.sorted { $0.key < $1.key }); tracks \(Set(trackRanges).count); denver apartments \(apartments.values.reduce(0, +)) \(apartments.sorted { $0.key < $1.key })")
     }
+
+    /// Batch 4 warmwalls: Front Range unmapped wall/roof colours move into the measured mock ranges; Chicago is unchanged.
+    @Test(arguments: [("sloans-lake", "front-range"), ("lakeview-sheil-park", "chicago-dense-north")])
+    func warmWallsMoveFrontRangeOnly(_ area: String, _ profile: String) throws {
+        guard BuildingAreaTests.has(area) else { return }
+        let off = try Self.build(area, profile, []), on = try Self.build(area, profile, [LookExperiments.warmWalls])
+        #expect(Self.sameGeometry(off, on))
+        let tags = Dictionary(off.features.buildings.map { ($0.ref, $0.tags) }, uniquingKeysWith: { a, _ in a })
+        func stats(_ b: WorldBuild, _ i: Int, mappedKey: String) -> [WarmWalls.LCh] {
+            var seen = Set<OSMRef>()
+            return b.scene.buildings.filter { ($0.role == .house || $0.role == .block) && seen.insert($0.ref).inserted && $0.colors.count == 4
+                && tags[$0.ref]?[mappedKey] == nil }.map { WarmWalls.lch($0.colors[i]) }
+        }
+        func summary(_ v: [WarmWalls.LCh]) -> String {
+            func r(_ k: KeyPath<WarmWalls.LCh, Double>) -> String {
+                let s = v.map { $0[keyPath: k] }.sorted()
+                return s.isEmpty ? "-" : String(format: "%.0f–%.0f (p50 %.0f)", s[s.count / 10], s[s.count * 9 / 10], s[s.count / 2])
+            }
+            return "L* \(r(\.l)) C* \(r(\.c)) h \(r(\.h))"
+        }
+        let w0 = stats(off, 0, mappedKey: "building:colour"), w1 = stats(on, 0, mappedKey: "building:colour")
+        let r0 = stats(off, 3, mappedKey: "roof:colour"), r1 = stats(on, 3, mappedKey: "roof:colour")
+        print("warmwalls \(area): walls \(summary(w0)) → \(summary(w1)); roofs \(summary(r0)) → \(summary(r1)) (n=\(w1.count))")
+        if profile == "front-range" {
+            #expect(w1.allSatisfy { $0.h >= 29 && $0.h <= 64 && $0.l >= 56 && $0.l <= 78 && $0.c <= 22 })
+            #expect(r1.allSatisfy { $0.l >= 35 && $0.l <= 41 && $0.c >= 11 && $0.c <= 19 })
+        } else {
+            #expect(zip(off.scene.buildings, on.scene.buildings).allSatisfy { $0.colors == $1.colors })
+        }
+    }
 }
