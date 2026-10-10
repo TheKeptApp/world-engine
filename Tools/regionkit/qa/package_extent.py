@@ -55,6 +55,8 @@ def receipt(area, package, extent):
     world = json.loads((package / 'world.json').read_text())
     assert world['schema'] == 'worldengine.package/1'
     assert world['area']['id'] == manifest['id'] == extent['id']
+    assert all(world['area'][k] == manifest[k] for k in ('widthMeters', 'heightMeters'))
+    assert all(world['frame']['origin'][k] == manifest['center'][k] for k in ('latitude', 'longitude'))
     margins = corner_margins(manifest, extent['bounds'])
     sources = []
     for source in manifest['sources']:
@@ -62,6 +64,8 @@ def receipt(area, package, extent):
         assert sha(path) == source['sha256']
         assert path.stat().st_size == source['bytes']
         assert source.get('license') and source.get('attribution')
+        assert any(all(s.get(k) == source.get(k) for k in ('sha256', 'format', 'license', 'layers', 'dataTimestamp'))
+                   for s in world['sources']), 'Export does not name this source snapshot'
         sources.append({k: source.get(k) for k in ('path', 'bytes', 'sha256', 'bounds', 'license', 'dataTimestamp')})
     detailed = [s for s in manifest['sources'] if 'all' in s['layers']]
     b = extent['bounds']
