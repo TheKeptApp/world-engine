@@ -28,21 +28,22 @@ def decoded_geometry(path):
 
 
 
-def corner_margins(manifest, bounds):
-    # Same WGS84 ECEF -> ENU definition as WorldGeo.LocalFrame; no fitted shifts.
-    lat0 = math.radians(manifest['center']['latitude'])
-    lon0 = math.radians(manifest['center']['longitude'])
+def local_point(center, point):
+    lat0 = math.radians(center['latitude']); lon0 = math.radians(center['longitude'])
     def ecef(lat, lon):
         e2 = 0.0066943799901413165
         n = 6378137 / math.sqrt(1 - e2 * math.sin(lat)**2)
         return n*math.cos(lat)*math.cos(lon), n*math.cos(lat)*math.sin(lon), n*(1-e2)*math.sin(lat)
-    origin = ecef(lat0, lon0)
+    d = [a-b for a, b in zip(ecef(math.radians(point['latitude']), math.radians(point['longitude'])), ecef(lat0, lon0))]
+    return (-math.sin(lon0)*d[0] + math.cos(lon0)*d[1],
+            -math.sin(lat0)*math.cos(lon0)*d[0] - math.sin(lat0)*math.sin(lon0)*d[1] + math.cos(lat0)*d[2])
+
+
+def corner_margins(manifest, bounds):
     margins = []
     for lat in (bounds['south'], bounds['north']):
         for lon in (bounds['west'], bounds['east']):
-            d = [a-b for a, b in zip(ecef(math.radians(lat), math.radians(lon)), origin)]
-            east = -math.sin(lon0)*d[0] + math.cos(lon0)*d[1]
-            north = -math.sin(lat0)*math.cos(lon0)*d[0] - math.sin(lat0)*math.sin(lon0)*d[1] + math.cos(lat0)*d[2]
+            east, north = local_point(manifest['center'], {'latitude': lat, 'longitude': lon})
             margins.append(min(manifest['widthMeters']/2-abs(east), manifest['heightMeters']/2-abs(north)))
     assert min(margins) >= 0, 'Requested geographic corner outside package extent'
     return margins
@@ -75,8 +76,13 @@ def receipt(area, package, extent):
         path = package / name
         assert path.stat().st_size == entry['bytes'] and sha(path) == entry['sha256'], name
     assert world['chunkSize'] == extent['cellMeters']
-    nx = math.ceil(manifest['widthMeters'] / world['chunkSize'])
-    ny = math.ceil(manifest['heightMeters'] / world['chunkSize'])
+    starts = [-manifest['widthMeters']/2, -manifest['heightMeters']/2]
+    assert world.get('tileGridAnchor') == manifest.get('gridAnchor')
+    if manifest.get('gridAnchor'):
+        anchor = local_point(manifest['center'], manifest['gridAnchor'])
+        starts = [a + math.floor((b-a)/world['chunkSize'])*world['chunkSize'] for a, b in zip(anchor, starts)]
+    nx = math.ceil((manifest['widthMeters']/2-starts[0]) / world['chunkSize'])
+    ny = math.ceil((manifest['heightMeters']/2-starts[1]) / world['chunkSize'])
     assert [nx, ny] == extent['expectedGrid']
     assert len(world['chunks']) == nx * ny
     assert len({tuple(c['index']) for c in world['chunks']}) == nx * ny
@@ -121,9 +127,9 @@ def receipt(area, package, extent):
                       'unpairedEndpoints': sum(v % 2 for v in endpoints.values())})
     assert all(w['missingWays'] == 0 and w['unpairedEndpoints'] == 0 for w in water)
     return {'area': manifest['id'], 'status': 'PASS', 'scope': 'Package integrity and source closure; not real-world completeness or device performance',
-            'worldSHA256': sha(package / 'world.json'), 'sourceManifestSHA256': sha(area / 'manifest.json'),
+            'worldSHA256': sha(package / 'world.json'), 'generator': world['generator'], 'sourceManifestSHA256': sha(area / 'manifest.json'),
             'requestedCornerMarginsM': margins, 'requestedBounds': extent['bounds'], 'widthMeters': manifest['widthMeters'], 'heightMeters': manifest['heightMeters'],
-            'cells': nx * ny, 'grid': [nx, ny], 'detailCounts': dict(Counter(c['detail'] for c in world['chunks'])),
+            'cells': nx * ny, 'grid': [nx, ny], 'gridAnchor': manifest.get('gridAnchor'), 'gridStartEN': starts, 'detailCounts': dict(Counter(c['detail'] for c in world['chunks'])),
             'lods': lods, 'totalPackageBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()),
             'commonAndMetadataBytes': sum(p.stat().st_size for p in package.rglob('*') if p.is_file()) - sum(x['bytes'] for x in lods),
             'previousSourceRetention': retention, 'missingWayNodeReferences': len(missing), 'waterRelations': water, 'sources': sources,

@@ -60,6 +60,7 @@ public struct WorldBuild: Sendable {
         print("LOOKEXP active=\(LookExperiments.active.sorted().joined(separator: ","))")
         var gen = try generator(features: features, profile: profile, season: season, focus: focus)
         gen.zones = zones
+        gen.chunkGridAnchor = manifest.gridAnchor.map { manifest.frame.localPoint(of: $0) }
         gen.buildingLODs = recipe.buildingLODs
         let scene = gen.generate()
         var build = WorldBuild(manifest: manifest, features: features, profile: profile, season: season, lighting: lighting,
@@ -87,6 +88,7 @@ public struct WorldBuild: Sendable {
         gen.lod = 1
         gen.startPalette = scene.palette
         gen.zones = zones
+        gen.chunkGridAnchor = manifest.gridAnchor.map { manifest.frame.localPoint(of: $0) }
         return gen.generate()
     }
 

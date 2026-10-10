@@ -381,6 +381,9 @@ public enum WorldPackage {
             "files": hashes,
         ]
         var manifestObject = world
+        if let anchor = build.manifest.gridAnchor {
+            manifestObject["tileGridAnchor"] = try jsonObject(anchor)
+        }
         if let map {
             manifestObject["mapLayer"] = ["schema": MapLayer.schema, "header": MapLayer.header]
             manifestObject["mapSnapshotID"] = map.snapshotID

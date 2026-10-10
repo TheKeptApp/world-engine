@@ -19,7 +19,7 @@
       "extentMethod": "WGS84 meridional/prime-vertical scale at bbox midpoint; 0.25 m padding per edge to enclose corners in the existing ENU rectangle.",
       "cellMeters": 200,
       "expectedGrid": [
-        11,
+        12,
         9
       ],
       "detailPolicy": "Full core LOD0 and reduced LOD1 available for every cell; existing coarse context beyond the core. Consumer selects detail; renderer unchanged.",
@@ -27,7 +27,12 @@
       "contextBuildingBandKm": 0.5,
       "date": "2026-10-15T18:00:00Z",
       "season": 2,
-      "previousArea": "sloans-lake"
+      "previousArea": "sloans-lake",
+      "gridAnchor": {
+        "latitude": 39.743995668594096,
+        "longitude": -105.05383359349004
+      },
+      "gridPolicy": "Extent expansions preserve the previous area southwest grid anchor, projected into the new local frame; edge cells clip to requested bounds."
     }
   ]
 }

@@ -124,6 +124,9 @@ public struct SceneGenerator: Sendable {
     /// Region that gets full street-level detail; everything else is simple context.
     public var focus: Rect2D
     public var chunkSize = 200.0
+    /// Optional grid phase in this area's local frame; independent of its clipping bounds.
+    public var chunkGridAnchor: LocalPoint?
+    var chunkGrid: ChunkGrid { ChunkGrid(bounds: features.bounds, size: chunkSize, anchor: chunkGridAnchor) }
     /// 0 = full detail; 1 = reduced (every building simple, no curbs or sidewalk edges).
     public var lod = 0
     /// Palette to continue from (keeps slot numbers equal across detail levels).
@@ -195,8 +198,7 @@ public struct SceneGenerator: Sendable {
     }
 
     func chunkIndex(_ p: LocalPoint) -> SIMD2<Int> {
-        SIMD2(Int(((p.x - features.bounds.min.x) / chunkSize).rounded(.down)),
-              Int(((p.y - features.bounds.min.y) / chunkSize).rounded(.down)))
+        chunkGrid.index(p)
     }
 
     public func generate() -> GeneratedScene {
@@ -238,11 +240,11 @@ public struct SceneGenerator: Sendable {
 
         // Chunk grid.
         let b = features.bounds
-        let nx = Int((b.width / chunkSize).rounded(.up)), ny = Int((b.height / chunkSize).rounded(.up))
+        let grid = chunkGrid
+        let nx = grid.count.x, ny = grid.count.y
         var chunks: [SIMD2<Int>: GeneratedChunk] = [:]
         for i in 0..<nx { for j in 0..<ny {
-            let r = Rect2D(min: b.min + LocalPoint(Double(i), Double(j)) * chunkSize,
-                           max: simd_min(b.max, b.min + LocalPoint(Double(i + 1), Double(j + 1)) * chunkSize))
+            let r = grid.rect(SIMD2(i, j))
             chunks[SIMD2(i, j)] = GeneratedChunk(index: SIMD2(i, j), rect: r, detail: lod == 0 && r.intersects(focus) ? .full : .simple)
         } }
         func append(_ m: MeshBuffers, feature: String, to key: SIMD2<Int>) {

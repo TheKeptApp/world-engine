@@ -47,6 +47,9 @@ public struct AreaManifest: Codable, Sendable, Equatable {
     public var center: GeoCoordinate
     /// Optional IANA civil timezone, supplied by the area data owner. Never inferred from longitude.
     public var timezone: String? = nil
+    /// Optional geographic anchor for the 200 m grid when extending an existing area.
+    /// Nil preserves the original southwest-anchored layout.
+    public var gridAnchor: GeoCoordinate? = nil
     public var widthMeters: Double
     public var heightMeters: Double
     public var sources: [Source] = []
