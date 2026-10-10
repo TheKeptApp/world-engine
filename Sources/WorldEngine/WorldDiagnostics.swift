@@ -233,8 +233,11 @@ extension World {
         var split: [String: (Int, Int)] = [:]
         func add(_ k: String, _ t: Int, _ d: Int) { tris += t; draws += d; split[k, default: (0, 0)].0 += t; split[k, default: (0, 0)].1 += d }
         func on(_ e: Entity) -> Bool { e.components[DynamicLightShadowComponent.self]?.castsShadow ?? true }
-        for t in raisedTiles where on(t.entity) && casts(t.bounds) {
+        for t in raisedTiles where t.entity.isEnabled && on(t.entity) && casts(t.bounds) {
             add("chunks", cullables.first { $0.name == t.entity.name }?.triangles ?? 0, 1)
+        }
+        for t in farParent?.tiles ?? [] {
+            for d in t.drawn where d.entity.isEnabled && on(d.entity) && casts(d.bounds) { add("farParent", d.triangles, 1) }
         }
         for cell in buildingCells {
             if let b = cell.bounds, let a = cell.active, on(cell.levels[a].entity), casts(b) { add("buildings", cell.levels[a].triangles, 1) }

@@ -239,11 +239,13 @@
   "pendingHoldouts": [
     {
       "area": "West Highland, Denver",
-      "status": "proposed; no dedicated main area extract/camera; not scored"
+      "status": "capturable in WorldLab (-area west-highland, 5A 2026-10-10); not scored",
+      "ladder": "--area west-highland --inspectionpose 39.764,-105.04,<40|150|600>,270,45 (manifest centre; focus = approved bounds; profile by location: front-range)"
     },
     {
       "area": "Greenville Downtown",
-      "status": "deferred until data exists; not scored"
+      "status": "capturable in WorldLab (-area greenville-downtown, 5A 2026-10-10); not scored",
+      "ladder": "--area greenville-downtown --inspectionpose 34.8475,-82.402,<40|150|600>,270,45 (manifest centre; focus = approved bounds; profile by location: default)"
     }
   ],
   "captureExposure": {
@@ -251,8 +253,12 @@
     "settled": "scripts/capture-native.sh --exposure settled: the live auto exposure settles (30 frames within 0.05 %), then is frozen; SCENEREADY reports exposure=frozen-<gain>, native-capture.json captureExposure {mode, gain}. Matches what the user sees. Pinned and settled frames are not comparable.",
     "settledGainsMeasured": {
       "source": "5A Batch 3, Simulator, main + 5A batch3, 2026-10-10; ladder poses heading 270 (Wilmette 90), pitch 45, FOV 50",
-      "sloans-40": 1.1116, "sloans-150": 1.1691, "sloans-600": 0.647,
-      "lakeview-40": 1.4317, "lakeview-150": 1.3182, "lakeview-600": 0.8493,
+      "sloans-40": 1.1116,
+      "sloans-150": 1.1691,
+      "sloans-600": 0.647,
+      "lakeview-40": 1.4317,
+      "lakeview-150": 1.3182,
+      "lakeview-600": 0.8493,
       "wilmette-600": 0.6432
     }
   }

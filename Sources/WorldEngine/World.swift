@@ -142,6 +142,9 @@ public final class World {
         /// Batch index per slot, and the transform from the batch's mesh to this variant's.
         var batches: [Int]
         var fits: [simd_float4x4]
+        /// Tree cells: each instance's cell and, per slot, the casting batch of each cell.
+        var cellOf: [SIMD2<Int>] = []
+        var cellBatches: [[SIMD2<Int>: Int]] = []
     }
     /// One instanced entity: a kind's mesh at one slot (one variant, or several sharing it).
     struct LODBatch {
@@ -167,6 +170,14 @@ public final class World {
     private(set) var raisedTiles: [(entity: Entity, bounds: BoundingBox)] = []
     /// Range used by the last caster pass, to re-run it when the applied range changes.
     private var casterRange: Float = 0
+    /// Simplified far parent (FarParent.swift); nil unless enabled.
+    var farParent: FarParentState?
+    /// Per-cell tree instancing (`-diag treeCells`, also part of `roam`; default off; 5A Batch 4):
+    /// under shadow cells, a tree's casting instances draw from one batch per `treeCellMeters`
+    /// cell instead of one over the whole world, so RealityKit culls them per cell from the view
+    /// and from the shadow map. The same instances and transforms; non-casting twins stay whole.
+    var treeCells: Bool { shadowCells && (options.diagnostics.contains("treeCells") || options.diagnostics.contains("roam")) }
+    static let treeCellMeters = 200.0
 
     /// Whether a caster (bounds, top height) can shadow anything within the shadow range of the
     /// camera: its footprint swept away from the sun by its shadow length comes within the range
@@ -201,6 +212,7 @@ public final class World {
         for cell in buildingCells { if let b = cell.bounds { let on = reaches(b); for l in cell.levels { set(l.entity, on) } } }
         for tile in buildingTiles { for l in tile.levels { set(l.entity, reaches(l.bounds)) } }
         for t in raisedTiles { set(t.entity, reaches(t.bounds)) }
+        for t in farParent?.tiles ?? [] { for d in t.drawn { set(d.entity, reaches(d.bounds)) } }
     }
     /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
     struct BuildingCellState {
@@ -209,7 +221,7 @@ public final class World {
         var levels: [(lod: BuildingLOD, entity: Entity, triangles: Int)]
         var active: Int?
     }
-    private(set) var buildingCells: [BuildingCellState] = []
+    var buildingCells: [BuildingCellState] = []
     /// Neighbouring building cells (`buildingTileSizes` × as many) merged at the mid, far and
     /// skyline LODs: when every cell of a tile picks the same level by its own distance, one tile
     /// entity at that level replaces its cells' entities (the same triangles, fewer draw calls);
@@ -220,7 +232,7 @@ public final class World {
         var levels: [(lod: BuildingLOD, entity: Entity, triangles: Int, bounds: BoundingBox)]
         var active: Int?
     }
-    private(set) var buildingTiles: [BuildingTileState] = []
+    var buildingTiles: [BuildingTileState] = []
     /// Tile sides in cells (100 m cells → 400 m and 200 m tiles), largest first.
     static let buildingTileSizes = [4, 2]
     /// Triangles a tile may add by drawing some cells finer than they want.
@@ -301,6 +313,7 @@ public final class World {
         buildCanopyMap()
         try buildChunks()
         try buildBuildingCells()
+        try buildFarParent()
         try buildProps()
         buildOccluders()
         stats.profileID = scene.profile.id
@@ -396,6 +409,7 @@ public final class World {
             cutAwayActive = cutAwayTarget != nil
             lodCenter = nil
         }
+        if updateFarParent(camera: camPos) { lodCenter = nil }
         updateLODs(camera: camera)
         if let p = focusPoint { updateClutter(around: LocalPoint(Double(p.x), Double(-p.z)), camera: camPos) }
         var g = shaderGlobals
@@ -628,6 +642,8 @@ public final class World {
     /// Where every cell of a tile wants the same mid, far or skyline level, the tile's merged entity
     /// draws them instead (the same meshes; larger tiles first).
     private func updateBuildingLODs(camera c: SIMD2<Float>) {
+        // The far parent draws every building while it is admitted.
+        if farParentActive { buildingTriangles = 0; return }
         var tris = 0
         let p = LocalPoint(Double(c.x), Double(-c.y))
         let want = buildingCells.map { BuildingLOD.forDistance(Self.distance(p, to: $0.rect)) }
@@ -689,7 +705,9 @@ public final class World {
         streamLast = (c, now)
         let ahead = c + streamVelocity * 1.5
         let p = LocalPoint(Double(c.x), Double(-c.z)), pa = LocalPoint(Double(ahead.x), Double(-ahead.z))
-        let changed = streamer.tick(distances: { min(Self.distance(p, to: self.buildingCells[$0].rect), Self.distance(pa, to: self.buildingCells[$0].rect)) },
+        // While the far parent is admitted no near level is drawn, so none is wanted.
+        let far = farParentActive
+        let changed = streamer.tick(distances: { far ? .infinity : min(Self.distance(p, to: self.buildingCells[$0].rect), Self.distance(pa, to: self.buildingCells[$0].rect)) },
             attach: { cell, resource in
                 guard let k = self.buildingCells[cell].levels.firstIndex(where: { $0.lod == .near }) else { return }
                 self.buildingCells[cell].levels[k].entity.components.set(ModelComponent(mesh: resource, materials: [self.resources.staticMaterial]))
@@ -871,6 +889,11 @@ public final class World {
             let kind = list[0].kind, variant = list[0].variant
             var group = LODGroup(kind: kind, variant: variant, instances: list, batches: [], fits: [])
             let slots = PropLibrary.lodCount(kind) + 1
+            let perCell = treeCells && kind.isTree
+            if perCell {
+                group.cellOf = list.map { SIMD2(Int(($0.x / Self.treeCellMeters).rounded(.down)), Int(($0.y / Self.treeCellMeters).rounded(.down))) }
+            }
+            let cells = Set(group.cellOf).sorted { ($0.x, $0.y) < ($1.x, $1.y) }
             for slot in 0..<slots {
                 guard let (mesh, buffers) = try cached(kind, variant, lod: max(0, slot - 1)) else { break }
                 let shareKey = !kind.isTree && slot >= 3 ? "\(kind.rawValue)/\(slot)/\(buffers.triangleCount)" : nil
@@ -903,6 +926,21 @@ public final class World {
                     lodBatches[lodBatches.count - 1].twin = lodBatches.count
                     lodBatches.append(LODBatch(kind: kind, slot: slot, entity: te, data: twinData, triangles: buffers.triangleCount, buffers: buffers, casts: false))
                 }
+                if perCell, shareKey == nil {
+                    var byCell: [SIMD2<Int>: Int] = [:]
+                    for c in cells {
+                        let ce = Entity()
+                        ce.name = e.name + " cell \(c.x)_\(c.y)"
+                        ce.isEnabled = false
+                        ce.components.set(ModelComponent(mesh: mesh, materials: [material(for: kind, cuttable: slot == 0)]))
+                        receiveIBL(ce)
+                        rootEntity.addChild(ce)
+                        byCell[c] = lodBatches.count
+                        lodBatches.append(LODBatch(kind: kind, slot: slot, entity: ce, data: try LowLevelInstanceData(instanceCount: 0, instanceCapacity: 1),
+                                                   triangles: buffers.triangleCount, buffers: buffers))
+                    }
+                    group.cellBatches.append(byCell)
+                }
             }
             guard group.batches.count == slots else { continue }
             if let b = lodBatches[group.batches[1]].buffers.bounds {
@@ -923,6 +961,11 @@ public final class World {
         // Instance capacity: every instance that can draw into the batch.
         var capacity = [Int](repeating: 0, count: lodBatches.count)
         for g in lodGroups { for b in Set(g.batches) { capacity[b] += g.instances.count } }
+        for g in lodGroups where !g.cellBatches.isEmpty {
+            var counts: [SIMD2<Int>: Int] = [:]
+            for c in g.cellOf { counts[c, default: 0] += 1 }
+            for slot in g.cellBatches { for (c, b) in slot { capacity[b] += counts[c]! } }
+        }
         // A shadow-cells twin can take every instance its batch can.
         for b in lodBatches.indices { if let t = lodBatches[b].twin { capacity[t] = capacity[b] } }
         for b in lodBatches.indices { lodBatches[b].data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: max(1, capacity[b])) }
@@ -934,8 +977,12 @@ public final class World {
     func recount() {
         stats.propTriangles = staticPropTriangles
         stats.triangles = stats.staticTriangles + buildingTriangles + staticPropTriangles + stats.treeTriangles + stats.clutterInstances * 17
+        if farParentActive, let fp = farParent {
+            stats.triangles += fp.tiles.reduce(0) { $0 + $1.drawn.reduce(0) { $0 + $1.triangles } }
+        }
         // Draw calls: chunks + static props (counted at build) + building cells + enabled LOD entities + tufts.
         stats.drawCalls = baseDrawCalls + buildingCells.filter { $0.active != nil }.count + buildingTiles.filter { $0.active != nil }.count
+            + (farParentActive ? farParent!.tiles.reduce(0) { $0 + $1.drawn.count } : 0)
             + lodBatches.filter { $0.count > 0 }.count
             + (stats.clutterInstances > 0 ? 1 : 0) + contextDrawCalls
         stats.triangles += stats.contextTriangles
@@ -1029,7 +1076,11 @@ public final class World {
                 if let twin = lodBatches[target].twin {
                     let c = g.spheres[k]
                     // Bounding sphere about the tree's origin: its top is at most c.w above it.
-                    if !shadowReaches(center: SIMD3(c.x, c.y, c.z), radius: c.w + 0.03, height: c.w, camera: camera) { target = twin }
+                    if !shadowReaches(center: SIMD3(c.x, c.y, c.z), radius: c.w + 0.03, height: c.w, camera: camera) {
+                        target = twin
+                    } else if !g.cellBatches.isEmpty, !farParentActive, let cb = g.cellBatches[slot][g.cellOf[k]] {
+                        target = cb
+                    }
                 }
                 buckets[target].append(slot >= 3 ? inst.transform * g.fits[slot] : inst.transform)
             }
@@ -1063,7 +1114,14 @@ public final class World {
         let fov = (camera.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50) * .pi / 180
         let planes = Self.frustumPlanes(view: camera.transformMatrix(relativeTo: nil).inverse, fovY: fov, aspect: viewAspect, near: 0.1, far: 5000)
         var tris = ViewCost(), draws = ViewCost()
-        for c in cullables where Self.intersects(c.bounds, planes) { tris[keyPath: c.category] += c.triangles; draws[keyPath: c.category] += c.draws }
+        for c in cullables where Self.intersects(c.bounds, planes) {
+            tris[keyPath: c.category] += c.triangles; draws[keyPath: c.category] += c.draws
+        }
+        if farParentActive {
+            for t in farParent!.tiles {
+                for d in t.drawn where Self.intersects(d.bounds, planes) { tris.buildings += d.triangles; draws.buildings += 1 }
+            }
+        }
         for cell in buildingCells {
             if let b = cell.bounds, let a = cell.active, Self.intersects(b, planes) { tris.buildings += cell.levels[a].triangles; draws.buildings += 1 }
         }

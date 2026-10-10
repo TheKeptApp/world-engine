@@ -40,6 +40,13 @@ targets:
       - path: ../../Data/areas/sloans-lake-extended
         type: folder
         buildPhase: resources
+      # Hold-out areas (opened only with `-area <id>`; untuned, scored after look merges).
+      - path: ../../Data/areas/west-highland
+        type: folder
+        buildPhase: resources
+      - path: ../../Data/areas/greenville-downtown
+        type: folder
+        buildPhase: resources
       # Generated, git-ignored, optional (scripts/generate.sh makes them):
       #   dog/      DogWell's dog for RealityKit (.usdz) and three.js (.glb), scripts/convert-dog.sh
       #   package/  the shared world package, scripts/export-package.sh

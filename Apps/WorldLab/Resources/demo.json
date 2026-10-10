@@ -415,6 +415,19 @@
  },
   "areas_comment": "Other bundled areas for `-area ID` (P2's test areas; data in Data/areas/<id>, OSM out body). Named cameras for `-camera NAME` stand on public streets inside each area: P2's gate cameras (scripts/p2_gate_shots.sh) and the regions-fixture compositions (docs/proposals/regions-chicagoland-miami/fixtures.json: eye 1.65 m, pitch 3° down, 50° FOV) placed inside the area, because the fixtures' own locations are approximate references outside these areas. 'distance' makes an orbit camera: it looks at lat/lon from that slant distance.",
   "areas": {
+    "greenville-downtown": {
+      "focus": { "south": 34.839, "west": -82.409, "north": 34.856, "east": -82.395 },
+      "locationLabel": "Greenville Downtown",
+      "timeZone": "America/New_York",
+      "note": "Hold-out (untuned): focus = the manifest's approved bounds; profile and phenology chosen by location (regions.json → default). Ladder poses: 34.8475,-82.402 (manifest centre), 40/150/600 m, heading 270, pitch 45."
+    },
+    "west-highland": {
+      "focus": { "south": 39.759497, "west": -105.045835, "north": 39.768503, "east": -105.034165 },
+      "locationLabel": "West Highland, Denver",
+      "timeZone": "America/Denver",
+      "phenology": "denver-calendar-demo-v1",
+      "note": "Hold-out (untuned): focus = the manifest's approved bounds; profile chosen by location (regions.json → front-range). Ladder poses: 39.764,-105.04 (manifest centre), 40/150/600 m, heading 270, pitch 45."
+    },
     "sloans-lake-extended": {
       "focus": { "south": 39.740489, "west": -105.057738, "north": 39.756254, "east": -105.032080 },
       "profile": "front-range",

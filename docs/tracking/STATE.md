@@ -8,7 +8,7 @@
 
 | Lane | Current evidence / next action |
 |---|---|
-| 5A | Batch 1 colour/shading review of P2’s one-species crown in native 40/150/600 m before/after frames, A3 blind scores then keep/reject/pending and freeze; batch 2 water; batch 3 existing-generator budget. [Restart](restart-5A.md). |
+| 5A | Native perf batches 0–4 merged; Batch 4 (10 Oct): far parent + tree cells default off in `-diag roam`; extended Sloan's over floor without the focus lever (R's call; [native-batch4](../perf/native-batch4.md)); West Highland and Greenville Downtown capturable in WorldLab. Phone runs pending (phone locked). Earlier plan: crown colour review, water, existing-generator budget. [Restart](restart-5A.md). |
 | P2 | Batch 2 done, default off: [roadclip + commercialpoints](../lookloop/captures/p2-batch2-roadclip-commercial/README.md). Sidewalk/path carriageway crossings 164/66/27 runs → 0 (Sloan/Lakeview/Wilmette); commercial ≥250 m²: 26/24/0 buildings to approved mixed-use strips (denverMixedUse from facade-detail-v2). OFF = main (4/6 exact, 2/6 ≤1/255); floor holds. 17 small Lakeview shops: keep house, needs storefront-bay ruling. Waiting for A3 scores / Batch 3. [Restart](restart-P2.md). |
 | P3 | Operationally paused; existing rubric remains. A3 owns filing/scoring. |
 | A1 | Sloan’s extended data delivered: 108 anchored/clipped 200 m parents, 217 adaptive leaves; mean LOD0/1 GLB 2.404/0.453 MB/cell; export 135.638 s, pack 82.706 s. 42 tests and full adaptive/coverage audits pass; Sloan’s/Lakeview/Greenville legacy exports byte-identical. ZIP 102,636,658 B, hash and repeat verified. GREEN ODbL sources; height/roof/DEM refresh gaps explicit. Renderer unchanged; no visual/floor promotion. [Delivery/ledger](../data/sloans-lake-extended.md). |
