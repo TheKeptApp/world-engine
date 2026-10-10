@@ -16,6 +16,8 @@ extension World {
         while captureSceneState == .pending {
             try check(); try await Task.sleep(for: .milliseconds(20))
         }
+        // Streaming (when on): every wanted near mesh resident before the frame counts as ready.
+        while !streamingIdle { try check(); try await Task.sleep(for: .milliseconds(20)) }
         if case .failed(let reason) = captureSceneState {
             throw NSError(domain: "SceneReady", code: 2, userInfo: [NSLocalizedDescriptionKey: reason])
         }

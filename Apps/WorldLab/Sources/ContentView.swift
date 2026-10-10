@@ -235,7 +235,9 @@ struct RealityKitScreen: View {
             guard ProcessInfo.processInfo.arguments.contains("-memreport") else { return }
             while true {
                 try? await Task.sleep(for: .seconds(10))
-                if let world { print(world.memoryReport()); fflush(nil) }
+                if let world {
+                    print(world.memoryReport() + String(format: " EXPOSURE linearGain=%.4f", post.appliedLinearGain ?? -1)); fflush(nil)
+                }
             }
         }
         .task {

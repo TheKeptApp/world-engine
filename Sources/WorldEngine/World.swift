@@ -153,8 +153,55 @@ public final class World {
         var buffers: WorldMesh.MeshBuffers
         var count = 0
         var bounds: BoundingBox?
+        /// Draws into the sun's shadow map (false for a shadow-cells twin).
+        var casts = true
+        /// Shadow cells: the twin batch that takes this batch's out-of-reach instances.
+        var twin: Int?
     }
     private(set) var lodBatches: [LODBatch] = []
+    /// Shadow cells (`-diag shadowCells`, default off; 5A Batch 2): only objects whose shadow can
+    /// reach the shadow range draw into the shadow map. Lossless by construction: a caster whose
+    /// shadow cannot meet the range sphere around the camera cannot shadow anything that is drawn.
+    var shadowCells: Bool { options.diagnostics.contains("shadowCells") }
+    /// Raised chunk tiles (shadow cells: 200 m tiles), with their bounds, cast toggled by reach.
+    private(set) var raisedTiles: [(entity: Entity, bounds: BoundingBox)] = []
+    /// Range used by the last caster pass, to re-run it when the applied range changes.
+    private var casterRange: Float = 0
+
+    /// Whether a caster (bounds, top height) can shadow anything within the shadow range of the
+    /// camera: its footprint swept away from the sun by its shadow length comes within the range
+    /// plus the re-bucket distance and the foliage sway bound (0.03 m, `worldFoliageGeometry`).
+    func shadowReaches(center: SIMD3<Float>, radius: Float, height: Float, camera: SIMD3<Float>) -> Bool {
+        guard let cast = shadowCast else { return false }
+        // RealityKit's automatic projection draws shadows well past `maximumDistance` from a raised
+        // camera (measured: shadows on ground 150–210 m away from a 150 m-high camera with a 120 m
+        // range), so the reach grows with the camera's height above ground.
+        let range = (appliedShadowRange > 0 ? appliedShadowRange : shadowDistance) + 1.5 * max(camera.y, 0)
+            + Float(PropLibrary.lodRebucketMeters) + 0.05
+        let length = min(max(height, 0) * cast.z, 300)
+        let a = SIMD2(center.x, center.z), dir = SIMD2(cast.x, -cast.y), b = a + dir * length
+        let c = SIMD2(camera.x, camera.z), ab = b - a
+        let t = simd_length_squared(ab) > 0 ? min(1, max(0, simd_dot(c - a, ab) / simd_length_squared(ab))) : 0
+        let flat = simd_distance(c, a + ab * t), dy = max(0, abs(camera.y - center.y) - height - radius)
+        return (flat * flat + dy * dy).squareRoot() <= range + radius
+    }
+
+    /// Shadow cells: sets casting on building cells/tiles and raised chunk tiles by reach.
+    private func updateCasters(camera: SIMD3<Float>) {
+        guard shadowCells else { return }
+        casterRange = appliedShadowRange
+        func set(_ e: Entity, _ on: Bool) {
+            let cur = e.components[DynamicLightShadowComponent.self]?.castsShadow ?? true
+            if cur != on { e.components.set(DynamicLightShadowComponent(castsShadow: on)) }
+        }
+        func reaches(_ b: BoundingBox) -> Bool {
+            let c = (b.min + b.max) / 2, ext = (b.max - b.min) / 2
+            return shadowReaches(center: SIMD3(c.x, b.min.y, c.z), radius: simd_length(SIMD2(ext.x, ext.z)), height: b.max.y - b.min.y, camera: camera)
+        }
+        for cell in buildingCells { if let b = cell.bounds { let on = reaches(b); for l in cell.levels { set(l.entity, on) } } }
+        for tile in buildingTiles { for l in tile.levels { set(l.entity, reaches(l.bounds)) } }
+        for t in raisedTiles { set(t.entity, reaches(t.bounds)) }
+    }
     /// Buildings of one cell, one entity per distance LOD (P2's `BuildingLOD`); one is enabled.
     struct BuildingCellState {
         var rect: Rect2D
@@ -455,6 +502,7 @@ public final class World {
             if !casts { e.components.set(DynamicLightShadowComponent(castsShadow: false)) }
             receiveIBL(e)
             rootEntity.addChild(e)
+            if casts { raisedTiles.append((e, BoundingBox(min: b.min, max: b.max))) }
             stats.staticTriangles += part.triangleCount
             cullables.append((BoundingBox(min: b.min, max: b.max), part.triangleCount, 1, \.chunks, name))
             baseDrawCalls += 1
@@ -472,7 +520,8 @@ public final class World {
                 }
                 try add(merged, name: "Chunk tile \(size) \(key.x)_\(key.y)\(suffix)", material: resources.staticMaterial, casts: casts)
             }
-            let top = Self.chunkTileSize
+            // Shadow cells: casting (raised) geometry in single-chunk tiles, so casting follows reach.
+            let top = shadowCells && casts ? 1 : Self.chunkTileSize
             let keys = Set(parts.keys.map { SIMD2(Self.floorDiv($0.x, top), Self.floorDiv($0.y, top)) })
             for key in keys.sorted(by: { ($0.x, $0.y) < ($1.x, $1.y) }) { try tile(key, size: top) }
         }
@@ -630,8 +679,17 @@ public final class World {
     /// re-picks LODs when residency changes. A released cell switches to its next level first.
     private func tickStreaming(camera c: SIMD3<Float>) {
         guard let streamer else { return }
-        let p = LocalPoint(Double(c.x), Double(-c.z))
-        let changed = streamer.tick(distances: { Self.distance(p, to: self.buildingCells[$0].rect) },
+        // Prefetch: also measure from where the camera will be in 1.5 s (velocity smoothed over ~0.5 s),
+        // so a cell's near mesh is resident before it comes within the near range.
+        let now = CFAbsoluteTimeGetCurrent()
+        if let (q, t) = streamLast, now > t {
+            let v = (c - q) / Float(now - t)
+            streamVelocity += (v - streamVelocity) * min(1, Float(now - t) * 2)
+        }
+        streamLast = (c, now)
+        let ahead = c + streamVelocity * 1.5
+        let p = LocalPoint(Double(c.x), Double(-c.z)), pa = LocalPoint(Double(ahead.x), Double(-ahead.z))
+        let changed = streamer.tick(distances: { min(Self.distance(p, to: self.buildingCells[$0].rect), Self.distance(pa, to: self.buildingCells[$0].rect)) },
             attach: { cell, resource in
                 guard let k = self.buildingCells[cell].levels.firstIndex(where: { $0.lod == .near }) else { return }
                 self.buildingCells[cell].levels[k].entity.components.set(ModelComponent(mesh: resource, materials: [self.resources.staticMaterial]))
@@ -662,6 +720,10 @@ public final class World {
     private(set) var loadOnlyGeometryReleased = false
     /// Streaming slice 1 (`-diag streamCells`, default off): building-cell near levels from a disk cache.
     private(set) var streamer: CellStreamer?
+    private var streamLast: (SIMD3<Float>, Double)?
+    private var streamVelocity = SIMD3<Float>(repeating: 0)
+    /// Streaming has nothing in flight or wanted (true when streaming is off).
+    var streamingIdle: Bool { streamer?.idle ?? true }
     /// Stream counters for logs (resident bytes/cells, loads, evictions, worst upload frame).
     public var streamSummary: String {
         guard let st = streamer?.stats else { return "" }
@@ -828,6 +890,19 @@ public final class World {
                 group.batches.append(lodBatches.count)
                 group.fits.append(matrix_identity_float4x4)
                 lodBatches.append(LODBatch(kind: kind, slot: slot, entity: e, data: data, triangles: buffers.triangleCount, buffers: buffers))
+                if shadowCells, shareKey == nil {
+                    // Twin: the same mesh and material, never in the shadow map.
+                    let te = Entity()
+                    te.name = e.name + " no-shadow"
+                    te.isEnabled = false
+                    te.components.set(ModelComponent(mesh: mesh, materials: [material(for: kind, cuttable: slot == 0)]))
+                    te.components.set(DynamicLightShadowComponent(castsShadow: false))
+                    receiveIBL(te)
+                    rootEntity.addChild(te)
+                    let twinData = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: 1)
+                    lodBatches[lodBatches.count - 1].twin = lodBatches.count
+                    lodBatches.append(LODBatch(kind: kind, slot: slot, entity: te, data: twinData, triangles: buffers.triangleCount, buffers: buffers, casts: false))
+                }
             }
             guard group.batches.count == slots else { continue }
             if let b = lodBatches[group.batches[1]].buffers.bounds {
@@ -848,6 +923,8 @@ public final class World {
         // Instance capacity: every instance that can draw into the batch.
         var capacity = [Int](repeating: 0, count: lodBatches.count)
         for g in lodGroups { for b in Set(g.batches) { capacity[b] += g.instances.count } }
+        // A shadow-cells twin can take every instance its batch can.
+        for b in lodBatches.indices { if let t = lodBatches[b].twin { capacity[t] = capacity[b] } }
         for b in lodBatches.indices { lodBatches[b].data = try LowLevelInstanceData(instanceCount: 0, instanceCapacity: max(1, capacity[b])) }
         if let (mesh, _) = try cached(.tuft, 0) { tuftMesh = mesh }
         staticPropTriangles = staticPropBase
@@ -904,6 +981,7 @@ public final class World {
         let forward = simd_normalize(-SIMD3(m.columns.2.x, m.columns.2.y, m.columns.2.z))
         let fov = cameraEntity.components[PerspectiveCameraComponent.self]?.fieldOfViewInDegrees ?? 50
         let view = SIMD4(forward, fov)
+        if shadowCells, casterRange != appliedShadowRange { lodCenter = nil }
         if let last = lodCenter, simd_distance(last, camera) < Float(PropLibrary.lodRebucketMeters) {
             guard foliageViewCulling, let v = lodView else { return }
             let turned = acos(min(1, max(-1, simd_dot(SIMD3(v.x, v.y, v.z), forward)))) * 180 / .pi
@@ -914,6 +992,7 @@ public final class World {
         lodAspect = viewAspect
         updateBuildingLODs(camera: SIMD2(camera.x, camera.z))
         updateContextLODs(camera: camera)
+        updateCasters(camera: camera)
         let cut = Self.cutZoneMeters
         let edges = PropLibrary.lodDistances.map(Float.init)  // near→mid, mid→far, far→skyline
         // The view widened by the margin (normalised planes for a sphere test).
@@ -946,7 +1025,13 @@ public final class World {
                 var slot = cutAwayActive && d < cut ? 0 : 1
                 if slot == 1 { for e in edges where d >= e { slot += 1 } }
                 slot = min(slot, slots - 1)
-                buckets[g.batches[slot]].append(slot >= 3 ? inst.transform * g.fits[slot] : inst.transform)
+                var target = g.batches[slot]
+                if let twin = lodBatches[target].twin {
+                    let c = g.spheres[k]
+                    // Bounding sphere about the tree's origin: its top is at most c.w above it.
+                    if !shadowReaches(center: SIMD3(c.x, c.y, c.z), radius: c.w + 0.03, height: c.w, camera: camera) { target = twin }
+                }
+                buckets[target].append(slot >= 3 ? inst.transform * g.fits[slot] : inst.transform)
             }
         }
         for b in lodBatches.indices {
